@@ -1,0 +1,17 @@
+{
+  "name": "Bhoomi Saral — UP Land, Explained",
+  "short_name": "Bhoomi Saral",
+  "description": "Explore Uttar Pradesh villages and understand khasra, khatauni and land records in plain Hindi and English.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f2ea",
+  "theme_color": "#14614a",
+  "lang": "en-IN",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

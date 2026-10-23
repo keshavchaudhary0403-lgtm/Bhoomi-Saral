@@ -511,7 +511,7 @@ $('upBtn').onclick = goUP;
 const q = $('q'), res = $('results'); let hits = [], act = -1, searchSeq = 0;
 // search index (data/s/): a small tehsil table, one small shard per first two letters of each word in a
 // village name, and the full list, loaded in the background, for matches inside words
-const SX = { tehP: null, teh: null, shards: {}, allP: null, all: null };
+const SX = { tehP: null, teh: null, shards: {}, sound: {}, allP: null, all: null };
 const mkRow = r => { const tt = SX.teh[r[2]]; return { n: r[0], k: r[0].toLowerCase(), v: r[1], d: tt[0], t: tt[1] }; };
 function loadTehsils(){
   return SX.tehP ||= getJSON('data/s/_t.json').then(list => { SX.teh = list; S.tehsilIdx = list.map(([d, n]) => ({ teh: true, n, k: n.toLowerCase(), d })); })
@@ -520,6 +520,10 @@ function loadTehsils(){
 function loadShard(key){
   return SX.shards[key] ||= loadTehsils().then(() => getJSON(`data/s/${key}.json`)).then(rows => rows.map(mkRow))
     .catch(e => { if (/ 404$/.test(e.message)) return []; delete SX.shards[key]; throw e; }); // 404: no village word starts with these letters
+}
+function loadSound(key){ // villages whose words start with this sound key (data/k/), for Hindi and loose spelling
+  return SX.sound[key] ||= loadTehsils().then(() => getJSON(`data/k/${key}.json`)).then(rows => rows.map(mkRow))
+    .catch(e => { if (/ 404$/.test(e.message)) return []; delete SX.sound[key]; throw e; });
 }
 function loadAll(){
   return SX.allP ||= loadTehsils().then(() => getJSON('data/s/all.json')).then(rows => { SX.all = rows.map(mkRow); })
@@ -531,31 +535,49 @@ async function runSearch(){
   const raw = q.value.trim(), s = raw.toLowerCase(), seq = ++searchSeq;
   if (s.length < 2){ res.classList.remove('on'); return; }
   res.classList.add('on');
-  const first = (s.match(/[a-z0-9]+/) || [''])[0];
+  const deva = hasDeva(raw), qk = soundKeys(raw), first = (s.match(/[a-z0-9]+/) || [''])[0];
+  const sk = qk[0] && qk[0].length >= 2 ? qk[0].slice(0, 2) : '';
   let rows = SX.all;
   if (!rows){
     res.innerHTML = `<div class="msg">${t('searching')}</div>`;
-    try { rows = first.length >= 2 ? await loadShard(first.slice(0, 2)) : (await loadTehsils(), []); }
+    const parts = [];
+    if (!deva && first.length >= 2) parts.push(loadShard(first.slice(0, 2)));
+    if (sk) parts.push(loadSound(sk));
+    try { rows = parts.length ? (await Promise.all(parts)).flat() : (await loadTehsils(), []); }
     catch(e){ if (seq === searchSeq) res.innerHTML = `<div class="msg">${t('loadFail')}</div>`; return; }
   }
   if (seq !== searchSeq) return;
-  showHits(raw, s, rows, !!SX.all);
+  showHits(raw, s, rows, !!SX.all, deva, qk);
   // once the first results are on screen, fetch the full list and add matches from inside words
   if (!SX.all) loadAll().then(() => { if (seq === searchSeq) runSearch(); }).catch(() => {});
 }
-function showHits(raw, s, rows, full){
-  const starts = [], words = [], inside = [];
+function showHits(raw, s, rows, full, deva, qk){
+  // order: name starts with the letters typed, a word starts with them, then by sound (whole name sounds the same,
+  // name starts with the sound, a word does), then inside a word
+  const groups = [[], [], [], [], [], []], seen = new Set(), qs = qk.join('');
   for (const r of rows){
-    if (r.k.startsWith(s)) { if (starts.length < 40) starts.push(r); }
-    else if ((' ' + r.k).includes(' ' + s)) { if (words.length < 40) words.push(r); }
-    else if (full && inside.length < 40 && r.k.includes(s)) inside.push(r);
+    const id = r.d + '|' + r.v + '|' + r.n; if (seen.has(id)) continue;
+    let g = -1;
+    if (!deva && r.k.startsWith(s)) g = 0;
+    else if (!deva && (' ' + r.k).includes(' ' + s)) g = 1;
+    else {
+      const m = soundMatch(r.sk ||= soundKeys(r.n), qk);
+      if (m) g = m === 'start' ? (r.sk.join('') === qs ? 2 : 3) : 4;
+      else if (full && (deva ? qs.length >= 3 && r.sk.join('').includes(qs) : r.k.includes(s))) g = 5;
+    }
+    if (g >= 0 && groups[g].length < (g >= 2 && g <= 4 ? 400 : 40)){ groups[g].push(r); seen.add(id); }
   }
-  // also allow district and tehsil names
-  const dm = S.districts.features.filter(f => f.properties.en.toLowerCase().includes(s) || f.properties.hi.includes(raw))
+  // several names can sound the same (Shivpur, Sevapur): show the closest spelling first
+  const spelt = (deva ? devaToLatin(raw) : s).replace(/[^a-z]/g, '');
+  for (const g of [2, 3, 4]) groups[g] = groups[g].map(r => [spellDistance(spelt, r.k.replace(/[^a-z]/g, '').slice(0, spelt.length + 3)), r])
+    .sort((x, y) => x[0] - y[0]).slice(0, 40).map(x => x[1]);
+  // also allow district and tehsil names (Hindi district names, and tehsils by sound)
+  const dm = S.districts.features.filter(f => f.properties.en.toLowerCase().includes(s) || f.properties.hi.includes(raw) || (qs && soundKeys(f.properties.en).join('') === qs))
     .map(f => ({ dist: true, n: dName(f.properties), d: f.properties.lgd }));
-  const tm = (S.tehsilIdx || []).filter(x => x.k.includes(s)).slice(0, 8);
-  hits = dm.concat(tm, starts, words, inside).slice(0, 40); act = -1;
-  res.innerHTML = hits.length ? hits.map((h, i) => `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : townType({ en: h.n }) ? 'building' : 'pin')}</span><span><b>${esc(h.dist || h.teh ? h.n : vName({ en: h.n }))}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${townType({ en: h.n }) ? t('t_' + townType({ en: h.n })) : t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
+  const tm = (S.tehsilIdx || []).filter(x => (!deva && x.k.includes(s)) || (qs && (x.sk ||= soundKeys(x.n)).join('') === qs)).slice(0, 8);
+  hits = dm.concat(tm, ...groups).slice(0, 40); act = -1;
+  const byVillage = hits.some(h => !h.dist && !h.teh);
+  res.innerHTML = hits.length ? (deva && byVillage ? `<div class="msg note-sound">${ic('info')}${t('soundNote')}</div>` : '') + hits.map((h, i) => `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : townType({ en: h.n }) ? 'building' : 'pin')}</span><span><b>${esc(h.dist || h.teh ? h.n : vName({ en: h.n }))}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${townType({ en: h.n }) ? t('t_' + townType({ en: h.n })) : t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
   res.querySelectorAll('button').forEach(b => b.onclick = () => pickHit(hits[+b.dataset.i]));
 }
 q.addEventListener('keydown', e => {

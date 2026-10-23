@@ -78,3 +78,21 @@ test('search index: tehsil table, full list and shards agree with the district f
   assert.deepEqual(Object.keys(shards).sort(), Object.keys(want).sort());
   for (const k of Object.keys(want)) assert.equal(shards[k].length, want[k].length, `shard ${k}`);
 });
+
+test('sound shards (data/k/) were built with the same sound keys as the app', () => {
+  const { loadApp } = require('./load');
+  const A = loadApp('en'), all = json('data/s/all.json');
+  const want = {};
+  for (const r of all) for (const k of new Set(A.soundKeys(r[0]).filter(k => k.length >= 2).map(k => k.slice(0, 2)))) (want[k] ||= 0, want[k]++);
+  const files = fs.readdirSync(path.join(ROOT, 'data/k')).map(f => f.slice(0, -5)).sort();
+  assert.deepEqual(files, Object.keys(want).sort(), 'shard names');
+  for (const k of files) assert.equal(json(`data/k/${k}.json`).length, want[k], `sound shard ${k}`);
+});
+
+test('Hindi queries find real villages', () => {
+  const { loadApp } = require('./load');
+  const A = loadApp('en'), all = json('data/s/all.json');
+  const find = q => { const qk = A.soundKeys(q); return all.filter(r => A.soundMatch(A.soundKeys(r[0]), qk)).map(r => r[0]); };
+  for (const [q, name] of [['बसई अरेला', 'Basai Arela'], ['रामनगर', 'Ramnagar'], ['चक औलिया', 'Chak Auliya Khera'], ['मोहम्मदपुर', 'Mohammadpur']])
+    assert.ok(find(q).includes(name), `${q} should find ${name}`);
+});

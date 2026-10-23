@@ -13,7 +13,7 @@ function loadApp(lang = 'en'){
   for (const f of ['assets/content.js', 'assets/core.js']) vm.runInContext(read(f), ctx, { filename: f });
   vm.runInContext(`LANG = ${JSON.stringify(lang)}`, ctx);
   // top-level const/let live in the sandbox's script scope, not on its global object
-  return vm.runInContext('({ T, t, CLASSES, FLAGS, WORDS, ringArea, inRing, inGeom, bboxCenter, TOWN_RE, townType, vName, analyse, FLAG_IC })', ctx);
+  return vm.runInContext('({ T, t, CLASSES, FLAGS, WORDS, ringArea, inRing, inGeom, bboxCenter, TOWN_RE, townType, vName, analyse, FLAG_IC, hasDeva, devaToLatin, soundKey, soundKeys, soundMatch, spellDistance })', ctx);
 }
 
 module.exports = { ROOT, read, loadApp };

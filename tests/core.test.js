@@ -77,3 +77,31 @@ test('analyse: risk level for each kind of record', () => {
 test('every warning has an icon', () => {
   for (const k of Object.keys(A.FLAGS)) assert.ok(A.FLAG_IC[k], k);
 });
+
+test('sound keys: Hindi spellings match the English village names', () => {
+  const same = [['रामनगर', 'Ramnagar'], ['खेड़ा', 'Khera'], ['भदौरिया', 'Bhadoriya'], ['फ़तेहपुर', 'Fatehpur'], ['फतेहपुर', 'Fatehpur'],
+    ['गंगापुर', 'Gangapur'], ['बसई अरेला', 'Basai Arela'], ['चक औलिया खेड़ा', 'Chak Auliya Khera'], ['शिवपुर', 'Shivpur'],
+    ['सीतापुर', 'Sitapur'], ['मोहम्मदपुर', 'Mohammadpur'], ['इटौंजा', 'Itaunja'], ['आगरा', 'Agra'],
+    // loose English spellings too
+    ['raamnagar', 'Ramnagar'], ['seetapur', 'Sitapur'], ['mohamadpur', 'Mohammadpur']];
+  for (const [a, b] of same) assert.equal(A.soundKeys(a).join(' '), A.soundKeys(b).join(' '), `${a} ≠ ${b}`);
+  assert.notEqual(A.soundKeys('रामपुर').join(), A.soundKeys('Ramnagar').join());
+});
+
+test('soundMatch: start of the name, start of a word, or no match', () => {
+  const k = A.soundKeys;
+  assert.equal(A.soundMatch(k('Chak Auliya Khera'), k('चक औलि')), 'start');
+  assert.equal(A.soundMatch(k('Chak Auliya Khera'), k('औलिया')), 'word');
+  assert.equal(A.soundMatch(k('Ram Nagar'), k('रामनगर')), 'start');
+  assert.equal(A.soundMatch(k('Ramnagar'), k('शिवपुर')), false);
+  assert.equal(A.soundMatch(k('Ramnagar'), []), false);
+});
+
+test('spellDistance puts the closest same-sounding name first', () => {
+  assert.equal(A.spellDistance('shivpur', 'shivpur'), 0);
+  assert.ok(A.spellDistance('shivpur', 'shivpur') < A.spellDistance('shivpur', 'sevapur'));
+  assert.equal(A.spellDistance('kitten', 'sitting'), 3);
+  const spelt = { 'शिवपुर': 'shivpur', 'रामनगर': 'ramnagar', 'बसई अरेला': 'basai arela', 'मोहम्मदपुर': 'mohammadpur',
+    'गंगापुर': 'gangapur', 'खेड़ा': 'khera', 'सीतापुर': 'sitapur', 'कमलापुर': 'kamlapur', 'नगला': 'nagla' };
+  for (const [h, want] of Object.entries(spelt)) assert.equal(A.devaToLatin(h), want, h);
+});

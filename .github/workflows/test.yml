@@ -12,4 +12,4 @@ jobs:
           node-version: 22
       - run: node --test tests/*.test.js
       - name: Search index is up to date
-        run: python3 -I scripts/build_search.py data && git diff --exit-code -- data/s
+        run: python3 -I scripts/build_search.py data && git diff --exit-code -- data/s data/k && test -z "$(git status --porcelain -- data/s data/k)"

@@ -1,6 +1,6 @@
 // Bhoomi Saral service worker: keeps the app and visited map data available offline.
 // Map tiles are not cached here (OpenStreetMap tile policy).
-const CACHE = 'bhoomi-saral-v1';
+const CACHE = 'bhoomi-saral-v2';
 const SHELL = ['./', 'index.html', 'assets/styles.css', 'assets/content.js', 'assets/app.js',
   'data/districts.json', 'manifest.webmanifest', 'icons/favicon.svg', 'icons/icon-192.png'];
 

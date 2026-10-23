@@ -26,7 +26,7 @@ button,select,input{font:inherit;color:inherit}
 a{color:var(--green2)}
 
 /* top bar */
-.top{height:60px;display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--panel);border-bottom:1px solid var(--line);position:relative;z-index:1000}
+.top{height:60px;display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--panel);border-bottom:1px solid var(--line);position:relative;z-index:1100}
 .logo{display:flex;align-items:center;gap:10px}
 .logo .mark{width:34px;height:34px;border-radius:10px;background:var(--green);display:grid;place-items:center}
 .logo b{font:700 17px Fraunces,serif;color:var(--ink);letter-spacing:-.01em}

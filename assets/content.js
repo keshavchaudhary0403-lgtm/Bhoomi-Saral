@@ -35,7 +35,9 @@ const T={
  userSrc:{en:'Source: details you typed from your own khatauni. Stored only on this device. A revenue record is not proof of ownership.',hi:'स्रोत: आपकी अपनी खतौनी से भरी जानकारी। केवल इसी डिवाइस पर। राजस्व अभिलेख स्वामित्व का प्रमाण नहीं है।'},
  saved:{en:'Saved to My land ✓',hi:'मेरी ज़मीन में सहेजा गया ✓'},none:{en:'Nothing saved yet. Use "Explain my khatauni" and press Save.',hi:'अभी कुछ सहेजा नहीं गया। "मेरी खतौनी समझाएँ" से सहेजें।'},
  open:{en:'Open',hi:'खोलें'},del:{en:'Remove',hi:'हटाएँ'},notFound:{en:'No plot with that number in this demo village.',hi:'इस डेमो गाँव में यह खसरा नहीं मिला।'},
- yourPlot:{en:'Your plot',hi:'आपका खेत'}
+ yourPlot:{en:'Your plot',hi:'आपका खेत'},
+ unnamed:{en:'Unnamed area',hi:'बिना नाम का क्षेत्र'},
+ unnamedNote:{en:'The open map data has no village name for this outline. It may be forest, river, town land, or a village whose details are missing. Open UP Bhu-Naksha, find this spot on its map and read the village name there — then look it up on UP Bhulekh.',hi:'ओपन नक्शा डेटा में इस सीमा का गाँव का नाम नहीं है। यह वन, नदी, शहरी भूमि या ऐसा गाँव हो सकता है जिसका विवरण छूट गया है। UP भू-नक्शा खोलें, उसके नक्शे पर यही जगह ढूँढें और वहाँ गाँव का नाम पढ़ें — फिर UP भूलेख पर खोजें।'}
 };
 const t=k=>(T[k]?T[k][LANG]:k);
 

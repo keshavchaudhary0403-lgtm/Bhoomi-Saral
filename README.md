@@ -5,7 +5,7 @@ A personal web app to explore every village in **Uttar Pradesh** on a map and un
 
 ## What it does
 
-- **Find land** — all 75 districts, 310 tehsils and 1,01,753 villages (LGD / Census 2011 outlines). Search any village or tehsil, or tap "Which village am I in?".
+- **Find land** — all 75 districts, 310 tehsils and 1,01,526 villages (LGD / Census 2011 outlines). Search any village or tehsil, or tap "Which village am I in?".
 - **Village card** — LGD and Census codes, gram panchayat, block, area, and step-by-step help to see the real records on the official UP sites.
 - **Explain** — type details from your own khatauni and get a plain-language card: holder class and whether it can be sold, shared-khata warnings, loans, court cases, pending mutation, varasat, and what the record does *not* prove.
 - **Draw my plot** — tap your field's corners on the map or walk them with phone GPS; area is calculated for you.

@@ -93,12 +93,19 @@ const S = { districts: null, byLgd: {}, dist: null, data: null, tehsil: null, vi
 async function getJSON(url){ const r = await fetch(url); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }
 async function loadDistrictData(lgd){
   if (!S.cache[lgd]) S.cache[lgd] = getJSON(`data/d/${lgd}.json`).then(d => {
-    d.villages.features.forEach(f => { f.c = bboxCenter(f.geometry); });
+    // ~5% of source outlines have no LGD code (lgd 0); give each a unique negative id so it can still be selected
+    d.villages.features.forEach((f, i) => { f.c = bboxCenter(f.geometry); if (!f.properties.lgd) f.properties.lgd = -(i + 1); });
+    // some villages come in several pieces sharing one code: list them once, with the total area
+    const first = {};
+    d.villages.features.forEach(f => { const p = f.properties, h = first[p.lgd];
+      if (h) { h.a = Math.round((h.a + p.a) * 10) / 10; p.part = true; } else first[p.lgd] = p; });
+    d.villages.features.forEach(f => { f.properties.a = first[f.properties.lgd].a; });
     return d;
   });
   return S.cache[lgd];
 }
 const dName = d => d ? (LANG === 'hi' ? d.hi : d.en) : '';
+const vName = v => v.en || t('unnamed');
 
 /* ---------------- map ---------------- */
 const map = L.map('map', { preferCanvas: true, zoomControl: true, minZoom: 6, zoomSnap: 0.25 }).setView([26.9, 80.9], 7);
@@ -133,9 +140,9 @@ function drawDistrictContents(){
   L.geoJSON(S.data.tehsils, { renderer: canvas, style: () => ST.teh }).addTo(tehsilLayer);
   L.geoJSON(S.data.villages, { renderer: canvas, style: () => ST.vil,
     onEachFeature: (f, l) => {
-      villageById[f.properties.lgd] = l;
-      l.on('mouseover', () => { if (l !== selectedVillageLayer) l.setStyle(ST.vilHover); });
-      l.on('mouseout', () => { if (l !== selectedVillageLayer) l.setStyle(ST.vil); });
+      (villageById[f.properties.lgd] ||= []).push(l);
+      l.on('mouseover', () => { if (!selectedVillageLayer || !selectedVillageLayer.includes(l)) l.setStyle(ST.vilHover); });
+      l.on('mouseout', () => { if (!selectedVillageLayer || !selectedVillageLayer.includes(l)) l.setStyle(ST.vil); });
       l.on('click', () => { if (!S.draw) selectVillage(f.properties.lgd, { zoom: false }); }); // while drawing, the map click adds the corner
     } }).addTo(villageLayer);
   updateLabels();
@@ -146,7 +153,7 @@ function updateLabels(){
   const b = map.getBounds(); let n = 0;
   for (const f of S.data.villages.features){
     if (n > 220) break;
-    if (b.contains(f.c)){ n++;
+    if (f.properties.en && b.contains(f.c)){ n++;
       L.tooltip({ permanent: true, direction: 'center', className: 'vlabel', interactive: false }).setLatLng(f.c).setContent(esc(f.properties.en)).addTo(labelLayer);
     }
   }
@@ -175,9 +182,9 @@ function selectVillage(vlgd, opts = {}){
   if (!S.data) return;
   const f = S.data.villages.features.find(x => x.properties.lgd === vlgd); if (!f) return;
   S.village = f; S.tehsil = f.properties.t;
-  if (selectedVillageLayer) selectedVillageLayer.setStyle(ST.vil);
-  selectedVillageLayer = villageById[vlgd]; if (selectedVillageLayer){ selectedVillageLayer.setStyle(ST.vilOn); selectedVillageLayer.bringToFront(); }
-  if (opts.zoom !== false) map.flyToBounds(L.geoJSON(f).getBounds(), Object.assign({ duration: 0.7, maxZoom: 15 }, sidePad()));
+  if (selectedVillageLayer) selectedVillageLayer.forEach(l => l.setStyle(ST.vil));
+  selectedVillageLayer = villageById[vlgd]; if (selectedVillageLayer) selectedVillageLayer.forEach(l => { l.setStyle(ST.vilOn); l.bringToFront(); });
+  if (opts.zoom !== false) map.flyToBounds(L.featureGroup(selectedVillageLayer || [L.geoJSON(f)]).getBounds(), Object.assign({ duration: 0.7, maxZoom: 15 }, sidePad()));
   renderFind(); renderVillage(f); setHash();
 }
 function goUP(){
@@ -196,7 +203,7 @@ function renderFind(loading){
   let cr = `<button class="${!S.dist ? 'cur' : ''}" data-go="up">${t('allDistricts')}</button>`;
   if (S.dist) cr += `<span>›</span><button class="${S.dist && !S.tehsil ? 'cur' : ''}" data-go="d">${esc(dName(S.dist))}</button>`;
   if (S.tehsil) cr += `<span>›</span><button class="${!S.village ? 'cur' : ''}" data-go="t">${esc(S.tehsil)}</button>`;
-  if (S.village) cr += `<span>›</span><button class="cur" data-go="v">${esc(S.village.properties.en)}</button>`;
+  if (S.village) cr += `<span>›</span><button class="cur" data-go="v">${esc(vName(S.village.properties))}</button>`;
   c.innerHTML = cr;
   c.querySelectorAll('button').forEach(b => b.onclick = () => {
     const g = b.dataset.go;
@@ -208,19 +215,20 @@ function renderFind(loading){
   if (!S.dist){
     title = t('pickDistrict');
     items = S.districts.features.map(f => ({ k: f.properties.lgd, a: dName(f.properties), b: LANG === 'hi' ? f.properties.en : f.properties.hi, act: () => selectDistrict(f.properties.lgd) }));
-    count = `75 ${t('districts')} · 310 ${t('tehsils')} · 1,01,753 ${t('villages')}`;
+    count = `75 ${t('districts')} · 310 ${t('tehsils')} · 1,01,526 ${t('villages')}`;
   } else if (loading || !S.data){
     body.innerHTML = `<div class="loading">${esc(dName(S.dist))}…</div>`; return;
   } else if (!S.tehsil){
     title = t('pickTehsil');
-    const counts = {}; S.data.villages.features.forEach(f => counts[f.properties.t] = (counts[f.properties.t] || 0) + 1);
+    const counts = {}; S.data.villages.features.forEach(f => { if (!f.properties.part) counts[f.properties.t] = (counts[f.properties.t] || 0) + 1; });
     items = S.data.tehsils.features.map(f => ({ k: f.properties.en, a: f.properties.en, b: `${fmt(counts[f.properties.en] || 0, 0)} ${t('villages')}`, act: () => selectTehsil(f.properties.en) }));
-    count = `${S.data.tehsils.features.length} ${t('tehsils')} · ${fmt(S.data.villages.features.length, 0)} ${t('villages')}`;
+    count = `${S.data.tehsils.features.length} ${t('tehsils')} · ${fmt(S.data.villages.features.filter(f => !f.properties.part).length, 0)} ${t('villages')}`;
   } else {
     title = t('pickVillage');
-    items = S.data.villages.features.filter(f => f.properties.t === S.tehsil)
-      .sort((x, y) => x.properties.en.localeCompare(y.properties.en))
-      .map(f => ({ k: f.properties.lgd, a: f.properties.en, b: `${t('gp')}: ${f.properties.gp || '—'} · ${fmt(f.properties.a, 0)} ha`, act: () => selectVillage(f.properties.lgd), on: S.village && S.village.properties.lgd === f.properties.lgd }));
+    items = S.data.villages.features.filter(f => f.properties.t === S.tehsil && !f.properties.part)
+      // named villages A–Z, unnamed outlines last (largest first)
+      .sort((x, y) => (!x.properties.en - !y.properties.en) || x.properties.en.localeCompare(y.properties.en) || y.properties.a - x.properties.a)
+      .map(f => ({ k: f.properties.lgd, a: vName(f.properties), b: `${t('gp')}: ${f.properties.gp || '—'} · ${fmt(f.properties.a, 0)} ha`, act: () => selectVillage(f.properties.lgd), on: S.village && S.village.properties.lgd === f.properties.lgd }));
     count = `${items.length} ${t('villages')}`;
   }
   body.innerHTML = `<div class="hello"><h2>${title}</h2></div>
@@ -246,8 +254,9 @@ function vctx(f){ return { lgd: f.properties.lgd, en: f.properties.en, t: f.prop
 function renderVillage(f){
   const p = f.properties, ha = p.a || 0;
   const plots = mine().filter(x => x.village && x.village.lgd === p.lgd);
-  const hd = `<div class="eyebrow">${t('village')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(p.en)}</div>
-    <div class="hint">${t('lgdCode')} ${esc(p.lgd)} · ${t('c11')} ${esc(p.c11)}</div>`;
+  const hd = `<div class="eyebrow">${t('village')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(vName(p))}</div>
+    <div class="hint">${t('lgdCode')} ${p.lgd > 0 ? esc(p.lgd) : '—'} · ${t('c11')} ${esc(p.c11 || '—')}</div>`;
+  const step1 = p.en ? `${tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) })} <button class="copy" data-copy="${esc(p.en)}">${t('copy')}</button>` : t('unnamedNote');
   const bd = `
     <div class="stats">
       <div class="stat"><div class="v">${fmt(ha, 0)}</div><div class="k">${t('hect')}</div></div>
@@ -262,7 +271,7 @@ function renderVillage(f){
     </div>
     <div class="sec"><h3>🔎 ${t('seeRecords')}</h3>
       <ol class="steps-mini">
-        <li>${tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) })} <button class="copy" data-copy="${esc(p.en)}">${t('copy')}</button></li>
+        <li>${step1}</li>
         <li>${t('stepNaksha')}</li>
         <li>${t('stepExplain')}</li>
       </ol>
@@ -301,7 +310,7 @@ function renderPlot(p, mode){ // mode: 'saved' | 'draft' | 'sample'
   const vk = { ok: ['v-ok', '✅', t('v_ok'), t('v_okB')], warn: ['v-warn', '⚠️', t('v_warn'), t('v_warnB')], bad: ['v-bad', '⛔', t('v_bad'), t('v_badB')], pub: ['v-pub', '🏛️', t('v_pub'), t('v_pubB')] }[a.lvl];
   const share = p.n > 1 ? '1/' + p.n : '1/1', ha = Number(p.areaHa) || 0;
   const v = p.village;
-  const hd = `<div class="eyebrow">${v ? esc(v.en) + ' · ' + esc(v.t) + ' · ' + esc(L_ === 'hi' ? v.dhi : v.d) : t('yourPlot')}</div>
+  const hd = `<div class="eyebrow">${v ? esc(vName(v)) + ' · ' + esc(v.t) + ' · ' + esc(L_ === 'hi' ? v.dhi : v.d) : t('yourPlot')}</div>
     <div class="title">${t('khasra')} ${esc(p.khasra || '—')}</div><div class="hint">${t('khataNo')} ${esc(p.khata || '—')}</div>`;
   const shapeHa = p.shape ? ringArea(p.shape) / 10000 : null;
   const bd = `<div class="verdict ${vk[0]}"><span style="font-size:20px">${vk[1]}</span><div><b>${vk[2]}</b>${vk[3]}</div></div>
@@ -350,7 +359,7 @@ function openPlot(id){
 function setExVillage(v){
   S.exVillage = v;
   const el = $('exVillage');
-  if (v){ el.style.display = 'block'; el.innerHTML = tf('inVillage', { v: esc(v.en), t: esc(v.t), d: esc(LANG === 'hi' ? v.dhi : v.d) }); }
+  if (v){ el.style.display = 'block'; el.innerHTML = tf('inVillage', { v: esc(vName(v)), t: esc(v.t), d: esc(LANG === 'hi' ? v.dhi : v.d) }); }
   else el.style.display = 'none';
 }
 function readForm(){
@@ -421,7 +430,7 @@ function renderMine(){
   const el = $('mineList'), m = mine();
   if (!m.length){ el.innerHTML = `<div class="empty">${t('none')}</div>`; return; }
   el.innerHTML = m.map(p => { const a = analyse(p); return `<div class="mycard"><div><b>${t('khasra')} ${esc(p.khasra || '—')}</b>
-    <div class="hint">${p.village ? esc(p.village.en) + ' · ' : ''}${fmt(p.areaHa, 4)} ${t('hect')} · <span style="color:${COLOR[a.lvl]};font-weight:600">${t('v_' + a.lvl)}</span>${p.shape ? ' · ✏️' : ''}</div></div>
+    <div class="hint">${p.village ? esc(vName(p.village)) + ' · ' : ''}${fmt(p.areaHa, 4)} ${t('hect')} · <span style="color:${COLOR[a.lvl]};font-weight:600">${t('v_' + a.lvl)}</span>${p.shape ? ' · ✏️' : ''}</div></div>
     <button class="btn sm" data-open="${esc(p.id)}">${t('open')}</button></div>`; }).join('');
   el.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
 }
@@ -454,9 +463,9 @@ $('locBtn').onclick = () => {
   navigator.geolocation.getCurrentPosition(async pos => {
     const { latitude: lat, longitude: lng } = pos.coords;
     hereLayer.clearLayers(); L.circleMarker([lat, lng], { radius: 8, color: '#fff', weight: 3, fillColor: '#2c6fd6', fillOpacity: 1 }).addTo(hereLayer);
-    if (!S.districts.features.some(f => inGeom(lng, lat, f.geometry))) { toast(t('notInUP')); map.setView([lat, lng], 12); return; }
+    if (!S.districts.features.some(f => inGeom(lng, lat, f.geometry))) { closeSheet(); toast(t('notInUP')); map.setView([lat, lng], 12); return; }
     const v = await villageAt(lat, lng);
-    if (v) { selectVillage(v.lgd, { zoom: false }); map.setView([lat, lng], 15); } else map.setView([lat, lng], 14);
+    if (v) { selectVillage(v.lgd, { zoom: false }); map.setView([lat, lng], 15); } else { closeSheet(); map.setView([lat, lng], 14); }
   }, () => toast(t('gpsFail')), { enableHighAccuracy: true, timeout: 20000 });
 };
 $('upBtn').onclick = goUP;
@@ -465,7 +474,10 @@ $('upBtn').onclick = goUP;
 const q = $('q'), res = $('results'); let hits = [], act = -1;
 async function ensureSearch(){
   if (!S.search) S.search = getJSON('data/search.json').then(rows => {
-    const list = rows.map(r => ({ n: r[0], k: r[0].toLowerCase(), v: r[1], d: r[2], t: r[3] }));
+    // skip unnamed outlines and the extra pieces of villages split into several parts
+    const ids = new Set();
+    const list = rows.filter(r => r[0] && !(r[1] && ids.has(r[1])) && (ids.add(r[1]), true))
+      .map(r => ({ n: r[0], k: r[0].toLowerCase(), v: r[1], d: r[2], t: r[3] }));
     const seen = new Set(); S.tehsilIdx = [];
     list.forEach(r => { const key = r.d + '|' + r.t; if (r.t && !seen.has(key)) { seen.add(key); S.tehsilIdx.push({ teh: true, n: r.t, k: r.t.toLowerCase(), d: r.d }); } });
     return list;
@@ -500,7 +512,11 @@ async function pickHit(h){
   if (!h) return; res.classList.remove('on'); q.value = h.n; q.blur(); switchTab('find');
   if (h.dist) return selectDistrict(h.d);
   if (h.teh){ await selectDistrict(h.d, { zoom: false }); return selectTehsil(h.n); }
-  await selectDistrict(h.d, { zoom: false }); selectVillage(h.v);
+  await selectDistrict(h.d, { zoom: false });
+  if (h.v) return selectVillage(h.v);
+  // named village without an LGD code: match by name and tehsil
+  const f = S.data && S.data.villages.features.find(x => x.properties.lgd < 0 && x.properties.en === h.n && x.properties.t === h.t);
+  if (f) selectVillage(f.properties.lgd);
 }
 
 /* ---------------- glossary, tabs, language, theme ---------------- */

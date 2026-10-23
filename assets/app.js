@@ -263,7 +263,7 @@ function renderVillage(f){
     </div>
     <div class="offbox">
       <div class="offh"><b>${t('offT')}</b><span>${t('offB')}</span></div>
-      ${offRow(t('district'), S.dist.en, S.dist.lgd, `<span class="hi muted">${esc(S.dist.hi)}</span>`)}
+      ${offRow(t('district'), S.dist.en, 0, `<span class="hi muted">${esc(S.dist.hi)}</span>`)}
       ${offRow(t('tehsil'), p.t, p.tl)}
       ${offRow(t('village'), p.en, p.lgd)}
     </div>

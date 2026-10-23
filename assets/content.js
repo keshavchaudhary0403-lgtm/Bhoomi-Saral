@@ -19,7 +19,7 @@ const T={
  mineTitle:{en:'My land',hi:'मेरी ज़मीन'},mineSub:{en:'Plots you saved from "Explain my khatauni". Stored only on this device.',hi:'"मेरी खतौनी समझाएँ" से सहेजे गए खेत। केवल इसी डिवाइस पर।'},
  remT:{en:'Re-check reminder',hi:'दोबारा जाँचने की याद'},remB:{en:"Open upbhulekh.gov.in every few months and compare your khatauni with what you saved. A new name, loan or case entry you didn't expect is a warning sign.",hi:'हर कुछ महीनों में upbhulekh.gov.in पर अपनी खतौनी देखें और सहेजी जानकारी से मिलाएँ। कोई अनजाना नया नाम, ऋण या वाद दर्ज हो तो सावधान हो जाएँ।'},
  wTitle:{en:'Land words, made simple',hi:'ज़मीन के शब्द, आसान भाषा में'},wSub:{en:"The terms you'll meet in UP land records.",hi:'यूपी भू-अभिलेखों में मिलने वाले शब्द।'},
- gTitle:{en:'See your real record — free',hi:'अपना असली रिकॉर्ड देखें — मुफ़्त'},gSub:{en:'All of these are official UP government websites. Viewing is free. You fill the captcha yourself.',hi:'ये सभी उत्तर प्रदेश सरकार की आधिकारिक वेबसाइटें हैं। देखना मुफ़्त है। कैप्चा आप स्वयं भरें।'},
+ gTitle:{en:'See your real record — free',hi:'अपना असली रिकॉर्ड देखें — मुफ़्त'},gSub:{en:'All of these are official UP government websites. Viewing is free.',hi:'ये सभी उत्तर प्रदेश सरकार की आधिकारिक वेबसाइटें हैं। देखना मुफ़्त है।'},
  // sheet
  khasra:{en:'Khasra',hi:'खसरा'},area:{en:'Area',hi:'रकबा'},acre:{en:'acre',hi:'एकड़'},hect:{en:'hectare',hi:'हेक्टेयर'},sqm:{en:'sq m',hi:'वर्ग मी.'},
  recIn:{en:'Recorded in khatauni',hi:'खतौनी में दर्ज'},khataNo:{en:'Khata no.',hi:'खाता संख्या'},fasli:{en:'Fasli year',hi:'फसली वर्ष'},klass:{en:'Holder class',hi:'श्रेणी'},landUse:{en:'Land type',hi:'भूमि का प्रकार'},
@@ -57,11 +57,11 @@ Object.assign(T, {
   gp:{en:'Gram panchayat',hi:'ग्राम पंचायत'},block:{en:'Block',hi:'विकास खंड'},lgdCode:{en:'LGD village code',hi:'LGD ग्राम कोड'},c11:{en:'Census 2011 code',hi:'जनगणना 2011 कोड'},
   vArea:{en:'Village area (approx.)',hi:'गाँव का क्षेत्रफल (लगभग)'},
   seeRecords:{en:'See this village\'s real records — free',hi:'इस गाँव के असली रिकॉर्ड देखें — मुफ़्त'},
-  stepBhulekh:{en:'Open UP Bhulekh → "खतौनी (अधिकार अभिलेख) की नक़ल देखें", fill the captcha, then pick district <b>{d}</b> → tehsil <b>{t}</b> → village <b>{v}</b>.',hi:'UP भूलेख खोलें → "खतौनी (अधिकार अभिलेख) की नक़ल देखें", कैप्चा भरें, फिर चुनें: जनपद <b>{d}</b> → तहसील <b>{t}</b> → ग्राम <b>{v}</b>।'},
-  stepOneOf:{en:'Then search with <b>any one</b> of these — whichever you have: khasra / gata no., khata no., or the owner\'s name. You don\'t need both numbers; the name works if you know neither.',hi:'फिर इनमें से <b>कोई एक</b> डालकर खोजें — जो आपके पास हो: खसरा / गाटा संख्या, खाता संख्या, या खातेदार का नाम। दोनों संख्याएँ ज़रूरी नहीं; कोई संख्या न पता हो तो नाम से खोजें।'},
-  stepNaksha:{en:'For the plot map: on UP Bhu-Naksha pick the same district → tehsil → village, then type the khasra / gata no. or tap the plot on its map.',hi:'खेत का नक्शा: UP भू-नक्शा पर यही जनपद → तहसील → ग्राम चुनें, फिर खसरा / गाटा संख्या डालें या नक्शे पर खेत छुएँ।'},
+  stepBhulekh:{en:'On UP Bhulekh open <b>भूलेख सेवाएं → खतौनी (अधिकार अभिलेख) की नक़ल देखें</b>, then pick district <b>{d}</b> → tehsil <b>{t}</b> → village <b>{v}</b>. Tip: type the village code in its village search box.',hi:'UP भूलेख पर <b>भूलेख सेवाएं → खतौनी (अधिकार अभिलेख) की नक़ल देखें</b> खोलें, फिर चुनें: जनपद <b>{d}</b> → तहसील <b>{t}</b> → ग्राम <b>{v}</b>। सुझाव: ग्राम खोज में गाँव का कोड लिखें।'},
+  stepOneOf:{en:'Then search with <b>any one</b> of its tabs — whichever you have: khasra / gata no., khata no., or the owner\'s name (खातेदार का नाम). You don\'t need both numbers; the name works if you know neither.',hi:'फिर इनमें से <b>किसी एक</b> टैब से खोजें — जो आपके पास हो: खसरा / गाटा संख्या, खाता संख्या, या खातेदार का नाम। दोनों संख्याएँ ज़रूरी नहीं; कोई संख्या न पता हो तो नाम से खोजें।'},
+  stepNaksha:{en:'For the plot map: on UP Bhu-Naksha pick the same district → tehsil → village (it lists the tehsil and village with these codes), then type the <b>plot no.</b> — that is the khasra / gata no. Bhu-Naksha finds plots by number only, not by khata or name.',hi:'खेत का नक्शा: UP भू-नक्शा पर यही जनपद → तहसील → ग्राम चुनें (तहसील और ग्राम इन्हीं कोड के साथ दिखते हैं), फिर <b>प्लॉट संख्या</b> यानी खसरा / गाटा संख्या डालें। भू-नक्शा केवल संख्या से खोजता है, खाता या नाम से नहीं।'},
   stepExplain:{en:'Come back and enter what you saw in "Explain" — or draw or import your plot shape in "My land".',hi:'वापस आकर जो दिखे उसे "समझें" में भरें — या "मेरी ज़मीन" में खेत का आकार बनाएँ या आयात करें।'},
-  offT:{en:'For the official sites',hi:'आधिकारिक साइटों के लिए'},offB:{en:'Pick these on UP Bhulekh and Bhu-Naksha. Tap a name or code to copy it.',hi:'UP भूलेख और भू-नक्शा पर यही चुनें। नाम या कोड छूकर कॉपी करें।'},
+  offT:{en:'For the official sites',hi:'आधिकारिक साइटों के लिए'},offB:{en:'Pick these on UP Bhulekh and Bhu-Naksha. Both list villages with this code — tap to copy it, then type it in their village search.',hi:'UP भूलेख और भू-नक्शा पर यही चुनें। दोनों साइटें गाँव इसी कोड के साथ दिखाती हैं — कोड छूकर कॉपी करें और उनकी ग्राम खोज में लिखें।'},
   lgd:{en:'LGD',hi:'LGD'},
   tehsilNote:{en:'Tehsil names follow Census 2011. Some tehsils were created later — if the name differs on Bhulekh, pick the current tehsil.',hi:'तहसील के नाम जनगणना 2011 के अनुसार हैं। कुछ तहसीलें बाद में बनीं — भूलेख पर नाम अलग हो तो वर्तमान तहसील चुनें।'},
   addPlot:{en:'Add my plot in this village',hi:'इस गाँव में मेरा खेत जोड़ें'},copy:{en:'Copy',hi:'कॉपी'},copied:{en:'Copied',hi:'कॉपी हो गया'},
@@ -118,7 +118,7 @@ Object.assign(T, {
   mineNoMatch:{en:'No saved plot matches.',hi:'कोई सहेजा खेत नहीं मिला।'},
   myPlot:{en:'My land',hi:'मेरी ज़मीन'},
   oneOfT:{en:'Which number do I need?',hi:'कौन-सी संख्या चाहिए?'},
-  oneOfB:{en:'Only <b>one</b> of: khasra / gata no., khata no., or the owner\'s name — after picking district → tehsil → village. You don\'t need both the khasra and the khata number.',hi:'जनपद → तहसील → ग्राम चुनने के बाद इनमें से <b>कोई एक</b>: खसरा / गाटा संख्या, खाता संख्या, या खातेदार का नाम। खसरा और खाता दोनों संख्याएँ ज़रूरी नहीं।'},
+  oneOfB:{en:'After picking district → tehsil → village: <b>UP Bhulekh</b> (khatauni) needs only <b>one</b> of khasra / gata no., khata no., or the owner\'s name — not both numbers. <b>UP Bhu-Naksha</b> (map) needs the plot no., which is the khasra / gata no.',hi:'जनपद → तहसील → ग्राम चुनने के बाद: <b>UP भूलेख</b> (खतौनी) में इनमें से <b>कोई एक</b> काफ़ी है — खसरा / गाटा संख्या, खाता संख्या, या खातेदार का नाम; दोनों संख्याएँ ज़रूरी नहीं। <b>UP भू-नक्शा</b> (नक्शा) में प्लॉट संख्या चाहिए, यानी खसरा / गाटा संख्या।'},
   addPlotTown:{en:'Add my plot in this town',hi:'इस नगर में मेरा खेत जोड़ें'},
   note:{en:'Note',hi:'नोट'},showOnMap:{en:'Show on map',hi:'नक्शे पर दिखाएँ'},
   sampleSrc:{en:'Example only — not a real record.',hi:'केवल उदाहरण — असली रिकॉर्ड नहीं।'},
@@ -203,23 +203,23 @@ function renderGuide(){
   const oneOf=`<div class="oneof"><b>${t('oneOfT')}</b><p>${t('oneOfB')}</p></div>`;
   document.getElementById('guideBody').innerHTML=oneOf+(hi?`
   <h3>1. अपनी खतौनी देखें</h3><span class="url">upbhulekh.gov.in</span>
-  <ol><li>"खतौनी (अधिकार अभिलेख) की नक़ल देखें" चुनें और कैप्चा भरें।</li><li>जनपद → तहसील → ग्राम चुनें।</li><li>खसरा/गाटा संख्या, खाता संख्या या खातेदार का नाम — इनमें से <b>कोई एक</b> डालकर खोजें। दोनों संख्याएँ ज़रूरी नहीं।</li><li>खतौनी खुलने पर श्रेणी, हिस्सा, रकबा और टिप्पणी कॉलम देखें — फिर "मेरी खतौनी समझाएँ" टैब में भरें।</li></ol>
+  <ol><li>ऊपर <b>भूलेख सेवाएं</b> मेनू में "खतौनी (अधिकार अभिलेख) की नक़ल देखें" चुनें।</li><li>जनपद → तहसील → ग्राम चुनें। ग्राम खोज में गाँव का नाम या कोड लिखें (कोड इस ऐप के गाँव कार्ड पर है)।</li><li>खसरा/गाटा संख्या, खाता संख्या या खातेदार का नाम — इनमें से <b>कोई एक</b> डालकर खोजें। दोनों संख्याएँ ज़रूरी नहीं।</li><li>खतौनी खुलने पर श्रेणी, हिस्सा, रकबा और टिप्पणी कॉलम देखें — फिर "मेरी खतौनी समझाएँ" टैब में भरें।</li></ol>
   <h3>2. अपने खेत का नक्शा देखें</h3><span class="url">upbhunaksha.gov.in</span>
-  <ol><li>जनपद, तहसील, ग्राम चुनें।</li><li>नक्शे पर खसरा खोजें या उस पर क्लिक करें — प्लॉट की जानकारी दिखेगी।</li></ol>
+  <ol><li>जनपद, तहसील, ग्राम चुनें।</li><li><b>प्लॉट संख्या</b> (यानी खसरा / गाटा संख्या) डालें, या नक्शे पर खेत पर क्लिक करें। यहाँ खाता संख्या या नाम से खोज नहीं होती।</li></ol>
   <h3>3. वाद / नामांतरण की स्थिति</h3><span class="url">vaad.up.nic.in</span>
   <ol><li>राजस्व न्यायालय कंप्यूटरीकृत प्रणाली (RCCMS) पर ग्राम/वाद संख्या से खोजें।</li><li>देखें कि आपके खसरे पर कोई वाद या नामांतरण लंबित तो नहीं।</li></ol>
   <h3>4. रजिस्ट्री / भार-मुक्त प्रमाण पत्र</h3><span class="url">igrsup.gov.in</span>
   <ol><li>संपत्ति के पंजीकृत बैनामे और बंधक की खोज करें।</li><li>प्रमाणित प्रति के लिए सरकारी शुल्क लग सकता है — देखना/खोजना अक्सर मुफ़्त होता है।</li></ol>
-  <div class="note"><b>ध्यान दें:</b> कैप्चा स्वयं भरें। किसी ऐप या व्यक्ति को अपनी जानकारी के लिए पैसे न दें — ये सब सरकारी साइटों पर मुफ़्त है। नकली "भूलेख" साइटों से सावधान रहें।</div>`
+  <div class="note"><b>ध्यान दें:</b> किसी ऐप या व्यक्ति को अपनी जानकारी के लिए पैसे न दें — ये सब सरकारी साइटों पर मुफ़्त है। नकली "भूलेख" साइटों से सावधान रहें।</div>`
   :`
   <h3>1. View your khatauni</h3><span class="url">upbhulekh.gov.in</span>
-  <ol><li>Choose "खतौनी (अधिकार अभिलेख) की नक़ल देखें" (view copy of record of rights) and fill the captcha.</li><li>Select district → tehsil → village.</li><li>Search with <b>any one</b> of: khasra/gata number, khata number, or the holder's name. You don't need both numbers.</li><li>Read the class, share, area and remarks columns — then enter them in the "Explain my khatauni" tab.</li></ol>
+  <ol><li>In the <b>भूलेख सेवाएं</b> (Bhulekh services) menu at the top, choose "खतौनी (अधिकार अभिलेख) की नक़ल देखें" (view copy of record of rights).</li><li>Select district → tehsil → village. In the village search you can type the name or the village code (shown on this app's village card).</li><li>Search with <b>any one</b> of: khasra/gata number, khata number, or the holder's name. You don't need both numbers.</li><li>Read the class, share, area and remarks columns — then enter them in the "Explain my khatauni" tab.</li></ol>
   <h3>2. See your plot on the official map</h3><span class="url">upbhunaksha.gov.in</span>
-  <ol><li>Select district, tehsil and village.</li><li>Find your khasra on the map or click it to see the plot details.</li></ol>
+  <ol><li>Select district, tehsil and village.</li><li>Type the <b>plot no.</b> — that is the khasra / gata number — or click the plot on the map. Bhu-Naksha does not search by khata number or name.</li></ol>
   <h3>3. Check court cases & mutation</h3><span class="url">vaad.up.nic.in</span>
   <ol><li>Search the Revenue Court Computerised Management System (RCCMS) by village or case number.</li><li>Look for any case or pending mutation on your khasra.</li></ol>
   <h3>4. Registry & encumbrance search</h3><span class="url">igrsup.gov.in</span>
   <ol><li>Search registered sale deeds and mortgages on a property.</li><li>Certified copies may carry a small government fee; searching is often free.</li></ol>
-  <div class="note"><b>Tip:</b> always fill captchas yourself. You never need to pay an app or agent to see these — they're free on government sites. Beware of look-alike "Bhulekh" websites.</div>`);
+  <div class="note"><b>Tip:</b> you never need to pay an app or agent to see these — they're free on government sites. Beware of look-alike "Bhulekh" websites.</div>`);
 }
 

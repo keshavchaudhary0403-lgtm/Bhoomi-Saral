@@ -1,6 +1,6 @@
 // Bhoomi Saral service worker: keeps the app and visited map data available offline.
 // Map tiles are not cached here (OpenStreetMap tile policy).
-const CACHE = 'bhoomi-saral-v3';
+const CACHE = 'bhoomi-saral-v4';
 const SHELL = ['./', 'index.html', 'assets/styles.css', 'assets/icons.js', 'assets/content.js', 'assets/app.js',
   'data/districts.json', 'manifest.webmanifest', 'icons/favicon.svg', 'icons/icon-192.png'];
 
@@ -17,10 +17,12 @@ self.addEventListener('fetch', e => {
   const own = url.origin === self.location.origin;
   const cdn = url.hostname === 'cdnjs.cloudflare.com' || url.hostname.endsWith('gstatic.com') || url.hostname === 'fonts.googleapis.com';
   if (!own && !cdn) return;
-  // stale-while-revalidate
   e.respondWith(caches.open(CACHE).then(async cache => {
     const hit = await cache.match(e.request);
-    const net = fetch(e.request).then(r => { if (r.ok) cache.put(e.request, r.clone()); return r; }).catch(() => hit);
-    return hit || net;
+    const net = fetch(e.request).then(r => { if (r.ok) cache.put(e.request, r.clone()); return r; });
+    // map data rarely changes and is large: serve from cache, refresh in the background
+    if (own && url.pathname.includes('/data/')) return hit ? (net.catch(() => {}), hit) : net;
+    // app files: network first so a new version shows on the first visit, cache when offline
+    return net.catch(() => hit || Response.error());
   }));
 });

@@ -6,8 +6,9 @@ Usage:  python3 -I scripts/build_data.py <folder-with-source-geojson> <output-da
 Outputs
   districts.json        all 75 district outlines + names (English/Hindi) + LGD codes
   d/<dist_lgd>.json     tehsil outlines and village outlines for one district
-  search.json           compact village index for statewide search
+  s/*.json              village search index, sharded (built by build_search.py)
 """
+import runpy
 import json
 import math
 import os
@@ -164,7 +165,7 @@ for lgd, data in per.items():
         "villages": {"type": "FeatureCollection", "features": data["villages"]},
     })
 
-search.sort(key=lambda r: r[0])
-dump(os.path.join(OUT, "search.json"), search)
+# search index is built from the district files just written
+runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "build_search.py"))["main"](OUT)
 missing = sorted({d["properties"]["en"] for d in out_d if not any("\u0900" <= c <= "\u097f" for c in d["properties"]["hi"])})
 print(f"districts={len(out_d)} tehsils={len(tehsils)} villages={len(search)} missing_hindi={missing}")

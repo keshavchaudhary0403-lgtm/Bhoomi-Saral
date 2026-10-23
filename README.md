@@ -31,12 +31,21 @@ python3 -m http.server 8080 --bind 127.0.0.1   # then open http://localhost:8080
 
 Static site — on Vercel, import the repo with framework preset **Other**, no build command, output directory `.` (root).
 
+## Tests
+
+```bash
+node --test tests/*.test.js
+```
+No install needed (Node 22+). They cover the risk rules, area maths, town names, every Hindi/English string,
+and the data files and search index. GitHub runs them on every push.
+
 ## Rebuild the map data
 
 ```bash
 # download STATES/UTTAR PRADESH/*.geojson from github.com/datta07/INDIAN-SHAPEFILES into ./source-data
 python3 -I scripts/build_data.py source-data data
 ```
+This also rebuilds the sharded search index in `data/s/`. To rebuild only the index from the existing district files: `python3 -I scripts/build_search.py data`.
 
 ## Credits
 

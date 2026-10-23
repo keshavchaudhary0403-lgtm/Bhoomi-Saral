@@ -3,57 +3,6 @@
    Personal plot data is stored only in this browser (localStorage). */
 'use strict';
 
-Object.assign(T, {
-  searchPh:{en:'Search a village…',hi:'गाँव खोजें…'},
-  attrib:{en:'Boundaries: Census 2011 / LGD village outlines via the open INDIAN-SHAPEFILES dataset (MIT). Approximate — not legal boundaries.',hi:'सीमाएँ: जनगणना 2011 / LGD ग्राम सीमाएँ (ओपन INDIAN-SHAPEFILES डेटा, MIT)। अनुमानित — क़ानूनी सीमा नहीं।'},
-  fNote:{en:'Your note (optional)',hi:'आपका नोट (वैकल्पिक)'},notePh:{en:"e.g. Dada ji's field near the canal",hi:'जैसे नहर के पास दादा जी का खेत'},
-  exDraw:{en:'Draw this plot on the map',hi:'नक्शे पर खेत बनाएँ'},exSample:{en:'See an example card',hi:'उदाहरण कार्ड देखें'},
-  mineSub2:{en:'Your saved plots. Stored only in this browser on this device.',hi:'आपके सहेजे गए खेत। केवल इसी डिवाइस के ब्राउज़र में।'},
-  moveT:{en:'Use on another device',hi:'दूसरे डिवाइस पर उपयोग'},moveB:{en:'Your data never goes to any server. To move it, export a file here and import it on your other device.',hi:'आपका डेटा किसी सर्वर पर नहीं जाता। दूसरे डिवाइस पर ले जाने के लिए यहाँ फ़ाइल निर्यात करें और वहाँ आयात करें।'},
-  exp:{en:'Export my data',hi:'डेटा निर्यात करें'},imp:{en:'Import file',hi:'फ़ाइल आयात करें'},
-  gPh:{en:'Search… e.g. khatauni, वरासत',hi:'खोजें… जैसे खतौनी, वरासत'},
-  whereAmI:{en:'Which village am I in?',hi:'मैं किस गाँव में हूँ?'},allUP:{en:'All UP',hi:'पूरा यूपी'},
-  dGps:{en:'Add my GPS position',hi:'मेरी GPS स्थिति जोड़ें'},dUndo:{en:'Undo',hi:'वापस'},dDone:{en:'Finish',hi:'पूरा करें'},dCancel:{en:'Cancel',hi:'रद्द करें'},
-  districts:{en:'districts',hi:'जनपद'},tehsils:{en:'tehsils',hi:'तहसीलें'},villages:{en:'villages',hi:'गाँव'},
-  allDistricts:{en:'Uttar Pradesh',hi:'उत्तर प्रदेश'},filterPh:{en:'Type to filter…',hi:'छाँटने के लिए लिखें…'},
-  pickDistrict:{en:'Choose your district',hi:'अपना जनपद चुनें'},pickTehsil:{en:'Choose tehsil',hi:'तहसील चुनें'},pickVillage:{en:'Choose village',hi:'गाँव चुनें'},
-  village:{en:'Village',hi:'ग्राम'},tehsil:{en:'Tehsil',hi:'तहसील'},district:{en:'District',hi:'जनपद'},
-  gp:{en:'Gram panchayat',hi:'ग्राम पंचायत'},block:{en:'Block',hi:'विकास खंड'},lgdCode:{en:'LGD village code',hi:'LGD ग्राम कोड'},c11:{en:'Census 2011 code',hi:'जनगणना 2011 कोड'},
-  vArea:{en:'Village area (approx.)',hi:'गाँव का क्षेत्रफल (लगभग)'},
-  seeRecords:{en:'See this village\'s real records — free',hi:'इस गाँव के असली रिकॉर्ड देखें — मुफ़्त'},
-  stepBhulekh:{en:'On UP Bhulekh choose: district <b>{d}</b> → tehsil <b>{t}</b> → village <b>{v}</b>, then search your khasra or khata.',hi:'UP भूलेख पर चुनें: जनपद <b>{d}</b> → तहसील <b>{t}</b> → ग्राम <b>{v}</b>, फिर अपना खसरा या खाता खोजें।'},
-  stepNaksha:{en:'On UP Bhu-Naksha pick the same village and click your plot to see its shape.',hi:'UP भू-नक्शा पर यही गाँव चुनें और अपने खेत पर क्लिक करें।'},
-  stepExplain:{en:'Come back and enter what you see in "Explain" — or draw your plot here.',hi:'वापस आकर जो दिखे उसे "समझें" में भरें — या यहाँ अपना खेत बनाएँ।'},
-  tehsilNote:{en:'Tehsil names follow Census 2011. Some tehsils were created later — if the name differs on Bhulekh, pick the current tehsil.',hi:'तहसील के नाम जनगणना 2011 के अनुसार हैं। कुछ तहसीलें बाद में बनीं — भूलेख पर नाम अलग हो तो वर्तमान तहसील चुनें।'},
-  addPlot:{en:'Add my plot in this village',hi:'इस गाँव में मेरा खेत जोड़ें'},copy:{en:'Copy',hi:'कॉपी'},copied:{en:'Copied',hi:'कॉपी हो गया'},
-  approx:{en:'Village outline is approximate (Census 2011 / LGD) — not a legal boundary.',hi:'गाँव की सीमा अनुमानित है (जनगणना 2011 / LGD) — क़ानूनी सीमा नहीं।'},
-  myHere:{en:'My plots in this village',hi:'इस गाँव में मेरे खेत'},
-  drawHelp:{en:'Tap each corner of your field on the map — or stand at each corner and press <b>Add my GPS position</b>.',hi:'नक्शे पर अपने खेत के हर कोने पर टैप करें — या हर कोने पर खड़े होकर <b>मेरी GPS स्थिति जोड़ें</b> दबाएँ।'},
-  points:{en:'Corners',hi:'कोने'},mapArea:{en:'Area on map',hi:'नक्शे पर क्षेत्रफल'},needs3:{en:'Add at least 3 corners.',hi:'कम से कम 3 कोने जोड़ें।'},
-  gpsFail:{en:'Could not get your location. Allow location access and try again.',hi:'आपकी लोकेशन नहीं मिली। लोकेशन की अनुमति दें और फिर कोशिश करें।'},
-  gpsAcc:{en:'GPS point added (±{m} m).',hi:'GPS बिंदु जोड़ा गया (±{m} मी.)।'},
-  notInUP:{en:'Your location seems to be outside Uttar Pradesh.',hi:'आपकी लोकेशन उत्तर प्रदेश के बाहर लगती है।'},locating:{en:'Finding your location…',hi:'लोकेशन खोजी जा रही है…'},
-  shapeSet:{en:'Plot shape drawn: {a} ha on the map.',hi:'खेत का आकार बना: नक्शे पर {a} हेक्टेयर।'},
-  inVillage:{en:'Village: <b>{v}</b>, {t}, {d}',hi:'ग्राम: <b>{v}</b>, {t}, {d}'},
-  exported:{en:'Exported. Keep this file private.',hi:'निर्यात हो गया। यह फ़ाइल निजी रखें।'},imported:{en:'Imported {n} plots.',hi:'{n} खेत आयात हुए।'},badFile:{en:'That file is not a Bhoomi Saral export.',hi:'यह Bhoomi Saral की फ़ाइल नहीं है।'},
-  deleted:{en:'Removed.',hi:'हटा दिया।'},savedT:{en:'Saved to My land ✓',hi:'मेरी ज़मीन में सहेजा गया ✓'},
-  noMatch:{en:'No village found.',hi:'कोई गाँव नहीं मिला।'},searching:{en:'Loading village list…',hi:'गाँवों की सूची लोड हो रही है…'},
-  mapShape:{en:'Shape drawn on map',hi:'नक्शे पर बना आकार'},recArea:{en:'Area in record',hi:'रिकॉर्ड में रकबा'},
-  greetM:{en:'Good morning',hi:'सुप्रभात'},greetA:{en:'Good afternoon',hi:'नमस्कार'},greetE:{en:'Good evening',hi:'शुभ संध्या'},
-  heroT:{en:'Find any land in Uttar Pradesh',hi:'उत्तर प्रदेश की कोई भी ज़मीन खोजें'},
-  heroB:{en:'Every district, tehsil and village on one map — and your land record explained in plain words.',hi:'हर जनपद, तहसील और गाँव एक नक्शे पर — और आपका भूमि रिकॉर्ड आसान भाषा में।'},
-  qLocateB:{en:'Use your phone\'s GPS',hi:'अपने फ़ोन का GPS इस्तेमाल करें'},
-  qExplainB:{en:'Plain-language risk check',hi:'आसान भाषा में जोखिम जाँच'},
-  qDraw:{en:'Draw my plot',hi:'मेरा खेत बनाएँ'},qDrawB:{en:'Tap corners or walk with GPS',hi:'कोने छुएँ या GPS से चलें'},
-  qMineB:{en:'{n} saved',hi:'{n} सहेजे गए'},qMineNone:{en:'Nothing saved yet',hi:'अभी कुछ सहेजा नहीं'},
-  layerMap:{en:'Map view',hi:'नक्शा दृश्य'},layerSat:{en:'Satellite view',hi:'सैटेलाइट दृश्य'},
-  riskScale:{en:'Risk level',hi:'जोखिम स्तर'},
-  note:{en:'Note',hi:'नोट'},showOnMap:{en:'Show on map',hi:'नक्शे पर दिखाएँ'},
-  sampleSrc:{en:'Example only — not a real record.',hi:'केवल उदाहरण — असली रिकॉर्ड नहीं।'},
-  loadFail:{en:'Could not load map data. Check your internet and reload.',hi:'नक्शे का डेटा लोड नहीं हुआ। इंटरनेट जाँचें और दोबारा खोलें।'},
-  storeFail:{en:'Could not save — browser storage is blocked.',hi:'सहेजा नहीं जा सका — ब्राउज़र स्टोरेज बंद है।'}
-});
-
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = (n, d = 2) => Number(n || 0).toLocaleString(LANG === 'hi' ? 'hi-IN' : 'en-IN', {maximumFractionDigits: d});
@@ -67,36 +16,8 @@ const store = {
 const mine = () => store.get('bs_plots', []);
 function saveMine(list){ if (!store.set('bs_plots', list)) toast(t('storeFail')); drawMine(); renderMine(); }
 
-/* ---------------- geometry helpers ---------------- */
-function ringArea(latlngs){ // spherical polygon area in m²
-  const R = 6378137, rad = Math.PI / 180; let s = 0;
-  for (let i = 0; i < latlngs.length; i++){
-    const [la1, lo1] = latlngs[i], [la2, lo2] = latlngs[(i + 1) % latlngs.length];
-    s += (lo2 - lo1) * rad * (2 + Math.sin(la1 * rad) + Math.sin(la2 * rad));
-  }
-  return Math.abs(s * R * R / 2);
-}
-function inRing(x, y, ring){
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++){
-    const [xi, yi] = ring[i], [xj, yj] = ring[j];
-    if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
-  }
-  return inside;
-}
-function inGeom(lng, lat, g){
-  const polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
-  return polys.some(p => inRing(lng, lat, p[0]));
-}
-function bboxCenter(g){
-  const polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
-  let a = 180, b = 90, c = -180, d = -90;
-  polys.forEach(p => p[0].forEach(([x, y]) => { a = Math.min(a, x); b = Math.min(b, y); c = Math.max(c, x); d = Math.max(d, y); }));
-  return [(b + d) / 2, (a + c) / 2];
-}
-
 /* ---------------- state & data ---------------- */
-const S = { districts: null, byLgd: {}, dist: null, data: null, tehsil: null, village: null, cache: {}, search: null,
+const S = { districts: null, byLgd: {}, dist: null, data: null, tehsil: null, village: null, cache: {},
             exVillage: null, pendingShape: null, draw: null, lastSheet: null, filter: '' };
 
 async function getJSON(url){ const r = await fetch(url); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }
@@ -114,7 +35,6 @@ async function loadDistrictData(lgd){
   return S.cache[lgd];
 }
 const dName = d => d ? (LANG === 'hi' ? d.hi : d.en) : '';
-const vName = v => v.en || t('unnamed');
 
 /* ---------------- map ---------------- */
 const map = L.map('map', { preferCanvas: true, zoomControl: false, minZoom: 6, zoomSnap: 0.25 }).setView([26.9, 80.9], 7);
@@ -181,7 +101,7 @@ function updateLabels(){
   for (const f of S.data.villages.features){
     if (n > 220) break;
     if (f.properties.en && b.contains(f.c)){ n++;
-      L.tooltip({ permanent: true, direction: 'center', className: 'vlabel', interactive: false }).setLatLng(f.c).setContent(esc(f.properties.en)).addTo(labelLayer);
+      L.tooltip({ permanent: true, direction: 'center', className: 'vlabel', interactive: false }).setLatLng(f.c).setContent(esc(vName(f.properties))).addTo(labelLayer);
     }
   }
 }
@@ -288,7 +208,8 @@ function renderFind(loading){
     items = S.data.villages.features.filter(f => f.properties.t === S.tehsil && !f.properties.part)
       // named villages A–Z, unnamed outlines last (largest first)
       .sort((x, y) => (!x.properties.en - !y.properties.en) || x.properties.en.localeCompare(y.properties.en) || y.properties.a - x.properties.a)
-      .map(f => ({ k: f.properties.lgd, a: vName(f.properties), b: `${f.properties.gp ? t('gp') + ': ' + f.properties.gp + ' · ' : ''}${fmt(f.properties.a, 0)} ha`, av: f.properties.en ? f.properties.en.slice(0, 1) : '?', dim: !f.properties.en, act: () => selectVillage(f.properties.lgd), on: S.village && S.village.properties.lgd === f.properties.lgd }));
+      .map(f => { const tt = townType(f.properties); return { k: f.properties.lgd, a: vName(f.properties), town: !!tt,
+        b: `${tt ? t('t_' + tt) + ' · ' : f.properties.gp ? t('gp') + ': ' + f.properties.gp + ' · ' : ''}${fmt(f.properties.a, 0)} ha`, av: f.properties.en ? f.properties.en.slice(0, 1) : '?', dim: !f.properties.en, act: () => selectVillage(f.properties.lgd), on: S.village && S.village.properties.lgd === f.properties.lgd }; });
     count = `${items.length} ${t('villages')}`;
   }
   body.innerHTML = `${top}<h3 class="list-h">${title}</h3>
@@ -299,7 +220,7 @@ function renderFind(loading){
     const q = S.filter.toLowerCase();
     const all = items.filter(i => !q || (i.a + ' ' + i.b).toLowerCase().includes(q)), shown = all.slice(0, 400);
     $('fcount').textContent = q ? `${fmt(all.length, 0)} / ${count}` : count;
-    $('flist').innerHTML = shown.map((i, n) => `<button class="item${i.on ? ' on' : ''}${i.dim ? ' dim' : ''}" data-n="${n}" style="--i:${n}"><span class="av${i.dim ? ' muted' : ''}">${esc(i.av)}</span><span class="tx"><b>${esc(i.a)}</b><small>${esc(i.b)}</small></span><span class="arr">${ic('right')}</span></button>`).join('') || `<div class="empty">${t('noMatch')}</div>`;
+    $('flist').innerHTML = shown.map((i, n) => `<button class="item${i.on ? ' on' : ''}${i.dim ? ' dim' : ''}" data-n="${n}" style="--i:${n}"><span class="av${i.dim ? ' muted' : ''}${i.town ? ' town' : ''}">${i.town ? ic('building') : esc(i.av)}</span><span class="tx"><b>${esc(i.a)}</b><small>${esc(i.b)}</small></span><span class="arr">${ic('right')}</span></button>`).join('') || `<div class="empty">${t('noMatch')}</div>`;
     $('flist').querySelectorAll('.item').forEach(b => b.onclick = () => shown[+b.dataset.n].act());
     $('flist').querySelector('.item.on')?.scrollIntoView({ block: 'center' });
   };
@@ -325,7 +246,8 @@ const linkRow = (url, label, icon) => `<a href="https://${url}" target="_blank" 
 
 function vctx(f){ return { lgd: f.properties.lgd, en: f.properties.en, t: f.properties.t, d: S.dist.en, dhi: S.dist.hi, dl: S.dist.lgd }; }
 function renderVillage(f){
-  const p = f.properties, ha = p.a || 0;
+  const p = f.properties, ha = p.a || 0, tt = townType(p);
+  if (tt) return renderTown(f, tt);
   const plots = mine().filter(x => x.village && x.village.lgd === p.lgd);
   const hd = `<div class="eyebrow">${t('village')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(vName(p))}</div>
     <div class="hint">${t('lgdCode')} ${p.lgd > 0 ? esc(p.lgd) : '—'} · ${t('c11')} ${esc(p.c11 || '—')}</div>`;
@@ -363,21 +285,45 @@ function renderVillage(f){
   $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
   $('addHere').onclick = () => { setExVillage(vctx(f)); switchTab('explain'); };
 }
+function renderTown(f, tt){
+  const p = f.properties, ha = p.a || 0, body = t('t_' + tt);
+  const plots = mine().filter(x => x.village && x.village.lgd === p.lgd);
+  const hd = `<div class="eyebrow">${t('town')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(vName(p))}</div>
+    <div class="hint"><span class="tag">${ic('building')}${body}</span> · ${t('c11')} ${esc(p.c11 || '—')}</div>`;
+  const bd = `
+    <div class="stats">
+      <div class="stat"><div class="v">${fmt(ha, 0)}</div><div class="k">${t('hect')}</div></div>
+      <div class="stat"><div class="v">${fmt(ha * 2.47105, 0)}</div><div class="k">${t('acre')}</div></div>
+      <div class="stat"><div class="v">${fmt(ha / 100, 2)}</div><div class="k">km²</div></div>
+    </div>
+    <div class="kvs">
+      <div class="kv"><span>${t('townBody')}</span><span>${body}</span></div>
+      <div class="kv"><span>${t('block')}</span><span>${esc(p.b || '—')}</span></div>
+      <div class="kv"><span>${t('tehsil')}</span><span>${esc(p.t)}</span></div>
+      <div class="kv"><span>${t('district')}</span><span>${esc(S.dist.en)} · <span class="hi">${esc(S.dist.hi)}</span></span></div>
+    </div>
+    <div class="sec"><h3>${ic('info')}${t('townRecords')}</h3>
+      <ol class="steps-mini">
+        <li>${t('townStep1')}</li>
+        <li>${tf('townStep2', { t: esc(p.t) })}</li>
+        <li>${tt === 'cb' ? t('townStep3cb') : tf('townStep3', { b: body })}</li>
+      </ol>
+    </div>
+    <div class="sec links">
+      ${tt === 'cb' ? '' : linkRow('e-nagarsewaup.gov.in', LANG === 'hi' ? 'ई-नगर सेवा — संपत्ति / गृहकर' : 'e-Nagar Sewa — property & house tax', 'building')}
+      ${linkRow('igrsup.gov.in', LANG === 'hi' ? 'रजिस्ट्री / भार-मुक्त प्रमाण पत्र' : 'Registry & encumbrance search', 'bank')}
+      ${linkRow('upbhulekh.gov.in', LANG === 'hi' ? 'UP भूलेख — मौज़ा की खतौनी' : 'UP Bhulekh — khatauni of a mauza', 'file')}
+    </div>
+    <button class="btn primary big" id="addHere" style="width:100%;margin-top:16px">${ic('plus')}${t('addPlotTown')}</button>
+    ${plots.length ? `<div class="sec"><h3>${ic('bookmark')}${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><span class="dot" style="color:${COLOR[analyse(x).lvl]};background:${COLOR[analyse(x).lvl]}"></span><div class="tx"><b>${t('khasra')} ${esc(x.khasra)}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
+    <div class="src">${t('approx')}</div>`;
+  openSheet(hd, bd, { type: 'village', f });
+  $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
+  $('addHere').onclick = () => { setExVillage(vctx(f)); switchTab('explain'); };
+}
 
 /* ---------------- plain-language plot card ---------------- */
-function analyse(p){
-  const fl = [];
-  if (p.cls === 'gs') fl.push('gs'); if (p.cls === 'bnt') fl.push('bnt'); if (p.cls === 'asami') fl.push('asami');
-  if (p.cls !== 'gs' && p.n > 1) fl.push('shared');
-  (p.flags || []).forEach(f => FLAGS[f] && fl.push(f));
-  let lvl = 'ok';
-  if (fl.some(f => FLAGS[f].lvl === 'warn')) lvl = 'warn';
-  if (fl.some(f => FLAGS[f].lvl === 'bad')) lvl = 'bad';
-  if (p.cls === 'gs') lvl = 'pub';
-  return { fl, lvl };
-}
 const COLOR = { ok: '#12a35a', warn: '#f2a20c', bad: '#e2412e', pub: '#7c5ce6' };
-const FLAG_IC = { shared: 'users', loan: 'bank', court: 'scale', mut: 'refresh', varasat: 'userPlus', na: 'building', bnt: 'ban', asami: 'clock', gs: 'landmark' };
 
 function renderPlot(p, mode){ // mode: 'saved' | 'draft' | 'sample'
   const a = analyse(p), C = CLASSES[p.cls] || CLASSES.bt, L_ = LANG;
@@ -562,36 +508,56 @@ $('locBtn').onclick = () => {
 $('upBtn').onclick = goUP;
 
 /* ---------------- statewide search ---------------- */
-const q = $('q'), res = $('results'); let hits = [], act = -1;
-async function ensureSearch(){
-  if (!S.search) S.search = getJSON('data/search.json').then(rows => {
-    // skip unnamed outlines and the extra pieces of villages split into several parts
-    const ids = new Set();
-    const list = rows.filter(r => r[0] && !(r[1] && ids.has(r[1])) && (ids.add(r[1]), true))
-      .map(r => ({ n: r[0], k: r[0].toLowerCase(), v: r[1], d: r[2], t: r[3] }));
-    const seen = new Set(); S.tehsilIdx = [];
-    list.forEach(r => { const key = r.d + '|' + r.t; if (r.t && !seen.has(key)) { seen.add(key); S.tehsilIdx.push({ teh: true, n: r.t, k: r.t.toLowerCase(), d: r.d }); } });
-    return list;
-  });
-  return S.search;
+const q = $('q'), res = $('results'); let hits = [], act = -1, searchSeq = 0;
+// search index (data/s/): a small tehsil table, one small shard per first two letters of each word in a
+// village name, and the full list, loaded in the background, for matches inside words
+const SX = { tehP: null, teh: null, shards: {}, allP: null, all: null };
+const mkRow = r => { const tt = SX.teh[r[2]]; return { n: r[0], k: r[0].toLowerCase(), v: r[1], d: tt[0], t: tt[1] }; };
+function loadTehsils(){
+  return SX.tehP ||= getJSON('data/s/_t.json').then(list => { SX.teh = list; S.tehsilIdx = list.map(([d, n]) => ({ teh: true, n, k: n.toLowerCase(), d })); })
+    .catch(e => { SX.tehP = null; throw e; });
 }
-q.addEventListener('focus', () => { ensureSearch().catch(() => toast(t('loadFail'))); });
-q.addEventListener('input', async () => {
-  const s = q.value.trim().toLowerCase();
+function loadShard(key){
+  return SX.shards[key] ||= loadTehsils().then(() => getJSON(`data/s/${key}.json`)).then(rows => rows.map(mkRow))
+    .catch(e => { if (/ 404$/.test(e.message)) return []; delete SX.shards[key]; throw e; }); // 404: no village word starts with these letters
+}
+function loadAll(){
+  return SX.allP ||= loadTehsils().then(() => getJSON('data/s/all.json')).then(rows => { SX.all = rows.map(mkRow); })
+    .catch(e => { SX.allP = null; throw e; });
+}
+q.addEventListener('focus', () => { loadTehsils().catch(() => {}); });
+q.addEventListener('input', runSearch);
+async function runSearch(){
+  const raw = q.value.trim(), s = raw.toLowerCase(), seq = ++searchSeq;
   if (s.length < 2){ res.classList.remove('on'); return; }
-  res.classList.add('on'); res.innerHTML = `<div class="msg">${t('searching')}</div>`;
-  let rows; try { rows = await ensureSearch(); } catch(e){ res.innerHTML = `<div class="msg">${t('loadFail')}</div>`; return; }
-  if (q.value.trim().toLowerCase() !== s) return;
-  const starts = [], has = [];
-  for (const r of rows){ if (r.k.startsWith(s)) { if (starts.length < 40) starts.push(r); } else if (has.length < 40 && r.k.includes(s)) has.push(r); }
-  // also allow district names
-  const dm = S.districts.features.filter(f => f.properties.en.toLowerCase().includes(s) || f.properties.hi.includes(q.value.trim()))
+  res.classList.add('on');
+  const first = (s.match(/[a-z0-9]+/) || [''])[0];
+  let rows = SX.all;
+  if (!rows){
+    res.innerHTML = `<div class="msg">${t('searching')}</div>`;
+    try { rows = first.length >= 2 ? await loadShard(first.slice(0, 2)) : (await loadTehsils(), []); }
+    catch(e){ if (seq === searchSeq) res.innerHTML = `<div class="msg">${t('loadFail')}</div>`; return; }
+  }
+  if (seq !== searchSeq) return;
+  showHits(raw, s, rows, !!SX.all);
+  // once the first results are on screen, fetch the full list and add matches from inside words
+  if (!SX.all) loadAll().then(() => { if (seq === searchSeq) runSearch(); }).catch(() => {});
+}
+function showHits(raw, s, rows, full){
+  const starts = [], words = [], inside = [];
+  for (const r of rows){
+    if (r.k.startsWith(s)) { if (starts.length < 40) starts.push(r); }
+    else if ((' ' + r.k).includes(' ' + s)) { if (words.length < 40) words.push(r); }
+    else if (full && inside.length < 40 && r.k.includes(s)) inside.push(r);
+  }
+  // also allow district and tehsil names
+  const dm = S.districts.features.filter(f => f.properties.en.toLowerCase().includes(s) || f.properties.hi.includes(raw))
     .map(f => ({ dist: true, n: dName(f.properties), d: f.properties.lgd }));
   const tm = (S.tehsilIdx || []).filter(x => x.k.includes(s)).slice(0, 8);
-  hits = dm.concat(tm, starts, has).slice(0, 40); act = -1;
-  res.innerHTML = hits.length ? hits.map((h, i) => `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : 'pin')}</span><span><b>${esc(h.n)}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
+  hits = dm.concat(tm, starts, words, inside).slice(0, 40); act = -1;
+  res.innerHTML = hits.length ? hits.map((h, i) => `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : townType({ en: h.n }) ? 'building' : 'pin')}</span><span><b>${esc(h.dist || h.teh ? h.n : vName({ en: h.n }))}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${townType({ en: h.n }) ? t('t_' + townType({ en: h.n })) : t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
   res.querySelectorAll('button').forEach(b => b.onclick = () => pickHit(hits[+b.dataset.i]));
-});
+}
 q.addEventListener('keydown', e => {
   const bs = res.querySelectorAll('button'); if (!bs.length) return;
   if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); act = (act + (e.key === 'ArrowDown' ? 1 : -1) + bs.length) % bs.length; bs.forEach((b, i) => b.classList.toggle('act', i === act)); bs[act].scrollIntoView({ block: 'nearest' }); }
@@ -600,7 +566,7 @@ q.addEventListener('keydown', e => {
 });
 document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) res.classList.remove('on'); });
 async function pickHit(h){
-  if (!h) return; res.classList.remove('on'); q.value = h.n; q.blur(); switchTab('find');
+  if (!h) return; res.classList.remove('on'); q.value = h.dist || h.teh ? h.n : vName({ en: h.n }); q.blur(); switchTab('find');
   if (h.dist) return selectDistrict(h.d);
   if (h.teh){ await selectDistrict(h.d, { zoom: false }); return selectTehsil(h.n); }
   await selectDistrict(h.d, { zoom: false });

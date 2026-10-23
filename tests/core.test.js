@@ -1,0 +1,79 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { loadApp } = require('./load');
+
+const A = loadApp('en');
+
+// a square field of side `m` metres with its south-west corner at lat/lng
+function square(lat, lng, m){
+  const dLat = m / 111320, dLng = m / (111320 * Math.cos(lat * Math.PI / 180));
+  return [[lat, lng], [lat + dLat, lng], [lat + dLat, lng + dLng], [lat, lng + dLng]];
+}
+
+test('ringArea: a 63.64 m square is about 0.405 ha', () => {
+  const m2 = A.ringArea(square(27, 78.5, 63.64));
+  assert.ok(Math.abs(m2 - 4050) / 4050 < 0.005, `got ${m2}`);
+});
+
+test('ringArea: corner order does not change the area', () => {
+  const pts = square(26.8, 80.9, 100);
+  assert.ok(Math.abs(A.ringArea(pts) - A.ringArea([...pts].reverse())) < 1e-6);
+});
+
+test('ringArea: a triangle is half the square', () => {
+  const [a, b, c] = square(25.4, 81.8, 80);
+  assert.ok(Math.abs(A.ringArea([a, b, c]) - 3200) / 3200 < 0.005);
+});
+
+test('inGeom: polygon and multipolygon', () => {
+  const box = [[[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]];
+  const far = [[[20, 20], [30, 20], [30, 30], [20, 30], [20, 20]]];
+  assert.equal(A.inGeom(5, 5, { type: 'Polygon', coordinates: box }), true);
+  assert.equal(A.inGeom(15, 5, { type: 'Polygon', coordinates: box }), false);
+  assert.equal(A.inGeom(25, 25, { type: 'MultiPolygon', coordinates: [box, far] }), true);
+  assert.equal(A.inGeom(15, 15, { type: 'MultiPolygon', coordinates: [box, far] }), false);
+});
+
+test('bboxCenter returns [lat, lng]', () => {
+  assert.deepEqual([...A.bboxCenter({ type: 'Polygon', coordinates: [[[78, 26], [80, 26], [80, 28], [78, 28], [78, 26]]] })], [27, 79]);
+});
+
+test('townType recognises statutory towns only', () => {
+  const cases = { 'Lucknow (cb)': 'cb', 'Kishunpur (np)': 'np', 'Bindki (npp)': 'npp', 'Aligarh (m Corp.)': 'mc',
+    'Mughalsarai Railway Settlement (its)': 'its', 'Gadhi (ct)': null, 'Daulatpur Tigri(m.s.t)': null, 'Basai Arela': null, '': null };
+  for (const [en, want] of Object.entries(cases)) assert.equal(A.townType({ en }), want, en);
+});
+
+test('vName strips the town type and names unnamed outlines', () => {
+  assert.equal(A.vName({ en: 'Aligarh (m Corp.)' }), 'Aligarh');
+  assert.equal(A.vName({ en: 'Gadhi (ct)' }), 'Gadhi (ct)');
+  assert.equal(A.vName({ en: '' }), 'Unnamed area');
+  assert.equal(loadApp('hi').vName({ en: '' }), 'बिना नाम का क्षेत्र');
+});
+
+test('analyse: risk level for each kind of record', () => {
+  const lvl = (p) => A.analyse(Object.assign({ cls: 'bt', n: 1, flags: [] }, p));
+  const cases = [
+    [{}, 'ok', []],
+    [{ n: 3 }, 'warn', ['shared']],
+    [{ flags: ['loan', 'mut'] }, 'warn', ['loan', 'mut']],
+    [{ flags: ['court'] }, 'bad', ['court']],
+    [{ flags: ['na'] }, 'ok', ['na']],
+    [{ cls: 'bnt' }, 'bad', ['bnt']],
+    [{ cls: 'asami' }, 'bad', ['asami']],
+    [{ cls: 'bnt', n: 2, flags: ['loan'] }, 'bad', ['bnt', 'shared', 'loan']],
+    // public land is always "public", whatever else is ticked, and is never a shared khata
+    [{ cls: 'gs', n: 4, flags: ['court'] }, 'pub', ['gs', 'court']],
+    [{ flags: ['nonsense'] }, 'ok', []]
+  ];
+  for (const [p, want, fl] of cases){
+    const got = lvl(p);
+    assert.equal(got.lvl, want, JSON.stringify(p));
+    assert.deepEqual([...got.fl], fl, JSON.stringify(p));
+  }
+});
+
+test('every warning has an icon', () => {
+  for (const k of Object.keys(A.FLAGS)) assert.ok(A.FLAG_IC[k], k);
+});

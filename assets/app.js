@@ -126,7 +126,8 @@ const BASE = {
   sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, maxNativeZoom: 18, attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics' })
 };
 let baseOn = null, satOn = false;
-const isDark = () => { const th = document.documentElement.dataset.theme; return th ? th === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
+// light by default; dark only when the viewer picks it
+const isDark = () => document.documentElement.dataset.theme === 'dark';
 function applyBase(){
   const want = satOn ? BASE.sat : BASE.street;
   if (want !== baseOn){ if (baseOn) map.removeLayer(baseOn); want.addTo(map); want.bringToBack(); baseOn = want; }
@@ -148,7 +149,6 @@ const ST = {
 $('zIn').onclick = () => map.zoomIn();
 $('zOut').onclick = () => map.zoomOut();
 $('layerBtn').onclick = () => { satOn = !satOn; applyBase(); toast(t(satOn ? 'layerSat' : 'layerMap')); };
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', applyBase);
 let villageById = {}, selectedVillageLayer = null;
 
 function drawDistricts(){
@@ -674,8 +674,7 @@ function applyLang(){
 document.querySelectorAll('#langSeg button').forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set('bs_lang', LANG); applyLang(); });
 $('themeBtn').onclick = () => {
   const r = document.documentElement;
-  const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  r.dataset.theme = dark ? 'light' : 'dark'; store.set('bs_theme', r.dataset.theme); applyBase();
+  r.dataset.theme = isDark() ? 'light' : 'dark'; store.set('bs_theme', r.dataset.theme); applyBase();
 };
 
 /* ---------------- start ---------------- */

@@ -115,6 +115,21 @@ function spellDistance(a, b){
   return prev[b.length];
 }
 
+/* ---------------- UP Bhu-Naksha plot report links ---------------- */
+// Bhu-Naksha codes a village as district (Census 2011 code) + tehsil (5 digits) + village (6 digits),
+// e.g. 146 00766 124649. Our tehsil and village codes are the same numbers; districts are keyed here by our LGD code.
+const BN_DIST = {118:146,119:143,120:175,121:178,122:162,123:191,124:139,125:180,126:193,127:182,128:170,129:176,130:150,131:185,132:134,133:149,134:142,135:196,136:171,137:190,138:201,139:161,140:177,141:159,142:172,143:147,144:141,145:140,146:195,147:183,148:188,149:168,150:155,151:165,152:194,153:166,154:137,155:160,156:163,157:164,158:174,159:153,160:189,161:167,162:157,163:144,164:187,165:169,166:148,167:145,168:192,169:138,170:199,171:135,172:133,173:151,174:173,175:158,176:136,177:132,178:186,179:198,180:152,181:181,182:184,183:154,184:200,185:179,186:156,187:197,633:202,640:203,659:205,660:206,661:204};
+function bnGisCode(distLgd, tehsilCode, villageCode){
+  const d = BN_DIST[distLgd];
+  if (!d || !(tehsilCode > 0) || !(villageCode > 0)) return null;
+  return `${d}${String(tehsilCode).padStart(5, '0')}${String(villageCode).padStart(6, '0')}`;
+}
+// the official single-plot report page (map, khata, area and names), opened on Bhu-Naksha itself
+function bnPlotUrl(gis, plotNo){
+  const n = String(plotNo || '').trim();
+  return gis && n ? `https://upbhunaksha.gov.in/plotreport/${gis}/${encodeURIComponent(n)}` : null;
+}
+
 /* ---------------- plot shapes from files (KML, KMZ, GeoJSON) ---------------- */
 // Returns { shapes: [{ name, ring: [[lat, lng], ...] }], projected } — projected is true when the coordinates
 // are not latitude / longitude (e.g. UTM metres), in which case no shapes are returned.

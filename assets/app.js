@@ -252,6 +252,7 @@ function renderVillage(f){
   const hd = `<div class="eyebrow">${t('village')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(vName(p))}</div>
     <div class="hint">${t('lgdCode')} ${p.lgd > 0 ? esc(p.lgd) : '—'} · ${t('c11')} ${esc(p.c11 || '—')}</div>`;
   const step1 = p.en ? tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) }) : t('unnamedNote');
+  const gis = bnGisCode(S.dist.lgd, p.tl, p.lgd);
   // names and LGD codes to pick on Bhulekh / Bhu-Naksha, each one tap to copy
   const cp = (text, label = text) => text ? `<button class="cp" data-copy="${esc(text)}">${esc(label)}${ic('copy')}</button>` : '<span class="muted">—</span>';
   const offRow = (k, name, code, extra = '') => `<div class="offrow"><span class="ol">${k}</span><span class="ov">${cp(name)}${extra}${code > 0 ? cp(String(code), t('lgd') + ' ' + code) : ''}</span></div>`;
@@ -267,6 +268,11 @@ function renderVillage(f){
       ${offRow(t('tehsil'), p.t, p.tl)}
       ${offRow(t('village'), p.en, p.lgd)}
     </div>
+    ${gis ? `<form class="bnbox" id="bnForm">
+      <div class="offh"><b>${ic('map')}${t('bnT')}</b><span>${t('bnB')}</span></div>
+      <div class="bnrow"><input type="text" id="bnPlot" inputmode="numeric" autocomplete="off" enterkeyhint="go" placeholder="${t('bnPh')}" aria-label="${t('plot')}"><button class="btn" type="submit">${t('bnGo')}${ic('external')}</button></div>
+      <p class="hint">${t('bnNext')}</p>
+    </form>` : ''}
     <div class="kvs">
       <div class="kv"><span>${t('gp')}</span><span>${esc(p.gp || '—')}</span></div>
       <div class="kv"><span>${t('block')}</span><span>${esc(p.b || '—')}</span></div>
@@ -292,6 +298,13 @@ function renderVillage(f){
   $('sheetBd').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => toast(t('copied'))).catch(() => {}); });
   $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
   $('addHere').onclick = () => { setExVillage(vctx(f)); switchTab('explain'); };
+  // a plain link to the government page: the lookup happens on Bhu-Naksha, not here
+  if (gis) $('bnForm').onsubmit = e => {
+    e.preventDefault();
+    const url = bnPlotUrl(gis, $('bnPlot').value);
+    if (!url){ toast(t('bnNeed')); $('bnPlot').focus(); return; }
+    window.open(url, '_blank', 'noopener');
+  };
 }
 function renderTown(f, tt){
   const p = f.properties, ha = p.a || 0, body = t('t_' + tt);

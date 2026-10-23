@@ -96,3 +96,10 @@ test('Hindi queries find real villages', () => {
   for (const [q, name] of [['बसई अरेला', 'Basai Arela'], ['रामनगर', 'Ramnagar'], ['चक औलिया', 'Chak Auliya Khera'], ['मोहम्मदपुर', 'Mohammadpur']])
     assert.ok(find(q).includes(name), `${q} should find ${name}`);
 });
+
+test('every district has a distinct Bhu-Naksha district code', () => {
+  const { BN_DIST } = require('./load').loadApp('en');
+  const codes = districts.map(f => BN_DIST[f.properties.lgd]);
+  assert.ok(codes.every(c => c > 0), 'a district is missing from BN_DIST');
+  assert.equal(new Set(codes).size, codes.length);
+});

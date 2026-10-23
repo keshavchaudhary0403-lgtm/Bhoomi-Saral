@@ -105,3 +105,17 @@ test('spellDistance puts the closest same-sounding name first', () => {
     'गंगापुर': 'gangapur', 'खेड़ा': 'khera', 'सीतापुर': 'sitapur', 'कमलापुर': 'kamlapur', 'नगला': 'nagla' };
   for (const [h, want] of Object.entries(spelt)) assert.equal(A.devaToLatin(h), want, h);
 });
+
+test('bnGisCode: builds the Bhu-Naksha village code (Akbarpur, Agra tehsil, Agra)', () => {
+  assert.equal(A.bnGisCode(118, 766, 124649), '14600766124649');
+  assert.equal(A.bnGisCode(118, 0, 124649), null);
+  assert.equal(A.bnGisCode(118, 766, -3), null); // outline with no village code
+  assert.equal(A.bnGisCode(9999, 766, 124649), null);
+});
+
+test('bnPlotUrl: links to the official plot report, plot no. trimmed and escaped', () => {
+  assert.equal(A.bnPlotUrl('14600766124649', ' 245 '), 'https://upbhunaksha.gov.in/plotreport/14600766124649/245');
+  assert.equal(A.bnPlotUrl('14600766124649', '12/1'), 'https://upbhunaksha.gov.in/plotreport/14600766124649/12%2F1');
+  assert.equal(A.bnPlotUrl('14600766124649', '  '), null);
+  assert.equal(A.bnPlotUrl(null, '245'), null);
+});

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>Basai Arela fields</name>
+<Placemark><name>Gata 245</name><Polygon><outerBoundaryIs><LinearRing><coordinates>78.3960,26.9460,0 78.3967,26.9460,0 78.3967,26.9466,0 78.3960,26.9466,0 78.3960,26.9460,0</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>
+<Placemark><name>Gata 246 (walked)</name><LineString><coordinates>78.3972,26.9458,0 78.3980,26.9459,0 78.3979,26.9467,0 78.3971,26.9465,0 78.3972,26.9458,0</coordinates></LineString></Placemark>
+</Document></kml>

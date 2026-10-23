@@ -114,3 +114,70 @@ function spellDistance(a, b){
   }
   return prev[b.length];
 }
+
+/* ---------------- plot shapes from files (KML, KMZ, GeoJSON) ---------------- */
+// Returns { shapes: [{ name, ring: [[lat, lng], ...] }], projected } — projected is true when the coordinates
+// are not latitude / longitude (e.g. UTM metres), in which case no shapes are returned.
+function parseShapes(text){
+  const out = { shapes: [], projected: false };
+  const add = (name, pts) => {
+    const ring = [];
+    for (const [x, y] of pts){
+      if (!isFinite(x) || !isFinite(y)) continue;
+      if (Math.abs(x) > 180 || Math.abs(y) > 90){ out.projected = true; return; }
+      const last = ring[ring.length - 1];
+      if (!last || last[0] !== y || last[1] !== x) ring.push([y, x]);
+    }
+    if (ring.length > 1 && ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1]) ring.pop();
+    if (ring.length >= 3 && ringArea(ring) > 1) out.shapes.push({ name: String(name || '').trim(), ring });
+  };
+  const src = text.replace(/^﻿/, '').trim();
+  if (src[0] === '{' || src[0] === '['){
+    const props = p => p && (p.name || p.Name || p.NAME || p.khasra || p.Khasra || p.KHASRA || p.title || p.label) || '';
+    const walk = (g, name) => {
+      if (!g) return;
+      if (g.type === 'FeatureCollection') (g.features || []).forEach(f => walk(f));
+      else if (g.type === 'Feature') walk(g.geometry, props(g.properties));
+      else if (g.type === 'GeometryCollection') (g.geometries || []).forEach(x => walk(x, name));
+      else if (g.type === 'Polygon') add(name, g.coordinates[0] || []);
+      else if (g.type === 'MultiPolygon') g.coordinates.forEach((c, i) => add(g.coordinates.length > 1 && name ? `${name} (${i + 1})` : name, c[0] || []));
+      else if (g.type === 'LineString') add(name, g.coordinates);
+      else if (g.type === 'MultiLineString') g.coordinates.forEach(c => add(name, c));
+    };
+    const j = JSON.parse(src);
+    (Array.isArray(j) ? j : [j]).forEach(x => walk(x));
+  } else {
+    const tag = n => `<(?:\\w+:)?${n}\\b[^>]*>([\\s\\S]*?)<\\/(?:\\w+:)?${n}>`;
+    const unxml = s => s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, '')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, '&');
+    const coords = s => s.trim().split(/\s+/).map(c => c.split(',').map(Number));
+    for (const [, pm] of src.matchAll(new RegExp(tag('Placemark'), 'g'))){
+      const name = unxml((pm.match(new RegExp(tag('name'))) || [, ''])[1]);
+      const outers = [...pm.matchAll(new RegExp(tag('outerBoundaryIs'), 'g'))];
+      if (outers.length) outers.forEach(([, o], i) => add(outers.length > 1 && name ? `${name} (${i + 1})` : name, coords((o.match(new RegExp(tag('coordinates'))) || [, ''])[1])));
+      else for (const [, l] of pm.matchAll(new RegExp(tag('LineString'), 'g'))) add(name, coords((l.match(new RegExp(tag('coordinates'))) || [, ''])[1]));
+    }
+  }
+  return out;
+}
+// KMZ is a zip holding a .kml file: find it through the zip's central directory and inflate it
+async function kmzToKml(buf){
+  const u8 = new Uint8Array(buf), dv = new DataView(buf);
+  let eocd = -1;
+  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50){ eocd = i; break; }
+  if (eocd < 0) throw new Error('not a zip');
+  let p = dv.getUint32(eocd + 16, true), pick = null;
+  for (let n = dv.getUint16(eocd + 10, true); n > 0 && dv.getUint32(p, true) === 0x02014b50; n--){
+    const method = dv.getUint16(p + 10, true), size = dv.getUint32(p + 20, true), nameLen = dv.getUint16(p + 28, true);
+    const name = new TextDecoder().decode(u8.subarray(p + 46, p + 46 + nameLen)), local = dv.getUint32(p + 42, true);
+    if (/\.kml$/i.test(name) && (!pick || /(^|\/)doc\.kml$/i.test(name))) pick = { method, size, local };
+    p += 46 + nameLen + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
+  }
+  if (!pick) throw new Error('no kml in kmz');
+  const start = pick.local + 30 + dv.getUint16(pick.local + 26, true) + dv.getUint16(pick.local + 28, true);
+  const data = u8.subarray(start, start + pick.size);
+  if (pick.method === 0) return new TextDecoder().decode(data);
+  if (pick.method !== 8) throw new Error('unsupported zip method');
+  const stream = new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  return new Response(stream).text();
+}

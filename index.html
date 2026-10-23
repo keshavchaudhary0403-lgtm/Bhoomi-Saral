@@ -65,6 +65,7 @@
           <h2 data-i="exTitle">Explain my khatauni</h2>
           <p data-i="exSub">Copy a few details from your own khatauni (from upbhulekh.gov.in). Nothing leaves this computer.</p>
         </div>
+        <div id="exEditing" class="editing" hidden></div>
         <div id="exVillage" class="where" style="display:none"></div>
         <div class="fgrid">
           <label class="field"><span data-i="fKhasra">Khasra / Gata no.</span><input type="text" id="exKhasra" inputmode="numeric" placeholder="245"></label>
@@ -112,7 +113,13 @@
           <span class="kicker"><i data-ic="bookmark"></i><span data-i="tabMine">My land</span></span>
           <h2 data-i="mineTitle">My land</h2><p data-i="mineSub2">Your saved plots. Stored only in this browser on this device.</p>
         </div>
+        <div class="inputwrap" id="mqWrap" hidden><i data-ic="search"></i><input type="text" id="mq" inputmode="search" data-ph="mineSearchPh" placeholder="Find by khasra or khata no.…"></div>
         <div id="mineList"></div>
+        <div class="card">
+          <h4><i data-ic="map"></i><span data-i="impShapeT">Import a plot shape</span></h4>
+          <p data-i="impShapeB">Have a KML, KMZ or GeoJSON file from a surveyor, Google Earth or a GPS app? Load it to see the boundary on the map and its area. It stays on this device.</p>
+          <label class="btn soft"><i data-ic="upload"></i><span data-i="impShapeBtn">Load KML / KMZ / GeoJSON</span><input type="file" id="shapeFile" accept=".kml,.kmz,.geojson,.json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz,application/geo+json,application/json" hidden></label>
+        </div>
         <div class="card">
           <h4><i data-ic="refresh"></i><span data-i="moveT">Use on another device</span></h4>
           <p data-i="moveB">Your data never goes to any server. To move it, export a file here and import it on your other device.</p>

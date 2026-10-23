@@ -6,17 +6,17 @@ A personal web app to explore every village in **Uttar Pradesh** on a map and un
 ## What it does
 
 - **Find land** — all 75 districts, 310 tehsils and 1,01,526 villages (LGD / Census 2011 outlines). Search any village or tehsil in English or Hindi (हिंदी names are matched by sound, since the data's village names are English), or tap "Which village am I in?".
-- **Village card** — LGD and Census codes, gram panchayat, block, area, and step-by-step help to see the real records on the official UP sites.
+- **Village card** — district, tehsil and village names with LGD codes (tap to copy) to pick on UP Bhulekh and Bhu-Naksha, plus short steps. After choosing district → tehsil → village, the official sites need only **one** of: khasra / gata no., khata no., or the owner's name.
 - **Explain** — type details from your own khatauni and get a plain-language card: holder class and whether it can be sold, shared-khata warnings, loans, court cases, pending mutation, varasat, and what the record does *not* prove.
 - **Draw my plot** — tap your field's corners on the map or walk them with phone GPS; area is calculated for you.
-- **My land** — saved plots, stored only in your browser. Export / import a file to move them between devices.
+- **My land** — saved plots, stored only in your browser; find them by khasra or khata no. Import a plot boundary from a KML, KMZ or GeoJSON file (surveyor, Google Earth, GPS app) to see it on the map with its area. Export / import a file to move everything between devices.
 - **Words** and **Check officially** — a UP land glossary and guides to upbhulekh, upbhunaksha, vaad.up.nic.in and igrsup.
 - Installable on a phone (PWA), light / dark theme.
 
 ## Privacy and legal
 
 - No server, database, analytics or login. Your plots never leave your device.
-- It **does not scrape** government portals or bypass captchas — it links to them so you look up records yourself.
+- It **does not scrape** government portals or bypass captchas — it links to them so you look up records yourself. Plot (khasra) boundaries exist only in UP Bhu-Naksha and aren't open data, so the map shows village outlines; plot shapes come from you (drawn, walked with GPS, or imported).
 - Pages are marked `noindex` so search engines don't list the site.
 - A khatauni or this app is **not proof of ownership**. Village outlines are approximate.
 

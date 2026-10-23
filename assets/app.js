@@ -17,7 +17,7 @@ const mine = () => store.get('bs_plots', []);
 function saveMine(list){ if (!store.set('bs_plots', list)) toast(t('storeFail')); drawMine(); renderMine(); }
 
 /* ---------------- state & data ---------------- */
-const S = { districts: null, byLgd: {}, dist: null, data: null, tehsil: null, village: null, cache: {},
+const S = { districts: null, byLgd: {}, dist: null, data: null, tehsil: null, village: null, cache: {}, editId: null,
             exVillage: null, pendingShape: null, draw: null, lastSheet: null, filter: '' };
 
 async function getJSON(url){ const r = await fetch(url); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }
@@ -244,29 +244,37 @@ function openSheet(hd, bd, kind){
 // official-site link rows used on village and plot cards
 const linkRow = (url, label, icon) => `<a href="https://${url}" target="_blank" rel="noopener"><span class="li">${ic(icon)}</span><span class="lt">${label}<small>${url}</small></span>${ic('external')}</a>`;
 
-function vctx(f){ return { lgd: f.properties.lgd, en: f.properties.en, t: f.properties.t, d: S.dist.en, dhi: S.dist.hi, dl: S.dist.lgd }; }
+function vctx(f, d = S.dist){ return { lgd: f.properties.lgd, en: f.properties.en, t: f.properties.t, d: d.en, dhi: d.hi, dl: d.lgd }; }
 function renderVillage(f){
   const p = f.properties, ha = p.a || 0, tt = townType(p);
   if (tt) return renderTown(f, tt);
   const plots = mine().filter(x => x.village && x.village.lgd === p.lgd);
   const hd = `<div class="eyebrow">${t('village')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(vName(p))}</div>
     <div class="hint">${t('lgdCode')} ${p.lgd > 0 ? esc(p.lgd) : '—'} · ${t('c11')} ${esc(p.c11 || '—')}</div>`;
-  const step1 = p.en ? `${tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) })} <button class="copy" data-copy="${esc(p.en)}">${ic('copy')}${t('copy')}</button>` : t('unnamedNote');
+  const step1 = p.en ? tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) }) : t('unnamedNote');
+  // names and LGD codes to pick on Bhulekh / Bhu-Naksha, each one tap to copy
+  const cp = (text, label = text) => text ? `<button class="cp" data-copy="${esc(text)}">${esc(label)}${ic('copy')}</button>` : '<span class="muted">—</span>';
+  const offRow = (k, name, code, extra = '') => `<div class="offrow"><span class="ol">${k}</span><span class="ov">${cp(name)}${extra}${code > 0 ? cp(String(code), t('lgd') + ' ' + code) : ''}</span></div>`;
   const bd = `
     <div class="stats">
       <div class="stat"><div class="v">${fmt(ha, 0)}</div><div class="k">${t('hect')}</div></div>
       <div class="stat"><div class="v">${fmt(ha * 2.47105, 0)}</div><div class="k">${t('acre')}</div></div>
       <div class="stat"><div class="v">${fmt(ha / 100, 2)}</div><div class="k">km²</div></div>
     </div>
+    <div class="offbox">
+      <div class="offh"><b>${t('offT')}</b><span>${t('offB')}</span></div>
+      ${offRow(t('district'), S.dist.en, S.dist.lgd, `<span class="hi muted">${esc(S.dist.hi)}</span>`)}
+      ${offRow(t('tehsil'), p.t, p.tl)}
+      ${offRow(t('village'), p.en, p.lgd)}
+    </div>
     <div class="kvs">
       <div class="kv"><span>${t('gp')}</span><span>${esc(p.gp || '—')}</span></div>
       <div class="kv"><span>${t('block')}</span><span>${esc(p.b || '—')}</span></div>
-      <div class="kv"><span>${t('tehsil')}</span><span>${esc(p.t)}</span></div>
-      <div class="kv"><span>${t('district')}</span><span>${esc(S.dist.en)} · <span class="hi">${esc(S.dist.hi)}</span></span></div>
     </div>
     <div class="sec"><h3>${ic('search')}${t('seeRecords')}</h3>
       <ol class="steps-mini">
         <li>${step1}</li>
+        <li>${t('stepOneOf')}</li>
         <li>${t('stepNaksha')}</li>
         <li>${t('stepExplain')}</li>
       </ol>
@@ -278,7 +286,7 @@ function renderVillage(f){
       ${linkRow('vaad.up.nic.in', LANG === 'hi' ? 'राजस्व वाद / नामांतरण' : 'Revenue courts & mutation', 'scale')}
     </div>
     <button class="btn primary big" id="addHere" style="width:100%;margin-top:16px">${ic('plus')}${t('addPlot')}</button>
-    ${plots.length ? `<div class="sec"><h3>${ic('bookmark')}${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><span class="dot" style="color:${COLOR[analyse(x).lvl]};background:${COLOR[analyse(x).lvl]}"></span><div class="tx"><b>${t('khasra')} ${esc(x.khasra)}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
+    ${plots.length ? `<div class="sec"><h3>${ic('bookmark')}${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><span class="dot" style="color:${COLOR[lvlOf(x)]};background:${COLOR[lvlOf(x)]}"></span><div class="tx"><b>${esc(plotTitle(x))}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
     <div class="src">${t('approx')}</div>`;
   openSheet(hd, bd, { type: 'village', f });
   $('sheetBd').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => toast(t('copied'))).catch(() => {}); });
@@ -315,7 +323,7 @@ function renderTown(f, tt){
       ${linkRow('upbhulekh.gov.in', LANG === 'hi' ? 'UP भूलेख — मौज़ा की खतौनी' : 'UP Bhulekh — khatauni of a mauza', 'file')}
     </div>
     <button class="btn primary big" id="addHere" style="width:100%;margin-top:16px">${ic('plus')}${t('addPlotTown')}</button>
-    ${plots.length ? `<div class="sec"><h3>${ic('bookmark')}${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><span class="dot" style="color:${COLOR[analyse(x).lvl]};background:${COLOR[analyse(x).lvl]}"></span><div class="tx"><b>${t('khasra')} ${esc(x.khasra)}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
+    ${plots.length ? `<div class="sec"><h3>${ic('bookmark')}${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><span class="dot" style="color:${COLOR[lvlOf(x)]};background:${COLOR[lvlOf(x)]}"></span><div class="tx"><b>${esc(plotTitle(x))}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
     <div class="src">${t('approx')}</div>`;
   openSheet(hd, bd, { type: 'village', f });
   $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
@@ -323,7 +331,11 @@ function renderTown(f, tt){
 }
 
 /* ---------------- plain-language plot card ---------------- */
-const COLOR = { ok: '#12a35a', warn: '#f2a20c', bad: '#e2412e', pub: '#7c5ce6' };
+const COLOR = { ok: '#12a35a', warn: '#f2a20c', bad: '#e2412e', pub: '#7c5ce6', shape: '#64748b' };
+// an imported boundary has no khatauni details yet, so it gets no risk verdict
+const lvlOf = p => p.shapeOnly ? 'shape' : analyse(p).lvl;
+const lvlLabel = l => l === 'shape' ? t('shapeOnly') : t('v_' + l);
+const plotTitle = p => p.khasra ? `${t('khasra')} ${p.khasra}` : p.note || (p.shapeOnly ? t('impName') : `${t('khasra')} —`);
 
 function renderPlot(p, mode){ // mode: 'saved' | 'draft' | 'sample'
   const a = analyse(p), C = CLASSES[p.cls] || CLASSES.bt, L_ = LANG;
@@ -331,8 +343,9 @@ function renderPlot(p, mode){ // mode: 'saved' | 'draft' | 'sample'
   const share = p.n > 1 ? '1/' + p.n : '1/1', ha = Number(p.areaHa) || 0;
   const v = p.village;
   const hd = `<div class="eyebrow">${v ? esc(vName(v)) + ' · ' + esc(v.t) + ' · ' + esc(L_ === 'hi' ? v.dhi : v.d) : t('yourPlot')}</div>
-    <div class="title">${t('khasra')} ${esc(p.khasra || '—')}</div><div class="hint">${t('khataNo')} ${esc(p.khata || '—')}</div>`;
+    <div class="title">${esc(plotTitle(p))}</div><div class="hint">${p.shapeOnly ? esc(p.src || t('impName')) : `${t('khataNo')} ${esc(p.khata || '—')}`}</div>`;
   const shapeHa = p.shape ? ringArea(p.shape) / 10000 : null;
+  if (p.shapeOnly) return renderShapeOnly(p, hd, shapeHa);
   const bd = `<div class="verdict ${vk[0]}">
       <div class="vt"><span class="vi">${ic(vk[1])}</span><b>${vk[2]}</b></div>
       <p>${vk[3]}</p>
@@ -366,13 +379,52 @@ function renderPlot(p, mode){ // mode: 'saved' | 'draft' | 'sample'
       ${linkRow('vaad.up.nic.in', L_ === 'hi' ? 'राजस्व वाद / नामांतरण की स्थिति' : 'Revenue court & mutation status', 'scale')}
       ${linkRow('igrsup.gov.in', L_ === 'hi' ? 'रजिस्ट्री / भार-मुक्त प्रमाण पत्र' : 'Registry & encumbrance search', 'bank')}
     </div></div>
-    ${mode === 'saved' ? `<div class="row" style="margin-top:14px">${p.shape ? `<button class="btn primary" id="pShow">${ic('map')}${t('showOnMap')}</button>` : ''}<button class="btn warn" id="pDel">${ic('trash')}${t('del')}</button></div>` : ''}
+    ${mode === 'saved' ? `<div class="row" style="margin-top:14px">${p.shape ? `<button class="btn primary" id="pShow">${ic('map')}${t('showOnMap')}</button>` : ''}<button class="btn soft" id="pEdit">${ic('pen')}${t('editDetails')}</button><button class="btn warn" id="pDel">${ic('trash')}${t('del')}</button></div>` : ''}
     <div class="src">${mode === 'sample' ? t('sampleSrc') : t('userSrc')}</div>`;
   openSheet(hd, bd, { type: 'plot', p, mode });
   if (mode === 'saved'){
-    if ($('pShow')) $('pShow').onclick = () => map.flyToBounds(L.polygon(p.shape).getBounds(), Object.assign({ maxZoom: 18 }, sidePad()));
-    $('pDel').onclick = () => { saveMine(mine().filter(x => x.id !== p.id)); closeSheet(); toast(t('deleted')); };
+    savedPlotButtons(p);
   }
+}
+function savedPlotButtons(p){
+  if ($('pShow')) $('pShow').onclick = () => map.flyToBounds(L.polygon(p.shape).getBounds(), Object.assign({ maxZoom: 18 }, sidePad()));
+  $('pEdit').onclick = () => editPlot(p);
+  $('pDel').onclick = () => { saveMine(mine().filter(x => x.id !== p.id)); if (S.editId === p.id) clearEdit(); closeSheet(); toast(t('deleted')); };
+}
+function renderShapeOnly(p, hd, shapeHa){
+  const ha = shapeHa || Number(p.areaHa) || 0;
+  const bd = `<div class="verdict v-shape"><div class="vt"><span class="vi">${ic('ruler')}</span><b>${t('shapeOnly')}</b></div><p>${t('shapeOnlyB')}</p></div>
+    <div class="stats">
+      <div class="stat"><div class="v">${fmt(ha, 4)}</div><div class="k">${t('hect')}</div></div>
+      <div class="stat"><div class="v">${fmt(ha * 2.47105)}</div><div class="k">${t('acre')}</div></div>
+      <div class="stat"><div class="v">${fmt(ha / 0.2529)}</div><div class="k">${t('bigha')}</div></div>
+    </div>
+    <button class="btn primary big" id="pEdit" style="width:100%">${ic('sparkles')}${t('addDetails')}</button>
+    <div class="row" style="margin-top:8px"><button class="btn soft" id="pShow">${ic('map')}${t('showOnMap')}</button><button class="btn warn" id="pDel">${ic('trash')}${t('del')}</button></div>
+    <div class="sec"><h3>${ic('search')}${t('oneOfT')}</h3><p class="hint" style="font-size:13px;color:var(--ink2);margin:0">${t('oneOfB')}</p></div>
+    <div class="src">${t('impSrc')}</div>`;
+  openSheet(hd, bd, { type: 'plot', p, mode: 'saved' });
+  savedPlotButtons(p);
+}
+// fill the Explain form from a saved plot; saving then updates that plot instead of adding a new one
+function editPlot(p){
+  S.editId = p.id;
+  $('exKhasra').value = p.khasra || ''; $('exKhata').value = p.khata || '';
+  $('exArea').value = p.shapeOnly ? '' : (p.areaHa || ''); $('exOwners').value = p.n || 1; $('exNote').value = p.note || '';
+  const r = document.querySelector(`input[name=exClass][value="${p.cls || 'bt'}"]`); if (r) r.checked = true;
+  [['exLoan', 'loan'], ['exCourt', 'court'], ['exMut', 'mut'], ['exVar', 'varasat'], ['exNA', 'na']].forEach(([id, f]) => { $(id).checked = (p.flags || []).includes(f); });
+  setExVillage(p.village || null); S.pendingShape = p.shape || null; setShapeChip();
+  const el = $('exEditing'); el.hidden = false;
+  el.innerHTML = `${ic('pen')}<span>${tf('editing', { p: esc(plotTitle(p)) })}</span><button type="button" aria-label="${t('dCancel')}">${ic('x')}</button>`;
+  el.querySelector('button').onclick = () => { clearEdit(); clearForm(); };
+  if (!wide()) closeSheet();
+  switchTab('explain'); $('panes').scrollTop = 0;
+}
+function clearEdit(){ S.editId = null; $('exEditing').hidden = true; }
+function clearForm(){
+  ['exKhasra', 'exKhata', 'exArea', 'exNote'].forEach(id => { $(id).value = ''; }); $('exOwners').value = 1;
+  ['exLoan', 'exCourt', 'exMut', 'exVar', 'exNA'].forEach(id => { $(id).checked = false; });
+  S.pendingShape = null; setShapeChip();
 }
 function openPlot(id){
   const p = mine().find(x => x.id === id); if (!p) return;
@@ -392,17 +444,17 @@ function readForm(){
   [['exLoan', 'loan'], ['exCourt', 'court'], ['exMut', 'mut'], ['exVar', 'varasat'], ['exNA', 'na']].forEach(([id, f]) => { if ($(id).checked) flags.push(f); });
   let areaHa = parseFloat($('exArea').value);
   if (!(areaHa > 0) && S.pendingShape) areaHa = +(ringArea(S.pendingShape) / 10000).toFixed(4);
-  return { id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+  return { id: S.editId || 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
     khasra: $('exKhasra').value.trim(), khata: $('exKhata').value.trim(), areaHa: areaHa || 0,
     n: Math.max(1, parseInt($('exOwners').value) || 1), cls: (document.querySelector('input[name=exClass]:checked') || {}).value || 'bt', flags, note: $('exNote').value.trim(),
     village: S.exVillage, shape: S.pendingShape, saved: Date.now() };
 }
 $('exGo').onclick = () => renderPlot(readForm(), 'draft');
 $('exSave').onclick = () => {
-  const p = readForm(); const list = mine(); list.unshift(p); saveMine(list);
-  S.pendingShape = null; setShapeChip(); toast(t('savedT')); renderPlot(p, 'saved');
-  ['exKhasra', 'exKhata', 'exArea', 'exNote'].forEach(id => { $(id).value = ''; }); $('exOwners').value = 1;
-  ['exLoan', 'exCourt', 'exMut', 'exVar', 'exNA'].forEach(id => { $(id).checked = false; });
+  const p = readForm(), editing = S.editId && mine().some(x => x.id === S.editId);
+  if (editing){ const old = mine().find(x => x.id === p.id); if (old && old.src) p.src = old.src; saveMine(mine().map(x => x.id === p.id ? p : x)); }
+  else saveMine([p].concat(mine()));
+  clearEdit(); toast(t(editing ? 'updatedT' : 'savedT')); renderPlot(p, 'saved'); clearForm();
 };
 $('exDraw').onclick = () => startDraw();
 $('exSample').onclick = () => renderPlot({ khasra: '131', khata: '00070', areaHa: 0.1706, n: 2, cls: 'bt', flags: ['loan'], village: null }, 'sample');
@@ -458,18 +510,27 @@ $('dDone').onclick = async () => {
 function drawMine(){
   mineLayer.clearLayers();
   mine().forEach(p => { if (!p.shape) return;
-    L.polygon(p.shape, { color: COLOR[analyse(p).lvl], weight: 2.5, fillColor: COLOR[analyse(p).lvl], fillOpacity: 0.35 })
-      .bindTooltip(`${t('khasra')} ${esc(p.khasra || '—')}`).on('click', () => renderPlot(p, 'saved')).addTo(mineLayer); });
+    L.polygon(p.shape, { color: COLOR[lvlOf(p)], weight: 2.5, fillColor: COLOR[lvlOf(p)], fillOpacity: 0.35 })
+      .bindTooltip(esc(plotTitle(p))).on('click', () => renderPlot(p, 'saved')).addTo(mineLayer); });
 }
 function renderMine(){
-  const el = $('mineList'), m = mine(), badge = $('mineBadge');
-  badge.textContent = m.length; badge.classList.toggle('on', m.length > 0);
-  if (!m.length){ el.innerHTML = `<div class="empty">${t('none')}</div>`; return; }
-  el.innerHTML = m.map((p, i) => { const a = analyse(p); return `<div class="mycard" style="--i:${i}"><span class="dot" style="color:${COLOR[a.lvl]};background:${COLOR[a.lvl]}"></span><div class="tx"><b>${t('khasra')} ${esc(p.khasra || '—')}</b>
-    <div class="hint">${p.village ? esc(vName(p.village)) + ' · ' : ''}${fmt(p.areaHa, 4)} ${t('hect')} · <span style="color:${COLOR[a.lvl]};font-weight:600">${t('v_' + a.lvl)}</span></div></div>
+  const el = $('mineList'), all = mine(), badge = $('mineBadge');
+  badge.textContent = all.length; badge.classList.toggle('on', all.length > 0);
+  $('mqWrap').hidden = all.length < 2;
+  if (!all.length){ el.innerHTML = `<div class="empty">${t('none')}</div>`; return; }
+  const q = all.length < 2 ? '' : ($('mq').value || '').trim().toLowerCase(), m = q ? all.filter(p => plotMatches(p, q)) : all;
+  if (!m.length){ el.innerHTML = `<div class="empty">${t('mineNoMatch')}</div>`; return; }
+  el.innerHTML = m.map((p, i) => { const l = lvlOf(p); return `<div class="mycard" style="--i:${i}"><span class="dot" style="color:${COLOR[l]};background:${COLOR[l]}"></span><div class="tx"><b>${esc(plotTitle(p))}</b>
+    <div class="hint">${p.khata ? t('khataNo') + ' ' + esc(p.khata) + ' · ' : ''}${p.village ? esc(vName(p.village)) + ' · ' : ''}${fmt(p.areaHa, 4)} ${t('hect')} · <span style="color:${COLOR[l]};font-weight:600">${lvlLabel(l)}</span></div></div>
     <button class="btn sm" data-open="${esc(p.id)}">${t('open')}</button></div>`; }).join('');
   el.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
 }
+// saved plots match a search by khasra / khata number (from the start), or by village name or note
+function plotMatches(p, q){
+  return [p.khasra, p.khata].some(v => v && String(v).toLowerCase().replace(/^0+(?=\d)/, '').startsWith(q.replace(/^0+(?=\d)/, '')))
+    || [p.note, p.village && vName(p.village)].some(v => v && v.toLowerCase().includes(q));
+}
+$('mq').oninput = renderMine;
 $('expBtn').onclick = () => {
   const blob = new Blob([JSON.stringify({ app: 'bhoomi-saral', version: 1, exported: new Date().toISOString(), plots: mine() }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `bhoomi-saral-${new Date().toISOString().slice(0, 10)}.json`; a.click();
@@ -485,6 +546,56 @@ $('impFile').onchange = async e => {
     saveMine(add.concat(list)); toast(tf('imported', { n: add.length }));
   } catch(err){ toast(t('badFile')); }
 };
+
+/* ---------------- import plot shapes (KML / KMZ / GeoJSON) ---------------- */
+async function villageAtQuiet(lat, lng){ // like villageAt, without changing what the Find tab shows
+  const df = S.districts.features.find(f => inGeom(lng, lat, f.geometry)); if (!df) return null;
+  const d = S.byLgd[df.properties.lgd], data = await loadDistrictData(d.lgd);
+  const vf = data.villages.features.find(f => inGeom(lng, lat, f.geometry));
+  return vf ? vctx(vf, d) : null;
+}
+$('shapeFile').onchange = async e => {
+  const file = e.target.files[0]; e.target.value = ''; if (!file) return;
+  if (file.size > 5e6) return toast(t('impBig'));
+  let res;
+  try {
+    const buf = await file.arrayBuffer(), u8 = new Uint8Array(buf);
+    const text = u8[0] === 0x50 && u8[1] === 0x4b ? await kmzToKml(buf) : new TextDecoder().decode(buf); // "PK": a zip, i.e. KMZ
+    res = parseShapes(text);
+  } catch(err){ return toast(t('impBad')); }
+  if (!res.shapes.length) return toast(t(res.projected ? 'impProj' : 'impNone'));
+  showImport(res.shapes, file.name);
+};
+function showImport(shapes, fname){
+  const items = shapes.map((x, i) => ({ name: x.name, ring: x.ring, i, ha: ringArea(x.ring) / 10000, on: true, village: undefined }));
+  drawLayer.clearLayers();
+  const group = L.featureGroup(items.map(x => L.polygon(x.ring, { color: '#ff7a00', weight: 2.5, dashArray: '6 4', fillColor: '#ff9f1c', fillOpacity: 0.2 })
+    .bindTooltip(esc(x.name || t('impName'))))).addTo(drawLayer);
+  map.flyToBounds(group.getBounds(), Object.assign({ maxZoom: 18 }, sidePad()));
+  const label = () => tf('impSave', { n: items.filter(x => x.on).length });
+  const render = () => {
+    const hd = `<div class="eyebrow">${esc(fname)}</div><div class="title">${t('impTitle')}</div><div class="hint">${tf('impFound', { n: items.length })}</div>`;
+    const bd = `<div class="implist">${items.map(x => `<label class="impitem"><input type="checkbox" data-k="${x.i}"${x.on ? ' checked' : ''}><span class="tx"><b>${esc(x.name || t('impName'))}</b>
+        <small>${fmt(x.ha, 4)} ${t('hect')} · ${fmt(x.ha * 2.47105)} ${t('acre')}${x.village === undefined ? '' : ' · ' + (x.village ? esc(vName(x.village)) + ', ' + esc(x.village.t) : t('impOutside'))}</small></span></label>`).join('')}</div>
+      <button class="btn primary big" id="impGo" style="width:100%">${ic('bookmarkPlus')}<span>${label()}</span></button>
+      <div class="src">${t('privB')}</div>`;
+    openSheet(hd, bd, { type: 'import', redraw: render });
+    $('sheetBd').querySelectorAll('[data-k]').forEach(c => c.onchange = () => { items[+c.dataset.k].on = c.checked; $('impGo').querySelector('span').textContent = label(); $('impGo').disabled = !items.some(x => x.on); });
+    $('impGo').onclick = () => {
+      const now = Date.now(), add = items.filter(x => x.on).map((x, k) => ({
+        id: 'p' + now.toString(36) + k + Math.random().toString(36).slice(2, 6), khasra: '', khata: '', areaHa: +x.ha.toFixed(4), n: 1, cls: 'bt', flags: [],
+        note: x.name, village: x.village || null, shape: x.ring.map(([a, b]) => [+a.toFixed(6), +b.toFixed(6)]), saved: now, shapeOnly: true, src: fname }));
+      if (!add.length) return;
+      saveMine(add.concat(mine())); drawLayer.clearLayers(); closeSheet(); switchTab('mine'); toast(tf('impSaved', { n: add.length }));
+    };
+  };
+  render();
+  // find the village of each shape (from the middle of its corners), then show it in the list
+  Promise.all(items.map(async x => {
+    const c = x.ring.reduce((a, [la, ln]) => [a[0] + la / x.ring.length, a[1] + ln / x.ring.length], [0, 0]);
+    x.village = await villageAtQuiet(c[0], c[1]).catch(() => null);
+  })).then(() => { if (S.lastSheet && S.lastSheet.redraw === render) render(); });
+}
 
 /* ---------------- where am I ---------------- */
 async function villageAt(lat, lng){
@@ -575,9 +686,10 @@ function showHits(raw, s, rows, full, deva, qk){
   const dm = S.districts.features.filter(f => f.properties.en.toLowerCase().includes(s) || f.properties.hi.includes(raw) || (qs && soundKeys(f.properties.en).join('') === qs))
     .map(f => ({ dist: true, n: dName(f.properties), d: f.properties.lgd }));
   const tm = (S.tehsilIdx || []).filter(x => (!deva && x.k.includes(s)) || (qs && (x.sk ||= soundKeys(x.n)).join('') === qs)).slice(0, 8);
-  hits = dm.concat(tm, ...groups).slice(0, 40); act = -1;
-  const byVillage = hits.some(h => !h.dist && !h.teh);
-  res.innerHTML = hits.length ? (deva && byVillage ? `<div class="msg note-sound">${ic('info')}${t('soundNote')}</div>` : '') + hits.map((h, i) => `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : townType({ en: h.n }) ? 'building' : 'pin')}</span><span><b>${esc(h.dist || h.teh ? h.n : vName({ en: h.n }))}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${townType({ en: h.n }) ? t('t_' + townType({ en: h.n })) : t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
+  const mm = mine().filter(p => plotMatches(p, s)).slice(0, 5).map(p => ({ mine: true, p, n: plotTitle(p) }));
+  hits = mm.concat(dm, tm, ...groups).slice(0, 40); act = -1;
+  const byVillage = hits.some(h => !h.dist && !h.teh && !h.mine);
+  res.innerHTML = hits.length ? (deva && byVillage ? `<div class="msg note-sound">${ic('info')}${t('soundNote')}</div>` : '') + hits.map((h, i) => h.mine ? `<button data-i="${i}"><span class="rico mine">${ic('bookmark')}</span><span><b>${esc(h.n)}</b><small>${t('myPlot')}${h.p.village ? ' · ' + esc(vName(h.p.village)) : ''}${h.p.khata ? ' · ' + t('khataNo') + ' ' + esc(h.p.khata) : ''}</small></span></button>` : `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : townType({ en: h.n }) ? 'building' : 'pin')}</span><span><b>${esc(h.dist || h.teh ? h.n : vName({ en: h.n }))}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${townType({ en: h.n }) ? t('t_' + townType({ en: h.n })) : t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
   res.querySelectorAll('button').forEach(b => b.onclick = () => pickHit(hits[+b.dataset.i]));
 }
 q.addEventListener('keydown', e => {
@@ -588,7 +700,8 @@ q.addEventListener('keydown', e => {
 });
 document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) res.classList.remove('on'); });
 async function pickHit(h){
-  if (!h) return; res.classList.remove('on'); q.value = h.dist || h.teh ? h.n : vName({ en: h.n }); q.blur(); switchTab('find');
+  if (!h) return; res.classList.remove('on');
+  if (h.mine){ q.value = h.n; q.blur(); return openPlot(h.p.id); } q.value = h.dist || h.teh ? h.n : vName({ en: h.n }); q.blur(); switchTab('find');
   if (h.dist) return selectDistrict(h.d);
   if (h.teh){ await selectDistrict(h.d, { zoom: false }); return selectTehsil(h.n); }
   await selectDistrict(h.d, { zoom: false });
@@ -656,7 +769,7 @@ function applyLang(){
   renderGlossary(); renderGuide(); renderMine(); setExVillage(S.exVillage);
   if (S.districts) renderFind();
   const ls = S.lastSheet;
-  if (ls && sheet.classList.contains('open')){ if (ls.type === 'village') renderVillage(ls.f); else renderPlot(ls.p, ls.mode); }
+  if (ls && sheet.classList.contains('open')){ if (ls.redraw) ls.redraw(); else if (ls.type === 'village') renderVillage(ls.f); else renderPlot(ls.p, ls.mode); }
   if (S.draw) updateDraw();
 }
 document.querySelectorAll('#langSeg button').forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set('bs_lang', LANG); applyLang(); });

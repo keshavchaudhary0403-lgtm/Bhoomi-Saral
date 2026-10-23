@@ -2,152 +2,182 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Bhoomi Saral — UP Land, Explained</title>
 <meta name="description" content="Personal tool to explore Uttar Pradesh villages on a map and understand khasra, khatauni and land records in plain Hindi and English.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#14614a">
+<meta name="theme-color" content="#f3f5f1" id="themeColor">
+<meta name="color-scheme" content="light dark">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
-<header class="top">
-  <div class="logo">
-    <img class="mark" src="icons/favicon.svg" alt="" width="34" height="34">
-    <div><b>Bhoomi Saral</b><small class="hi">भूमि सरल · UP land, explained simply</small></div>
-  </div>
-  <div class="search-wrap">
-    <span class="ico">🔍</span>
-    <input type="search" id="q" autocomplete="off" data-ph="searchPh" placeholder="Search any UP village…">
-    <div class="results" id="results"></div>
-  </div>
-  <div class="sp"></div>
-  <div class="seg" id="langSeg"><button data-l="en" class="on">English</button><button data-l="hi" class="hi">हिंदी</button></div>
-  <button class="pill" id="themeBtn" title="Light / dark">◐</button>
-</header>
+<div id="map"></div>
 
-<div class="app">
-  <aside class="side">
-    <nav class="tabs" id="tabs">
-      <button data-p="find" class="on" data-i="tabFind">Find land</button>
-      <button data-p="explain" data-i="tabEx">Explain</button>
-      <button data-p="mine" data-i="tabMine">My land</button>
-      <button data-p="words" data-i="tabWords">Words</button>
-      <button data-p="guide" data-i="tabGuide">Check officially</button>
-    </nav>
+<div class="dock">
+  <header class="topbar glass">
+    <div class="brand">
+      <img src="icons/favicon.svg" alt="" width="36" height="36">
+      <div><b>Bhoomi Saral</b><small class="hi">भूमि सरल</small></div>
+    </div>
+    <div class="search-wrap">
+      <i data-ic="search" class="sico"></i>
+      <input type="search" id="q" autocomplete="off" enterkeyhint="search" data-ph="searchPh" placeholder="Search a village…">
+      <div class="results glass" id="results"></div>
+    </div>
+    <div class="seg" id="langSeg"><button data-l="en" class="on">EN</button><button data-l="hi" class="hi">हिं</button></div>
+    <button class="iconbtn" id="themeBtn" aria-label="Light / dark" title="Light / dark"><i data-ic="moon" class="i-moon"></i><i data-ic="sun" class="i-sun"></i></button>
+  </header>
 
-    <!-- FIND -->
-    <section class="pane on" id="p-find">
-      <div class="crumbs" id="crumbs"></div>
-      <div id="findBody"><div class="loading">…</div></div>
-      <div class="attrib">
-        <span data-i="attrib">Boundaries: Census 2011 / LGD village outlines via the open INDIAN-SHAPEFILES dataset (MIT). Approximate — not legal boundaries.</span>
-        <br>Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.
-      </div>
-    </section>
+  <nav class="tabs glass" id="tabs">
+    <button data-p="find" class="on"><i data-ic="map"></i><span data-i="tabFind">Find land</span></button>
+    <button data-p="explain"><i data-ic="sparkles"></i><span data-i="tabEx">Explain</span></button>
+    <button data-p="mine"><i data-ic="bookmark"></i><span data-i="tabMine">My land</span><em class="badge" id="mineBadge"></em></button>
+    <button data-p="words"><i data-ic="book"></i><span data-i="tabWords">Words</span></button>
+    <button data-p="guide"><i data-ic="shield"></i><span data-i="tabGuide">Check officially</span></button>
+  </nav>
 
-    <!-- EXPLAIN -->
-    <section class="pane" id="p-explain">
-      <div class="hello">
-        <h2 data-i="exTitle">Explain my khatauni</h2>
-        <p data-i="exSub">Copy a few details from your own khatauni (from upbhulekh.gov.in). Nothing leaves this computer.</p>
-      </div>
-      <div id="exVillage" class="note" style="display:none;background:var(--mint)"></div>
-      <div class="row2">
-        <div><label class="l" data-i="fKhasra">Khasra / Gata no.</label><input type="text" id="exKhasra" placeholder="245"></div>
-        <div><label class="l" data-i="fKhata">Khata no.</label><input type="text" id="exKhata" placeholder="00123"></div>
-      </div>
-      <div class="row2" style="margin-top:10px">
-        <div><label class="l" data-i="fArea">Area (hectare)</label><input type="number" step="0.0001" id="exArea" placeholder="0.4050"></div>
-        <div><label class="l" data-i="fOwners">No. of co-holders</label><input type="number" min="1" id="exOwners" value="1"></div>
-      </div>
-      <div style="margin-top:10px"><label class="l" data-i="fClass">Holder class (श्रेणी) shown in khatauni</label>
-        <select id="exClass">
-          <option value="bt">संक्रमणीय भूमिधर · Bhumidhar with transferable rights</option>
-          <option value="bnt">असंक्रमणीय भूमिधर · Bhumidhar with non-transferable rights</option>
-          <option value="asami">आसामी · Asami</option>
-          <option value="gs">ग्राम सभा / सार्वजनिक भूमि · Gram Sabha / public land</option>
-        </select></div>
-      <div style="margin-top:12px">
-        <label class="l" data-i="fSeen">Do you see any of these in the remarks (टिप्पणी / आदेश) column?</label>
-        <label class="check"><input type="checkbox" id="exLoan"><span data-i="cLoan">Loan / mortgage entry</span></label>
-        <label class="check"><input type="checkbox" id="exCourt"><span data-i="cCourt">Court case mentioned</span></label>
-        <label class="check"><input type="checkbox" id="exMut"><span data-i="cMut">Name transfer pending</span></label>
-        <label class="check"><input type="checkbox" id="exVar"><span data-i="cVar">Heirs not recorded</span></label>
-        <label class="check"><input type="checkbox" id="exNA"><span data-i="cNA">Declared non-agricultural</span></label>
-      </div>
-      <div style="margin-top:10px"><label class="l" data-i="fNote">Your note (optional)</label><textarea id="exNote" data-ph="notePh" placeholder="e.g. Dada ji's field near the canal"></textarea></div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
-        <button class="btn" id="exGo" data-i="exGo">Explain in plain words</button>
-        <button class="btn ghost" id="exSave" data-i="exSave">⭐ Save to My land</button>
-        <button class="btn ghost" id="exDraw" data-i="exDraw">✏️ Draw this plot on the map</button>
-      </div>
-      <div id="exShape" class="hint" style="margin-top:8px"></div>
-      <div class="sep"></div>
-      <button class="btn ghost sm" id="exSample" data-i="exSample">See an example card</button>
-      <div class="note" style="background:var(--mint)"><b style="color:var(--green2)" data-i="privT">Private by design:</b> <span data-i="privB">everything you type stays in this browser.</span></div>
-    </section>
+  <aside class="panel glass" id="panel" data-snap="half">
+    <div class="grab" id="grab"><span></span></div>
+    <div class="panes" id="panes">
 
-    <!-- MINE -->
-    <section class="pane" id="p-mine">
-      <div class="hello"><h2 data-i="mineTitle">My land</h2><p data-i="mineSub2">Your saved plots. Stored only in this browser on this device.</p></div>
-      <div id="mineList"></div>
-      <div class="box">
-        <h4 data-i="moveT">Use on another device</h4>
-        <p class="hint" style="margin:0 0 10px" data-i="moveB">Your data never goes to any server. To move it, export a file here and import it on your other device.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn sm" id="expBtn" data-i="exp">⬇ Export my data</button>
-          <label class="btn ghost sm" style="cursor:pointer"><span data-i="imp">⬆ Import file</span><input type="file" id="impFile" accept="application/json,.json" hidden></label>
+      <!-- FIND -->
+      <section class="pane on" id="p-find">
+        <div class="crumbs" id="crumbs"></div>
+        <div id="findBody"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+        <div class="attrib">
+          <span data-i="attrib">Boundaries: Census 2011 / LGD village outlines via the open INDIAN-SHAPEFILES dataset (MIT). Approximate — not legal boundaries.</span>
         </div>
-      </div>
-      <div class="box"><h4 data-i="remT">Re-check reminder</h4><p class="hint" style="margin:0" data-i="remB">Open upbhulekh.gov.in every few months and compare.</p></div>
-    </section>
+      </section>
 
-    <!-- WORDS -->
-    <section class="pane" id="p-words">
-      <div class="hello"><h2 data-i="wTitle">Land words, made simple</h2><p data-i="wSub">The terms you'll meet in UP land records.</p></div>
-      <input type="text" class="gsearch" id="gq" data-ph="gPh" placeholder="Search… e.g. khatauni, वरासत">
-      <div id="glossary"></div>
-    </section>
+      <!-- EXPLAIN -->
+      <section class="pane" id="p-explain">
+        <div class="phead">
+          <span class="kicker"><i data-ic="sparkles"></i><span data-i="tabEx">Explain</span></span>
+          <h2 data-i="exTitle">Explain my khatauni</h2>
+          <p data-i="exSub">Copy a few details from your own khatauni (from upbhulekh.gov.in). Nothing leaves this computer.</p>
+        </div>
+        <div id="exVillage" class="where" style="display:none"></div>
+        <div class="fgrid">
+          <label class="field"><span data-i="fKhasra">Khasra / Gata no.</span><input type="text" id="exKhasra" inputmode="numeric" placeholder="245"></label>
+          <label class="field"><span data-i="fKhata">Khata no.</span><input type="text" id="exKhata" inputmode="numeric" placeholder="00123"></label>
+          <label class="field"><span data-i="fArea">Area (hectare)</span><input type="number" step="0.0001" id="exArea" inputmode="decimal" placeholder="0.4050"></label>
+          <div class="field"><span data-i="fOwners">No. of co-holders</span>
+            <div class="stepper"><button type="button" data-step="-1" aria-label="−"><i data-ic="minus"></i></button><input type="number" min="1" id="exOwners" value="1" inputmode="numeric"><button type="button" data-step="1" aria-label="+"><i data-ic="plus"></i></button></div>
+          </div>
+        </div>
+        <div class="fblock">
+          <div class="flabel" data-i="fClass">Holder class (श्रेणी) shown in khatauni</div>
+          <div class="choices" id="exClassGroup">
+            <label class="choice"><input type="radio" name="exClass" value="bt" checked><span><b class="hi">संक्रमणीय भूमिधर</b><small>Bhumidhar with transferable rights</small></span></label>
+            <label class="choice"><input type="radio" name="exClass" value="bnt"><span><b class="hi">असंक्रमणीय भूमिधर</b><small>Bhumidhar with non-transferable rights</small></span></label>
+            <label class="choice"><input type="radio" name="exClass" value="asami"><span><b class="hi">आसामी</b><small>Asami</small></span></label>
+            <label class="choice"><input type="radio" name="exClass" value="gs"><span><b class="hi">ग्राम सभा / सार्वजनिक</b><small>Gram Sabha / public land</small></span></label>
+          </div>
+        </div>
+        <div class="fblock">
+          <div class="flabel" data-i="fSeen">Do you see any of these in the remarks (टिप्पणी / आदेश) column?</div>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" id="exLoan"><i data-ic="bank"></i><span data-i="cLoan">Loan / mortgage entry</span></label>
+            <label class="chip"><input type="checkbox" id="exCourt"><i data-ic="scale"></i><span data-i="cCourt">Court case mentioned</span></label>
+            <label class="chip"><input type="checkbox" id="exMut"><i data-ic="refresh"></i><span data-i="cMut">Name transfer pending</span></label>
+            <label class="chip"><input type="checkbox" id="exVar"><i data-ic="userPlus"></i><span data-i="cVar">Heirs not recorded</span></label>
+            <label class="chip"><input type="checkbox" id="exNA"><i data-ic="building"></i><span data-i="cNA">Declared non-agricultural</span></label>
+          </div>
+        </div>
+        <label class="field fblock"><span data-i="fNote">Your note (optional)</span><textarea id="exNote" rows="2" data-ph="notePh" placeholder="e.g. Dada ji's field near the canal"></textarea></label>
+        <div id="exShape" class="shape-chip" hidden></div>
+        <div class="actions">
+          <button class="btn primary big" id="exGo"><i data-ic="sparkles"></i><span data-i="exGo">Explain in plain words</span></button>
+          <div class="row">
+            <button class="btn soft" id="exSave"><i data-ic="bookmarkPlus"></i><span data-i="exSave">Save to My land</span></button>
+            <button class="btn soft" id="exDraw"><i data-ic="pen"></i><span data-i="exDraw">Draw this plot on the map</span></button>
+          </div>
+        </div>
+        <button class="linkbtn" id="exSample"><span data-i="exSample">See an example card</span><i data-ic="right"></i></button>
+        <div class="privacy"><i data-ic="lock"></i><div><b data-i="privT">Private by design:</b> <span data-i="privB">everything you type stays in this browser.</span></div></div>
+      </section>
 
-    <!-- GUIDE -->
-    <section class="pane guide" id="p-guide">
-      <div class="hello"><h2 data-i="gTitle">See your real record — free</h2><p data-i="gSub">Official UP government websites. Viewing is free.</p></div>
-      <div id="guideBody"></div>
-    </section>
+      <!-- MINE -->
+      <section class="pane" id="p-mine">
+        <div class="phead">
+          <span class="kicker"><i data-ic="bookmark"></i><span data-i="tabMine">My land</span></span>
+          <h2 data-i="mineTitle">My land</h2><p data-i="mineSub2">Your saved plots. Stored only in this browser on this device.</p>
+        </div>
+        <div id="mineList"></div>
+        <div class="card">
+          <h4><i data-ic="refresh"></i><span data-i="moveT">Use on another device</span></h4>
+          <p data-i="moveB">Your data never goes to any server. To move it, export a file here and import it on your other device.</p>
+          <div class="row">
+            <button class="btn soft" id="expBtn"><i data-ic="download"></i><span data-i="exp">Export my data</span></button>
+            <label class="btn soft"><i data-ic="upload"></i><span data-i="imp">Import file</span><input type="file" id="impFile" accept="application/json,.json" hidden></label>
+          </div>
+        </div>
+        <div class="card">
+          <h4><i data-ic="clock"></i><span data-i="remT">Re-check reminder</span></h4>
+          <p data-i="remB">Open upbhulekh.gov.in every few months and compare.</p>
+        </div>
+      </section>
+
+      <!-- WORDS -->
+      <section class="pane" id="p-words">
+        <div class="phead">
+          <span class="kicker"><i data-ic="book"></i><span data-i="tabWords">Words</span></span>
+          <h2 data-i="wTitle">Land words, made simple</h2><p data-i="wSub">The terms you'll meet in UP land records.</p>
+        </div>
+        <div class="inputwrap"><i data-ic="search"></i><input type="text" id="gq" data-ph="gPh" placeholder="Search… e.g. khatauni, वरासत"></div>
+        <div id="glossary"></div>
+      </section>
+
+      <!-- GUIDE -->
+      <section class="pane guide" id="p-guide">
+        <div class="phead">
+          <span class="kicker"><i data-ic="shield"></i><span data-i="tabGuide">Check officially</span></span>
+          <h2 data-i="gTitle">See your real record — free</h2><p data-i="gSub">Official UP government websites. Viewing is free.</p>
+        </div>
+        <div id="guideBody"></div>
+      </section>
+    </div>
   </aside>
-
-  <main class="mapwrap">
-    <div id="map"></div>
-    <div class="mapbtns">
-      <button class="mapbtn" id="locBtn">📍 <span data-i="whereAmI">Which village am I in?</span></button>
-      <button class="mapbtn" id="upBtn">🗺 <span data-i="allUP">All UP</span></button>
-    </div>
-    <div class="drawbar" id="drawbar">
-      <div class="info" id="drawInfo"></div>
-      <div class="btns">
-        <button class="btn sm" id="dGps" data-i="dGps">📍 Add my GPS position</button>
-        <button class="btn ghost sm" id="dUndo" data-i="dUndo">↶ Undo</button>
-        <button class="btn sm" id="dDone" data-i="dDone">✓ Finish</button>
-        <button class="btn ghost sm" id="dCancel" data-i="dCancel">Cancel</button>
-      </div>
-    </div>
-    <div class="sheet" id="sheet">
-      <div class="hd"><button class="x" id="sheetX" aria-label="Close">×</button><div id="sheetHd"></div></div>
-      <div class="bd" id="sheetBd"></div>
-    </div>
-  </main>
 </div>
-<div class="toast" id="toast"></div>
+
+<div class="mapctl">
+  <div class="ctlgroup glass">
+    <button id="zIn" aria-label="Zoom in"><i data-ic="plus"></i></button>
+    <button id="zOut" aria-label="Zoom out"><i data-ic="minus"></i></button>
+  </div>
+  <button class="ctl glass" id="layerBtn" aria-label="Map / satellite"><i data-ic="layers"></i></button>
+  <button class="ctl glass" id="upBtn" aria-label="All UP"><i data-ic="expand"></i></button>
+  <button class="ctl glass accent" id="locBtn" aria-label="Which village am I in?"><i data-ic="locate"></i></button>
+</div>
+
+<div class="drawbar glass" id="drawbar">
+  <div class="info" id="drawInfo"></div>
+  <div class="btns">
+    <button class="btn primary sm" id="dGps"><i data-ic="nav"></i><span data-i="dGps">Add my GPS position</span></button>
+    <button class="btn soft sm" id="dUndo"><i data-ic="undo"></i><span data-i="dUndo">Undo</span></button>
+    <button class="btn primary sm" id="dDone"><i data-ic="check"></i><span data-i="dDone">Finish</span></button>
+    <button class="btn ghost sm" id="dCancel"><span data-i="dCancel">Cancel</span></button>
+  </div>
+</div>
+
+<div class="sheet glass" id="sheet">
+  <div class="grab" id="sheetGrab"><span></span></div>
+  <div class="hd"><button class="iconbtn x" id="sheetX" aria-label="Close"><i data-ic="x"></i></button><div id="sheetHd"></div></div>
+  <div class="bd" id="sheetBd"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="assets/icons.js"></script>
 <script src="assets/content.js"></script>
 <script src="assets/app.js"></script>
 </body>

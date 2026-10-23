@@ -4,16 +4,16 @@
 'use strict';
 
 Object.assign(T, {
-  searchPh:{en:'Search any UP village…',hi:'यूपी का कोई भी गाँव खोजें…'},
+  searchPh:{en:'Search a village…',hi:'गाँव खोजें…'},
   attrib:{en:'Boundaries: Census 2011 / LGD village outlines via the open INDIAN-SHAPEFILES dataset (MIT). Approximate — not legal boundaries.',hi:'सीमाएँ: जनगणना 2011 / LGD ग्राम सीमाएँ (ओपन INDIAN-SHAPEFILES डेटा, MIT)। अनुमानित — क़ानूनी सीमा नहीं।'},
   fNote:{en:'Your note (optional)',hi:'आपका नोट (वैकल्पिक)'},notePh:{en:"e.g. Dada ji's field near the canal",hi:'जैसे नहर के पास दादा जी का खेत'},
-  exDraw:{en:'✏️ Draw this plot on the map',hi:'✏️ नक्शे पर खेत बनाएँ'},exSample:{en:'See an example card',hi:'उदाहरण कार्ड देखें'},
+  exDraw:{en:'Draw this plot on the map',hi:'नक्शे पर खेत बनाएँ'},exSample:{en:'See an example card',hi:'उदाहरण कार्ड देखें'},
   mineSub2:{en:'Your saved plots. Stored only in this browser on this device.',hi:'आपके सहेजे गए खेत। केवल इसी डिवाइस के ब्राउज़र में।'},
   moveT:{en:'Use on another device',hi:'दूसरे डिवाइस पर उपयोग'},moveB:{en:'Your data never goes to any server. To move it, export a file here and import it on your other device.',hi:'आपका डेटा किसी सर्वर पर नहीं जाता। दूसरे डिवाइस पर ले जाने के लिए यहाँ फ़ाइल निर्यात करें और वहाँ आयात करें।'},
-  exp:{en:'⬇ Export my data',hi:'⬇ डेटा निर्यात करें'},imp:{en:'⬆ Import file',hi:'⬆ फ़ाइल आयात करें'},
+  exp:{en:'Export my data',hi:'डेटा निर्यात करें'},imp:{en:'Import file',hi:'फ़ाइल आयात करें'},
   gPh:{en:'Search… e.g. khatauni, वरासत',hi:'खोजें… जैसे खतौनी, वरासत'},
   whereAmI:{en:'Which village am I in?',hi:'मैं किस गाँव में हूँ?'},allUP:{en:'All UP',hi:'पूरा यूपी'},
-  dGps:{en:'📍 Add my GPS position',hi:'📍 मेरी GPS स्थिति जोड़ें'},dUndo:{en:'↶ Undo',hi:'↶ वापस'},dDone:{en:'✓ Finish',hi:'✓ पूरा करें'},dCancel:{en:'Cancel',hi:'रद्द करें'},
+  dGps:{en:'Add my GPS position',hi:'मेरी GPS स्थिति जोड़ें'},dUndo:{en:'Undo',hi:'वापस'},dDone:{en:'Finish',hi:'पूरा करें'},dCancel:{en:'Cancel',hi:'रद्द करें'},
   districts:{en:'districts',hi:'जनपद'},tehsils:{en:'tehsils',hi:'तहसीलें'},villages:{en:'villages',hi:'गाँव'},
   allDistricts:{en:'Uttar Pradesh',hi:'उत्तर प्रदेश'},filterPh:{en:'Type to filter…',hi:'छाँटने के लिए लिखें…'},
   pickDistrict:{en:'Choose your district',hi:'अपना जनपद चुनें'},pickTehsil:{en:'Choose tehsil',hi:'तहसील चुनें'},pickVillage:{en:'Choose village',hi:'गाँव चुनें'},
@@ -25,7 +25,7 @@ Object.assign(T, {
   stepNaksha:{en:'On UP Bhu-Naksha pick the same village and click your plot to see its shape.',hi:'UP भू-नक्शा पर यही गाँव चुनें और अपने खेत पर क्लिक करें।'},
   stepExplain:{en:'Come back and enter what you see in "Explain" — or draw your plot here.',hi:'वापस आकर जो दिखे उसे "समझें" में भरें — या यहाँ अपना खेत बनाएँ।'},
   tehsilNote:{en:'Tehsil names follow Census 2011. Some tehsils were created later — if the name differs on Bhulekh, pick the current tehsil.',hi:'तहसील के नाम जनगणना 2011 के अनुसार हैं। कुछ तहसीलें बाद में बनीं — भूलेख पर नाम अलग हो तो वर्तमान तहसील चुनें।'},
-  addPlot:{en:'➕ Add my plot in this village',hi:'➕ इस गाँव में मेरा खेत जोड़ें'},copy:{en:'Copy',hi:'कॉपी'},copied:{en:'Copied',hi:'कॉपी हो गया'},
+  addPlot:{en:'Add my plot in this village',hi:'इस गाँव में मेरा खेत जोड़ें'},copy:{en:'Copy',hi:'कॉपी'},copied:{en:'Copied',hi:'कॉपी हो गया'},
   approx:{en:'Village outline is approximate (Census 2011 / LGD) — not a legal boundary.',hi:'गाँव की सीमा अनुमानित है (जनगणना 2011 / LGD) — क़ानूनी सीमा नहीं।'},
   myHere:{en:'My plots in this village',hi:'इस गाँव में मेरे खेत'},
   drawHelp:{en:'Tap each corner of your field on the map — or stand at each corner and press <b>Add my GPS position</b>.',hi:'नक्शे पर अपने खेत के हर कोने पर टैप करें — या हर कोने पर खड़े होकर <b>मेरी GPS स्थिति जोड़ें</b> दबाएँ।'},
@@ -39,6 +39,15 @@ Object.assign(T, {
   deleted:{en:'Removed.',hi:'हटा दिया।'},savedT:{en:'Saved to My land ✓',hi:'मेरी ज़मीन में सहेजा गया ✓'},
   noMatch:{en:'No village found.',hi:'कोई गाँव नहीं मिला।'},searching:{en:'Loading village list…',hi:'गाँवों की सूची लोड हो रही है…'},
   mapShape:{en:'Shape drawn on map',hi:'नक्शे पर बना आकार'},recArea:{en:'Area in record',hi:'रिकॉर्ड में रकबा'},
+  greetM:{en:'Good morning',hi:'सुप्रभात'},greetA:{en:'Good afternoon',hi:'नमस्कार'},greetE:{en:'Good evening',hi:'शुभ संध्या'},
+  heroT:{en:'Find any land in Uttar Pradesh',hi:'उत्तर प्रदेश की कोई भी ज़मीन खोजें'},
+  heroB:{en:'Every district, tehsil and village on one map — and your land record explained in plain words.',hi:'हर जनपद, तहसील और गाँव एक नक्शे पर — और आपका भूमि रिकॉर्ड आसान भाषा में।'},
+  qLocateB:{en:'Use your phone\'s GPS',hi:'अपने फ़ोन का GPS इस्तेमाल करें'},
+  qExplainB:{en:'Plain-language risk check',hi:'आसान भाषा में जोखिम जाँच'},
+  qDraw:{en:'Draw my plot',hi:'मेरा खेत बनाएँ'},qDrawB:{en:'Tap corners or walk with GPS',hi:'कोने छुएँ या GPS से चलें'},
+  qMineB:{en:'{n} saved',hi:'{n} सहेजे गए'},qMineNone:{en:'Nothing saved yet',hi:'अभी कुछ सहेजा नहीं'},
+  layerMap:{en:'Map view',hi:'नक्शा दृश्य'},layerSat:{en:'Satellite view',hi:'सैटेलाइट दृश्य'},
+  riskScale:{en:'Risk level',hi:'जोखिम स्तर'},
   note:{en:'Note',hi:'नोट'},showOnMap:{en:'Show on map',hi:'नक्शे पर दिखाएँ'},
   sampleSrc:{en:'Example only — not a real record.',hi:'केवल उदाहरण — असली रिकॉर्ड नहीं।'},
   loadFail:{en:'Could not load map data. Check your internet and reload.',hi:'नक्शे का डेटा लोड नहीं हुआ। इंटरनेट जाँचें और दोबारा खोलें।'},
@@ -108,20 +117,38 @@ const dName = d => d ? (LANG === 'hi' ? d.hi : d.en) : '';
 const vName = v => v.en || t('unnamed');
 
 /* ---------------- map ---------------- */
-const map = L.map('map', { preferCanvas: true, zoomControl: true, minZoom: 6, zoomSnap: 0.25 }).setView([26.9, 80.9], 7);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19,
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+const map = L.map('map', { preferCanvas: true, zoomControl: false, minZoom: 6, zoomSnap: 0.25 }).setView([26.9, 80.9], 7);
+// base maps: clean light / dark street map that follows the theme, plus satellite imagery for spotting fields
+const OSM = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const BASE = {
+  // one OpenStreetMap layer for both themes; CSS tones it (softer in light mode, inverted in dark mode)
+  street: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, className: 'tiles-street', attribution: OSM }),
+  sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, maxNativeZoom: 18, attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics' })
+};
+let baseOn = null, satOn = false;
+const isDark = () => { const th = document.documentElement.dataset.theme; return th ? th === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
+function applyBase(){
+  const want = satOn ? BASE.sat : BASE.street;
+  if (want !== baseOn){ if (baseOn) map.removeLayer(baseOn); want.addTo(map); want.bringToBack(); baseOn = want; }
+  document.body.classList.toggle('sat', satOn);
+  $('layerBtn').classList.toggle('on', satOn);
+  $('themeColor').setAttribute('content', isDark() ? '#050907' : '#e9ede7');
+}
 const canvas = L.canvas({ padding: 0.4 });
 let districtLayer, tehsilLayer = L.layerGroup().addTo(map), villageLayer = L.layerGroup().addTo(map),
     labelLayer = L.layerGroup().addTo(map), mineLayer = L.layerGroup().addTo(map), drawLayer = L.layerGroup().addTo(map), hereLayer = L.layerGroup().addTo(map);
 const ST = {
-  dist: { color: '#14614a', weight: 1.2, fillColor: '#1d8a66', fillOpacity: 0.1 },
-  distOn: { color: '#c8642b', weight: 3, fillOpacity: 0 },
-  teh: { color: '#6b4aa0', weight: 1.6, dashArray: '5 5', fill: false, interactive: false },
-  vil: { color: '#c8642b', weight: 0.8, fillColor: '#e8892b', fillOpacity: 0.06 },
-  vilHover: { weight: 2, fillOpacity: 0.22 },
-  vilOn: { color: '#14231d', weight: 3, fillColor: '#e8892b', fillOpacity: 0.28 }
+  dist: { color: '#0a8f4e', weight: 1.1, opacity: 0.7, fillColor: '#2fa84a', fillOpacity: 0.07 },
+  distOn: { color: '#0a8f4e', weight: 3, opacity: 1, fillOpacity: 0 },
+  teh: { color: '#6c47c4', weight: 1.6, dashArray: '6 6', fill: false, interactive: false },
+  vil: { color: '#ff9f1c', weight: 0.9, opacity: 0.85, fillColor: '#ff9f1c', fillOpacity: 0.05 },
+  vilHover: { weight: 2.2, fillOpacity: 0.22 },
+  vilOn: { color: '#ff7a00', weight: 3.5, opacity: 1, fillColor: '#ff9f1c', fillOpacity: 0.3 }
 };
+$('zIn').onclick = () => map.zoomIn();
+$('zOut').onclick = () => map.zoomOut();
+$('layerBtn').onclick = () => { satOn = !satOn; applyBase(); toast(t(satOn ? 'layerSat' : 'layerMap')); };
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', applyBase);
 let villageById = {}, selectedVillageLayer = null;
 
 function drawDistricts(){
@@ -163,12 +190,14 @@ map.on('click', e => { if (S.draw) addDrawPoint(e.latlng); });
 
 /* ---------------- navigation ---------------- */
 // keep the focused shape clear of the detail card on wide screens
-const sidePad = () => innerWidth > 860 ? { paddingTopLeft: [40, 40], paddingBottomRight: [470, 40] } : { padding: [30, 30] };
+const wide = () => innerWidth >= 900;
+const sidePad = () => wide() ? { paddingTopLeft: [460, 40], paddingBottomRight: [490, 40] } : { paddingTopLeft: [20, 80], paddingBottomRight: [20, innerHeight * 0.64 + 10] };
+const listPad = () => wide() ? { paddingTopLeft: [450, 30], paddingBottomRight: [30, 30] } : { paddingTopLeft: [20, 90], paddingBottomRight: [20, panelHeight() + 30] };
 async function selectDistrict(lgd, opts = {}){
   const d = S.byLgd[lgd]; if (!d) return;
   S.dist = d; S.tehsil = null; S.village = null; S.filter = '';
   styleDistricts(); renderFind(true);
-  if (opts.zoom !== false) map.flyToBounds(L.geoJSON(d.f).getBounds(), { duration: 0.8, padding: [20, 20] });
+  if (opts.zoom !== false) map.flyToBounds(L.geoJSON(d.f).getBounds(), Object.assign({ duration: 0.8 }, listPad()));
   try { S.data = await loadDistrictData(lgd); } catch(e){ toast(t('loadFail')); return; }
   if (S.dist !== d) return;
   drawDistrictContents(); renderFind(); setHash();
@@ -176,7 +205,7 @@ async function selectDistrict(lgd, opts = {}){
 function selectTehsil(name){
   S.tehsil = name; S.village = null; S.filter = ''; renderFind();
   const tf_ = S.data.tehsils.features.find(f => f.properties.en === name);
-  if (tf_) map.flyToBounds(L.geoJSON(tf_).getBounds(), { duration: 0.7, padding: [20, 20] });
+  if (tf_) map.flyToBounds(L.geoJSON(tf_).getBounds(), Object.assign({ duration: 0.7 }, listPad()));
 }
 function selectVillage(vlgd, opts = {}){
   if (!S.data) return;
@@ -186,11 +215,12 @@ function selectVillage(vlgd, opts = {}){
   selectedVillageLayer = villageById[vlgd]; if (selectedVillageLayer) selectedVillageLayer.forEach(l => { l.setStyle(ST.vilOn); l.bringToFront(); });
   if (opts.zoom !== false) map.flyToBounds(L.featureGroup(selectedVillageLayer || [L.geoJSON(f)]).getBounds(), Object.assign({ duration: 0.7, maxZoom: 15 }, sidePad()));
   renderFind(); renderVillage(f); setHash();
+  if (!wide()) setSnap('peek');
 }
 function goUP(){
   S.dist = null; S.data = null; S.tehsil = null; S.village = null; S.filter = '';
   drawDistrictContents(); styleDistricts(); closeSheet(); renderFind(); setHash();
-  map.flyToBounds(districtLayer.getBounds(), { duration: 0.8 });
+  map.flyToBounds(districtLayer.getBounds(), Object.assign({ duration: 0.8 }, listPad()));
 }
 function setHash(){
   const h = S.village ? `#d=${S.dist.lgd}&v=${S.village.properties.lgd}` : S.dist ? `#d=${S.dist.lgd}` : '';
@@ -198,57 +228,100 @@ function setHash(){
 }
 
 /* ---------------- Find pane ---------------- */
+function greeting(){ const h = new Date().getHours(); return t(h < 12 ? 'greetM' : h < 17 ? 'greetA' : 'greetE'); }
+function countUp(root){
+  root.querySelectorAll('[data-count]').forEach(el => {
+    const to = +el.dataset.count, t0 = performance.now(), dur = 1100;
+    const step = now => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 4); el.textContent = fmt(Math.round(to * e), 0); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+function heroHTML(){
+  const n = mine().length;
+  return `<div class="hero">
+      <div class="greet">${ic('sprout')}${greeting()}</div>
+      <h1>${t('heroT')}</h1><p>${t('heroB')}</p>
+      <div class="kpis">
+        <div class="kpi"><b data-count="75">0</b><span>${t('districts')}</span></div>
+        <div class="kpi"><b data-count="310">0</b><span>${t('tehsils')}</span></div>
+        <div class="kpi"><b data-count="101526">0</b><span>${t('villages')}</span></div>
+      </div>
+    </div>
+    <div class="bento">
+      <button class="tile big" data-q="locate" style="--i:0"><span class="ti">${ic('locate')}</span><span><b>${t('whereAmI')}</b><small>${t('qLocateB')}</small></span><span class="go">${ic('right')}</span></button>
+      <button class="tile t-explain" data-q="explain" style="--i:1"><span class="ti">${ic('sparkles')}</span><span><b>${t('exTitle')}</b><small>${t('qExplainB')}</small></span></button>
+      <button class="tile t-draw" data-q="draw" style="--i:2"><span class="ti">${ic('pen')}</span><span><b>${t('qDraw')}</b><small>${t('qDrawB')}</small></span></button>
+      <button class="tile t-mine" data-q="mine" style="--i:3"><span class="ti">${ic('bookmark')}</span><span><b>${t('tabMine')}</b><small>${n ? tf('qMineB', { n }) : t('qMineNone')}</small></span></button>
+      <button class="tile" data-q="guide" style="--i:4"><span class="ti">${ic('shield')}</span><span><b>${t('tabGuide')}</b><small>upbhulekh · bhunaksha</small></span></button>
+    </div>`;
+}
 function renderFind(loading){
-  const c = $('crumbs'), body = $('findBody');
-  let cr = `<button class="${!S.dist ? 'cur' : ''}" data-go="up">${t('allDistricts')}</button>`;
-  if (S.dist) cr += `<span>›</span><button class="${S.dist && !S.tehsil ? 'cur' : ''}" data-go="d">${esc(dName(S.dist))}</button>`;
-  if (S.tehsil) cr += `<span>›</span><button class="${!S.village ? 'cur' : ''}" data-go="t">${esc(S.tehsil)}</button>`;
-  if (S.village) cr += `<span>›</span><button class="cur" data-go="v">${esc(vName(S.village.properties))}</button>`;
+  const c = $('crumbs'), body = $('findBody'), sep = `<span>${ic('right')}</span>`;
+  let cr = '';
+  if (S.dist){
+    const back = S.village || S.tehsil ? (S.village ? 't' : 'd') : 'up';
+    cr = `<button class="back" data-go="${back}" aria-label="Back">${ic('left')}</button><button data-go="up">${t('allDistricts')}</button>${sep}<button class="${!S.tehsil ? 'cur' : ''}" data-go="d">${esc(dName(S.dist))}</button>`;
+    if (S.tehsil) cr += `${sep}<button class="${!S.village ? 'cur' : ''}" data-go="t">${esc(S.tehsil)}</button>`;
+    if (S.village) cr += `${sep}<button class="cur" data-go="v">${esc(vName(S.village.properties))}</button>`;
+  }
   c.innerHTML = cr;
   c.querySelectorAll('button').forEach(b => b.onclick = () => {
     const g = b.dataset.go;
-    if (g === 'up') goUP(); else if (g === 'd') { S.tehsil = null; S.village = null; S.filter = ''; renderFind(); map.flyToBounds(L.geoJSON(S.dist.f).getBounds(), { duration: .7 }); }
-    else if (g === 't') selectTehsil(S.tehsil); else if (g === 'v') renderVillage(S.village);
+    if (g === 'up') goUP(); else if (g === 'd') { S.tehsil = null; S.village = null; S.filter = ''; closeSheet(); renderFind(); map.flyToBounds(L.geoJSON(S.dist.f).getBounds(), Object.assign({ duration: .7 }, listPad())); }
+    else if (g === 't') { closeSheet(); selectTehsil(S.tehsil); } else if (g === 'v') renderVillage(S.village);
   });
 
-  let items = [], title, count = '';
+  let items = [], title, count = '', top = '';
   if (!S.dist){
-    title = t('pickDistrict');
-    items = S.districts.features.map(f => ({ k: f.properties.lgd, a: dName(f.properties), b: LANG === 'hi' ? f.properties.en : f.properties.hi, act: () => selectDistrict(f.properties.lgd) }));
-    count = `75 ${t('districts')} · 310 ${t('tehsils')} · 1,01,526 ${t('villages')}`;
+    title = t('pickDistrict'); top = heroHTML();
+    items = S.districts.features.map(f => ({ k: f.properties.lgd, a: dName(f.properties), b: LANG === 'hi' ? f.properties.en : f.properties.hi, av: dName(f.properties).slice(0, 1), act: () => selectDistrict(f.properties.lgd) }));
+    count = `75 ${t('districts')}`;
   } else if (loading || !S.data){
-    body.innerHTML = `<div class="loading">${esc(dName(S.dist))}…</div>`; return;
+    body.innerHTML = `<div class="skel" style="width:55%;height:26px;border-radius:9px"></div>` + '<div class="skel"></div>'.repeat(6); return;
   } else if (!S.tehsil){
     title = t('pickTehsil');
     const counts = {}; S.data.villages.features.forEach(f => { if (!f.properties.part) counts[f.properties.t] = (counts[f.properties.t] || 0) + 1; });
-    items = S.data.tehsils.features.map(f => ({ k: f.properties.en, a: f.properties.en, b: `${fmt(counts[f.properties.en] || 0, 0)} ${t('villages')}`, act: () => selectTehsil(f.properties.en) }));
+    items = S.data.tehsils.features.map(f => ({ k: f.properties.en, a: f.properties.en, b: `${fmt(counts[f.properties.en] || 0, 0)} ${t('villages')}`, av: f.properties.en.slice(0, 1), act: () => selectTehsil(f.properties.en) }));
     count = `${S.data.tehsils.features.length} ${t('tehsils')} · ${fmt(S.data.villages.features.filter(f => !f.properties.part).length, 0)} ${t('villages')}`;
   } else {
     title = t('pickVillage');
     items = S.data.villages.features.filter(f => f.properties.t === S.tehsil && !f.properties.part)
       // named villages A–Z, unnamed outlines last (largest first)
       .sort((x, y) => (!x.properties.en - !y.properties.en) || x.properties.en.localeCompare(y.properties.en) || y.properties.a - x.properties.a)
-      .map(f => ({ k: f.properties.lgd, a: vName(f.properties), b: `${t('gp')}: ${f.properties.gp || '—'} · ${fmt(f.properties.a, 0)} ha`, act: () => selectVillage(f.properties.lgd), on: S.village && S.village.properties.lgd === f.properties.lgd }));
+      .map(f => ({ k: f.properties.lgd, a: vName(f.properties), b: `${f.properties.gp ? t('gp') + ': ' + f.properties.gp + ' · ' : ''}${fmt(f.properties.a, 0)} ha`, av: f.properties.en ? f.properties.en.slice(0, 1) : '?', dim: !f.properties.en, act: () => selectVillage(f.properties.lgd), on: S.village && S.village.properties.lgd === f.properties.lgd }));
     count = `${items.length} ${t('villages')}`;
   }
-  body.innerHTML = `<div class="hello"><h2>${title}</h2></div>
-    <input type="text" class="filter" id="flt" placeholder="${t('filterPh')}" value="${esc(S.filter)}">
-    <div class="count">${count}</div><div class="list" id="flist"></div>`;
+  body.innerHTML = `${top}<h3 class="list-h">${title}</h3>
+    <div class="filterwrap">${ic('search')}<input type="text" class="filter" id="flt" placeholder="${t('filterPh')}" value="${esc(S.filter)}"></div>
+    <div class="count" id="fcount">${count}</div><div class="list" id="flist"></div>`;
+  if (top){ countUp(body); body.querySelectorAll('[data-q]').forEach(b => b.onclick = () => quick(b.dataset.q)); }
   const draw = () => {
     const q = S.filter.toLowerCase();
-    const shown = items.filter(i => !q || (i.a + ' ' + i.b).toLowerCase().includes(q)).slice(0, 400);
-    $('flist').innerHTML = shown.map((i, n) => `<button class="item" data-n="${n}" style="${i.on ? 'border-color:var(--green2);background:var(--mint)' : ''}"><span><b>${esc(i.a)}</b><small>${esc(i.b)}</small></span><span class="arr">›</span></button>`).join('') || `<div class="empty">—</div>`;
+    const all = items.filter(i => !q || (i.a + ' ' + i.b).toLowerCase().includes(q)), shown = all.slice(0, 400);
+    $('fcount').textContent = q ? `${fmt(all.length, 0)} / ${count}` : count;
+    $('flist').innerHTML = shown.map((i, n) => `<button class="item${i.on ? ' on' : ''}${i.dim ? ' dim' : ''}" data-n="${n}" style="--i:${n}"><span class="av${i.dim ? ' muted' : ''}">${esc(i.av)}</span><span class="tx"><b>${esc(i.a)}</b><small>${esc(i.b)}</small></span><span class="arr">${ic('right')}</span></button>`).join('') || `<div class="empty">${t('noMatch')}</div>`;
     $('flist').querySelectorAll('.item').forEach(b => b.onclick = () => shown[+b.dataset.n].act());
+    $('flist').querySelector('.item.on')?.scrollIntoView({ block: 'center' });
   };
   $('flt').oninput = e => { S.filter = e.target.value; draw(); };
   draw();
+}
+function quick(q){
+  if (q === 'locate') return $('locBtn').click();
+  if (q === 'draw'){ switchTab('explain'); return startDraw(); }
+  switchTab(q);
 }
 
 /* ---------------- sheet ---------------- */
 const sheet = $('sheet');
 $('sheetX').onclick = closeSheet;
-function closeSheet(){ sheet.classList.remove('open'); S.lastSheet = null; }
-function openSheet(hd, bd, kind){ $('sheetHd').innerHTML = hd; $('sheetBd').innerHTML = bd; $('sheetBd').scrollTop = 0; sheet.classList.add('open'); S.lastSheet = kind; }
+function closeSheet(){ sheet.classList.remove('open'); document.body.classList.remove('sheet-open'); S.lastSheet = null; }
+function openSheet(hd, bd, kind){
+  $('sheetHd').innerHTML = hd; $('sheetBd').innerHTML = bd; $('sheetBd').scrollTop = 0;
+  sheet.classList.add('open'); document.body.classList.add('sheet-open'); S.lastSheet = kind;
+}
+// official-site link rows used on village and plot cards
+const linkRow = (url, label, icon) => `<a href="https://${url}" target="_blank" rel="noopener"><span class="li">${ic(icon)}</span><span class="lt">${label}<small>${url}</small></span>${ic('external')}</a>`;
 
 function vctx(f){ return { lgd: f.properties.lgd, en: f.properties.en, t: f.properties.t, d: S.dist.en, dhi: S.dist.hi, dl: S.dist.lgd }; }
 function renderVillage(f){
@@ -256,20 +329,20 @@ function renderVillage(f){
   const plots = mine().filter(x => x.village && x.village.lgd === p.lgd);
   const hd = `<div class="eyebrow">${t('village')} · ${esc(p.t)} · ${esc(dName(S.dist))}</div><div class="title">${esc(vName(p))}</div>
     <div class="hint">${t('lgdCode')} ${p.lgd > 0 ? esc(p.lgd) : '—'} · ${t('c11')} ${esc(p.c11 || '—')}</div>`;
-  const step1 = p.en ? `${tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) })} <button class="copy" data-copy="${esc(p.en)}">${t('copy')}</button>` : t('unnamedNote');
+  const step1 = p.en ? `${tf('stepBhulekh', { d: esc(S.dist.en), t: esc(p.t), v: esc(p.en) })} <button class="copy" data-copy="${esc(p.en)}">${ic('copy')}${t('copy')}</button>` : t('unnamedNote');
   const bd = `
     <div class="stats">
       <div class="stat"><div class="v">${fmt(ha, 0)}</div><div class="k">${t('hect')}</div></div>
       <div class="stat"><div class="v">${fmt(ha * 2.47105, 0)}</div><div class="k">${t('acre')}</div></div>
       <div class="stat"><div class="v">${fmt(ha / 100, 2)}</div><div class="k">km²</div></div>
     </div>
-    <div class="sec" style="margin-top:0">
+    <div class="kvs">
       <div class="kv"><span>${t('gp')}</span><span>${esc(p.gp || '—')}</span></div>
       <div class="kv"><span>${t('block')}</span><span>${esc(p.b || '—')}</span></div>
       <div class="kv"><span>${t('tehsil')}</span><span>${esc(p.t)}</span></div>
       <div class="kv"><span>${t('district')}</span><span>${esc(S.dist.en)} · <span class="hi">${esc(S.dist.hi)}</span></span></div>
     </div>
-    <div class="sec"><h3>🔎 ${t('seeRecords')}</h3>
+    <div class="sec"><h3>${ic('search')}${t('seeRecords')}</h3>
       <ol class="steps-mini">
         <li>${step1}</li>
         <li>${t('stepNaksha')}</li>
@@ -278,12 +351,12 @@ function renderVillage(f){
       <p class="hint" style="margin:8px 0 0">${t('tehsilNote')}</p>
     </div>
     <div class="sec links">
-      <a href="https://upbhulekh.gov.in" target="_blank" rel="noopener">${LANG === 'hi' ? 'UP भूलेख — खतौनी देखें' : 'UP Bhulekh — view khatauni'}<small>upbhulekh.gov.in</small></a>
-      <a href="https://upbhunaksha.gov.in" target="_blank" rel="noopener">${LANG === 'hi' ? 'UP भू-नक्शा' : 'UP Bhu-Naksha (plot map)'}<small>upbhunaksha.gov.in</small></a>
-      <a href="https://vaad.up.nic.in" target="_blank" rel="noopener">${LANG === 'hi' ? 'राजस्व वाद / नामांतरण' : 'Revenue courts & mutation'}<small>vaad.up.nic.in</small></a>
+      ${linkRow('upbhulekh.gov.in', LANG === 'hi' ? 'UP भूलेख — खतौनी देखें' : 'UP Bhulekh — view khatauni', 'file')}
+      ${linkRow('upbhunaksha.gov.in', LANG === 'hi' ? 'UP भू-नक्शा' : 'UP Bhu-Naksha (plot map)', 'map')}
+      ${linkRow('vaad.up.nic.in', LANG === 'hi' ? 'राजस्व वाद / नामांतरण' : 'Revenue courts & mutation', 'scale')}
     </div>
-    <button class="btn" id="addHere" style="width:100%;margin-top:6px">${t('addPlot')}</button>
-    ${plots.length ? `<div class="sec"><h3>⭐ ${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><div><b>${t('khasra')} ${esc(x.khasra)}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
+    <button class="btn primary big" id="addHere" style="width:100%;margin-top:16px">${ic('plus')}${t('addPlot')}</button>
+    ${plots.length ? `<div class="sec"><h3>${ic('bookmark')}${t('myHere')}</h3>${plots.map(x => `<div class="mycard"><span class="dot" style="color:${COLOR[analyse(x).lvl]};background:${COLOR[analyse(x).lvl]}"></span><div class="tx"><b>${t('khasra')} ${esc(x.khasra)}</b><div class="hint">${fmt(x.areaHa, 4)} ${t('hect')}</div></div><button class="btn sm" data-open="${esc(x.id)}">${t('open')}</button></div>`).join('')}</div>` : ''}
     <div class="src">${t('approx')}</div>`;
   openSheet(hd, bd, { type: 'village', f });
   $('sheetBd').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => toast(t('copied'))).catch(() => {}); });
@@ -303,45 +376,51 @@ function analyse(p){
   if (p.cls === 'gs') lvl = 'pub';
   return { fl, lvl };
 }
-const COLOR = { ok: '#1d8a66', warn: '#d99a2b', bad: '#c0442f', pub: '#7b5bb5' };
+const COLOR = { ok: '#12a35a', warn: '#f2a20c', bad: '#e2412e', pub: '#7c5ce6' };
+const FLAG_IC = { shared: 'users', loan: 'bank', court: 'scale', mut: 'refresh', varasat: 'userPlus', na: 'building', bnt: 'ban', asami: 'clock', gs: 'landmark' };
 
 function renderPlot(p, mode){ // mode: 'saved' | 'draft' | 'sample'
   const a = analyse(p), C = CLASSES[p.cls] || CLASSES.bt, L_ = LANG;
-  const vk = { ok: ['v-ok', '✅', t('v_ok'), t('v_okB')], warn: ['v-warn', '⚠️', t('v_warn'), t('v_warnB')], bad: ['v-bad', '⛔', t('v_bad'), t('v_badB')], pub: ['v-pub', '🏛️', t('v_pub'), t('v_pubB')] }[a.lvl];
+  const vk = { ok: ['v-ok', 'ok', t('v_ok'), t('v_okB')], warn: ['v-warn', 'warn', t('v_warn'), t('v_warnB')], bad: ['v-bad', 'bad', t('v_bad'), t('v_badB')], pub: ['v-pub', 'landmark', t('v_pub'), t('v_pubB')] }[a.lvl];
   const share = p.n > 1 ? '1/' + p.n : '1/1', ha = Number(p.areaHa) || 0;
   const v = p.village;
   const hd = `<div class="eyebrow">${v ? esc(vName(v)) + ' · ' + esc(v.t) + ' · ' + esc(L_ === 'hi' ? v.dhi : v.d) : t('yourPlot')}</div>
     <div class="title">${t('khasra')} ${esc(p.khasra || '—')}</div><div class="hint">${t('khataNo')} ${esc(p.khata || '—')}</div>`;
   const shapeHa = p.shape ? ringArea(p.shape) / 10000 : null;
-  const bd = `<div class="verdict ${vk[0]}"><span style="font-size:20px">${vk[1]}</span><div><b>${vk[2]}</b>${vk[3]}</div></div>
+  const bd = `<div class="verdict ${vk[0]}">
+      <div class="vt"><span class="vi">${ic(vk[1])}</span><b>${vk[2]}</b></div>
+      <p>${vk[3]}</p>
+      <div class="meter" aria-label="${t('riskScale')}"><i></i><i></i><i></i></div>
+      ${a.lvl !== 'pub' ? `<div class="meter-l"><span>${t('lgOk')}</span><span>${t('lgWarn')}</span><span>${t('lgBad')}</span></div>` : ''}
+    </div>
     <div class="stats">
       <div class="stat"><div class="v">${fmt(ha, 4)}</div><div class="k">${t('hect')}</div></div>
       <div class="stat"><div class="v">${fmt(ha * 2.47105)}</div><div class="k">${t('acre')}</div></div>
       <div class="stat"><div class="v">${fmt(ha * 10000, 0)}</div><div class="k">${t('sqm')}</div></div>
     </div>
-    <div class="sec"><h3>📋 ${t('recIn')}</h3>
-      <div class="kv"><span>${t('klass')}</span><span class="hi">${C.hi}<br><small style="color:var(--muted)">${C.en}</small></span></div>
+    <div class="sec"><h3>${ic('file')}${t('recIn')}</h3>
+      <div class="kvs"><div class="kv"><span>${t('klass')}</span><span class="hi">${C.hi}<br><small style="color:var(--muted)">${C.en}</small></span></div>
       <div class="kv"><span>${t('canSell')}</span><span>${C.sell[L_]}</span></div>
       <div class="kv"><span>${t('holders')}</span><span>${p.n || 1} · ${share}</span></div>
       <div class="kv"><span>${t('bigha')}</span><span>${fmt(ha / 0.2529)}</span></div>
       ${shapeHa ? `<div class="kv"><span>${t('mapShape')}</span><span>${fmt(shapeHa, 4)} ${t('hect')}</span></div>` : ''}
-      ${p.note ? `<div class="kv"><span>${t('note')}</span><span>${esc(p.note)}</span></div>` : ''}
+      ${p.note ? `<div class="kv"><span>${t('note')}</span><span>${esc(p.note)}</span></div>` : ''}</div>
       <p class="hint" style="margin:6px 0 0">${L_ === 'hi' ? '* बीघा का माप ज़िले के अनुसार बदलता है। यहाँ पक्का बीघा ≈ 0.2529 हेक्टेयर माना गया है — लेखपाल से पुष्टि करें।' : '* Bigha size varies by district. Shown using pakka bigha ≈ 0.2529 ha — confirm locally with the lekhpal.'}</p>
     </div>
-    <div class="sec"><h3>💡 ${t('whatMeans')}</h3>
-      <div class="flag f-ok"><div class="h">📌 ${L_ === 'hi' ? C.hi : C.en}</div>${C.mean[L_]}</div>
-      ${a.fl.map(f => { const F = FLAGS[f]; return `<div class="flag f-${F.lvl}"><div class="h">${F.ic} ${F.h[L_]}</div>${F.b[L_].replace('{n}', p.n).replace('{f}', share)}<div class="todo"><b>${t('todo')}</b> ${F.d[L_]}</div></div>`; }).join('')}
+    <div class="sec"><h3>${ic('bulb')}${t('whatMeans')}</h3>
+      <div class="flag f-ok"><span class="fi">${ic('pin')}</span><div class="fb"><div class="h">${L_ === 'hi' ? C.hi : C.en}</div>${C.mean[L_]}</div></div>
+      ${a.fl.map(f => { const F = FLAGS[f]; return `<div class="flag f-${F.lvl}"><span class="fi">${ic(FLAG_IC[f] || 'info')}</span><div class="fb"><div class="h">${F.h[L_]}</div>${F.b[L_].replace('{n}', p.n).replace('{f}', share)}<div class="todo"><b>${t('todo')}</b> ${F.d[L_]}</div></div></div>`; }).join('')}
     </div>
-    <div class="sec"><div class="notprove"><b>🔍 ${t('notProveT')}</b><br>${L_ === 'hi'
+    <div class="sec"><div class="notprove"><div class="nh">${ic('info')}${t('notProveT')}</div><div>${L_ === 'hi'
       ? 'खतौनी बताती है कि सरकार किसे खातेदार के रूप में दर्ज मानती है। यह स्वामित्व का पक्का प्रमाण <b>नहीं</b> है, ज़मीन की सटीक सीमा नहीं बताती, और हाल के या बिना रजिस्ट्री के सौदे इसमें नहीं दिख सकते। ख़रीदने से पहले बैनामों की श्रृंखला (igrsup.gov.in), वाद की स्थिति और लेखपाल से पैमाइश ज़रूर कराएँ।'
-      : 'The khatauni shows who the government records as holder. It is <b>not</b> conclusive proof of ownership, does not fix exact boundaries on the ground, and may miss very recent or unregistered deals. Before buying, check the chain of registered sale deeds (igrsup.gov.in), court cases, and get a measurement (पैमाइश) done with the lekhpal.'}</div></div>
-    <div class="sec links"><h3>🔗 ${t('nextT')}</h3>
-      <a href="https://upbhulekh.gov.in" target="_blank" rel="noopener">${L_ === 'hi' ? 'असली खतौनी देखें' : 'View the real khatauni'}<small>upbhulekh.gov.in</small></a>
-      <a href="https://upbhunaksha.gov.in" target="_blank" rel="noopener">${L_ === 'hi' ? 'आधिकारिक भू-नक्शा' : 'Official plot map (Bhu-Naksha)'}<small>upbhunaksha.gov.in</small></a>
-      <a href="https://vaad.up.nic.in" target="_blank" rel="noopener">${L_ === 'hi' ? 'राजस्व वाद / नामांतरण की स्थिति' : 'Revenue court & mutation status'}<small>vaad.up.nic.in</small></a>
-      <a href="https://igrsup.gov.in" target="_blank" rel="noopener">${L_ === 'hi' ? 'रजिस्ट्री / भार-मुक्त प्रमाण पत्र' : 'Registry & encumbrance search'}<small>igrsup.gov.in</small></a>
-    </div>
-    ${mode === 'saved' ? `<div style="display:flex;gap:8px;margin-top:12px">${p.shape ? `<button class="btn sm" id="pShow">${t('showOnMap')}</button>` : ''}<button class="btn ghost sm" id="pDel">${t('del')}</button></div>` : ''}
+      : 'The khatauni shows who the government records as holder. It is <b>not</b> conclusive proof of ownership, does not fix exact boundaries on the ground, and may miss very recent or unregistered deals. Before buying, check the chain of registered sale deeds (igrsup.gov.in), court cases, and get a measurement (पैमाइश) done with the lekhpal.'}</div></div></div>
+    <div class="sec"><h3>${ic('link')}${t('nextT')}</h3><div class="links">
+      ${linkRow('upbhulekh.gov.in', L_ === 'hi' ? 'असली खतौनी देखें' : 'View the real khatauni', 'file')}
+      ${linkRow('upbhunaksha.gov.in', L_ === 'hi' ? 'आधिकारिक भू-नक्शा' : 'Official plot map (Bhu-Naksha)', 'map')}
+      ${linkRow('vaad.up.nic.in', L_ === 'hi' ? 'राजस्व वाद / नामांतरण की स्थिति' : 'Revenue court & mutation status', 'scale')}
+      ${linkRow('igrsup.gov.in', L_ === 'hi' ? 'रजिस्ट्री / भार-मुक्त प्रमाण पत्र' : 'Registry & encumbrance search', 'bank')}
+    </div></div>
+    ${mode === 'saved' ? `<div class="row" style="margin-top:14px">${p.shape ? `<button class="btn primary" id="pShow">${ic('map')}${t('showOnMap')}</button>` : ''}<button class="btn warn" id="pDel">${ic('trash')}${t('del')}</button></div>` : ''}
     <div class="src">${mode === 'sample' ? t('sampleSrc') : t('userSrc')}</div>`;
   openSheet(hd, bd, { type: 'plot', p, mode });
   if (mode === 'saved'){
@@ -359,7 +438,7 @@ function openPlot(id){
 function setExVillage(v){
   S.exVillage = v;
   const el = $('exVillage');
-  if (v){ el.style.display = 'block'; el.innerHTML = tf('inVillage', { v: esc(vName(v)), t: esc(v.t), d: esc(LANG === 'hi' ? v.dhi : v.d) }); }
+  if (v){ el.style.display = 'flex'; el.innerHTML = ic('pin') + '<span>' + tf('inVillage', { v: esc(vName(v)), t: esc(v.t), d: esc(LANG === 'hi' ? v.dhi : v.d) }) + '</span>'; }
   else el.style.display = 'none';
 }
 function readForm(){
@@ -369,13 +448,13 @@ function readForm(){
   if (!(areaHa > 0) && S.pendingShape) areaHa = +(ringArea(S.pendingShape) / 10000).toFixed(4);
   return { id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
     khasra: $('exKhasra').value.trim(), khata: $('exKhata').value.trim(), areaHa: areaHa || 0,
-    n: Math.max(1, parseInt($('exOwners').value) || 1), cls: $('exClass').value, flags, note: $('exNote').value.trim(),
+    n: Math.max(1, parseInt($('exOwners').value) || 1), cls: (document.querySelector('input[name=exClass]:checked') || {}).value || 'bt', flags, note: $('exNote').value.trim(),
     village: S.exVillage, shape: S.pendingShape, saved: Date.now() };
 }
 $('exGo').onclick = () => renderPlot(readForm(), 'draft');
 $('exSave').onclick = () => {
   const p = readForm(); const list = mine(); list.unshift(p); saveMine(list);
-  S.pendingShape = null; $('exShape').textContent = ''; toast(t('savedT')); renderPlot(p, 'saved');
+  S.pendingShape = null; setShapeChip(); toast(t('savedT')); renderPlot(p, 'saved');
   ['exKhasra', 'exKhata', 'exArea', 'exNote'].forEach(id => { $(id).value = ''; }); $('exOwners').value = 1;
   ['exLoan', 'exCourt', 'exMut', 'exVar', 'exNA'].forEach(id => { $(id).checked = false; });
 };
@@ -383,22 +462,32 @@ $('exDraw').onclick = () => startDraw();
 $('exSample').onclick = () => renderPlot({ khasra: '131', khata: '00070', areaHa: 0.1706, n: 2, cls: 'bt', flags: ['loan'], village: null }, 'sample');
 
 /* ---------------- draw my plot ---------------- */
+function setShapeChip(){
+  const el = $('exShape'); el.hidden = !S.pendingShape;
+  if (S.pendingShape) el.innerHTML = ic('pen') + tf('shapeSet', { a: fmt(ringArea(S.pendingShape) / 10000, 4) });
+}
+document.querySelectorAll('[data-step]').forEach(b => b.onclick = () => {
+  const inp = $('exOwners'); inp.value = Math.max(1, (parseInt(inp.value) || 1) + +b.dataset.step);
+});
+
+/* ---------------- draw my plot ---------------- */
 function startDraw(){
   S.draw = { pts: [] }; drawLayer.clearLayers(); closeSheet();
   $('drawbar').classList.add('on'); updateDraw();
+  if (!wide()) setSnap('peek');
   if (map.getZoom() < 15 && S.village) map.flyToBounds(L.geoJSON(S.village).getBounds(), { maxZoom: 16 });
 }
 function addDrawPoint(ll){
   const last = S.draw.pts[S.draw.pts.length - 1];
   if (last && last[0] === ll.lat && last[1] === ll.lng) return;
-  S.draw.pts.push([ll.lat, ll.lng]); updateDraw();
+  S.draw.pts.push([ll.lat, ll.lng]); updateDraw(); navigator.vibrate?.(12);
 }
 function updateDraw(){
   drawLayer.clearLayers(); const pts = S.draw.pts;
-  pts.forEach(p => L.circleMarker(p, { radius: 5, color: '#fff', weight: 2, fillColor: '#c8642b', fillOpacity: 1 }).addTo(drawLayer));
-  if (pts.length >= 2) L.polygon(pts, { color: '#c8642b', weight: 2.5, fillColor: '#e8892b', fillOpacity: 0.3 }).addTo(drawLayer);
+  if (pts.length >= 2) L.polygon(pts, { color: '#ff7a00', weight: 3, fillColor: '#ff9f1c', fillOpacity: 0.28, dashArray: pts.length < 3 ? '6 6' : null }).addTo(drawLayer);
+  pts.forEach(p => L.marker(p, { icon: L.divIcon({ className: '', html: '<div class="vtx"></div>', iconSize: [14, 14] }), interactive: false }).addTo(drawLayer));
   const ha = pts.length >= 3 ? ringArea(pts) / 10000 : 0;
-  $('drawInfo').innerHTML = `${t('drawHelp')}<br>${t('points')}: <b>${pts.length}</b> · ${t('mapArea')}: <b>${fmt(ha, 4)} ${t('hect')}</b> (${fmt(ha * 2.47105)} ${t('acre')})`;
+  $('drawInfo').innerHTML = `${t('drawHelp')}<div class="meter"><div><b>${pts.length}</b><span>${t('points')}</span></div><div><b>${fmt(ha, 4)}</b><span>${t('hect')}</span></div><div><b>${fmt(ha * 2.47105)}</b><span>${t('acre')}</span></div></div>`;
 }
 function endDraw(){ S.draw = null; drawLayer.clearLayers(); $('drawbar').classList.remove('on'); }
 $('dUndo').onclick = () => { S.draw.pts.pop(); updateDraw(); };
@@ -414,8 +503,8 @@ $('dDone').onclick = async () => {
   const pts = S.draw.pts; if (pts.length < 3) return toast(t('needs3'));
   S.pendingShape = pts.map(([a, b]) => [+a.toFixed(6), +b.toFixed(6)]); endDraw();
   if (!S.exVillage){ const v = await villageAt(pts[0][0], pts[0][1]); if (v) setExVillage(v); }
-  $('exShape').textContent = tf('shapeSet', { a: fmt(ringArea(S.pendingShape) / 10000, 4) });
-  L.polygon(S.pendingShape, { color: '#c8642b', weight: 2.5, dashArray: '6 4', fillOpacity: 0.2 }).addTo(drawLayer);
+  setShapeChip();
+  L.polygon(S.pendingShape, { color: '#ff7a00', weight: 2.5, dashArray: '6 4', fillColor: '#ff9f1c', fillOpacity: 0.2 }).addTo(drawLayer);
   switchTab('explain');
 };
 
@@ -427,10 +516,11 @@ function drawMine(){
       .bindTooltip(`${t('khasra')} ${esc(p.khasra || '—')}`).on('click', () => renderPlot(p, 'saved')).addTo(mineLayer); });
 }
 function renderMine(){
-  const el = $('mineList'), m = mine();
+  const el = $('mineList'), m = mine(), badge = $('mineBadge');
+  badge.textContent = m.length; badge.classList.toggle('on', m.length > 0);
   if (!m.length){ el.innerHTML = `<div class="empty">${t('none')}</div>`; return; }
-  el.innerHTML = m.map(p => { const a = analyse(p); return `<div class="mycard"><div><b>${t('khasra')} ${esc(p.khasra || '—')}</b>
-    <div class="hint">${p.village ? esc(vName(p.village)) + ' · ' : ''}${fmt(p.areaHa, 4)} ${t('hect')} · <span style="color:${COLOR[a.lvl]};font-weight:600">${t('v_' + a.lvl)}</span>${p.shape ? ' · ✏️' : ''}</div></div>
+  el.innerHTML = m.map((p, i) => { const a = analyse(p); return `<div class="mycard" style="--i:${i}"><span class="dot" style="color:${COLOR[a.lvl]};background:${COLOR[a.lvl]}"></span><div class="tx"><b>${t('khasra')} ${esc(p.khasra || '—')}</b>
+    <div class="hint">${p.village ? esc(vName(p.village)) + ' · ' : ''}${fmt(p.areaHa, 4)} ${t('hect')} · <span style="color:${COLOR[a.lvl]};font-weight:600">${t('v_' + a.lvl)}</span></div></div>
     <button class="btn sm" data-open="${esc(p.id)}">${t('open')}</button></div>`; }).join('');
   el.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
 }
@@ -459,14 +549,15 @@ async function villageAt(lat, lng){
 }
 $('locBtn').onclick = () => {
   if (!navigator.geolocation) return toast(t('gpsFail'));
-  toast(t('locating'));
+  const btn = $('locBtn'); btn.classList.add('busy'); toast(t('locating'));
   navigator.geolocation.getCurrentPosition(async pos => {
+    btn.classList.remove('busy');
     const { latitude: lat, longitude: lng } = pos.coords;
-    hereLayer.clearLayers(); L.circleMarker([lat, lng], { radius: 8, color: '#fff', weight: 3, fillColor: '#2c6fd6', fillOpacity: 1 }).addTo(hereLayer);
+    hereLayer.clearLayers(); L.marker([lat, lng], { icon: L.divIcon({ className: 'here', html: '<i></i>', iconSize: [18, 18] }), interactive: false, zIndexOffset: 1000 }).addTo(hereLayer);
     if (!S.districts.features.some(f => inGeom(lng, lat, f.geometry))) { closeSheet(); toast(t('notInUP')); map.setView([lat, lng], 12); return; }
     const v = await villageAt(lat, lng);
     if (v) { selectVillage(v.lgd, { zoom: false }); map.setView([lat, lng], 15); } else { closeSheet(); map.setView([lat, lng], 14); }
-  }, () => toast(t('gpsFail')), { enableHighAccuracy: true, timeout: 20000 });
+  }, () => { btn.classList.remove('busy'); toast(t('gpsFail')); }, { enableHighAccuracy: true, timeout: 20000 });
 };
 $('upBtn').onclick = goUP;
 
@@ -498,7 +589,7 @@ q.addEventListener('input', async () => {
     .map(f => ({ dist: true, n: dName(f.properties), d: f.properties.lgd }));
   const tm = (S.tehsilIdx || []).filter(x => x.k.includes(s)).slice(0, 8);
   hits = dm.concat(tm, starts, has).slice(0, 40); act = -1;
-  res.innerHTML = hits.length ? hits.map((h, i) => `<button data-i="${i}"><b>${esc(h.n)}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
+  res.innerHTML = hits.length ? hits.map((h, i) => `<button data-i="${i}"><span class="rico">${ic(h.dist ? 'map' : h.teh ? 'layers' : 'pin')}</span><span><b>${esc(h.n)}</b><small>${h.dist ? t('district') : h.teh ? `${t('tehsil')} · ${esc(dName(S.byLgd[h.d]))}` : `${t('village')} · ${esc(h.t)} · ${esc(dName(S.byLgd[h.d]))}`}</small></span></button>`).join('') : `<div class="msg">${t('noMatch')}</div>`;
   res.querySelectorAll('button').forEach(b => b.onclick = () => pickHit(hits[+b.dataset.i]));
 });
 q.addEventListener('keydown', e => {
@@ -526,10 +617,49 @@ function renderGlossary(){
 }
 $('gq').oninput = renderGlossary;
 function switchTab(p){
+  const same = $('p-' + p).classList.contains('on');
   document.querySelectorAll('#tabs button').forEach(x => x.classList.toggle('on', x.dataset.p === p));
   document.querySelectorAll('.pane').forEach(x => x.classList.toggle('on', x.id === 'p-' + p));
+  if (!same) $('panes').scrollTop = 0;
+  if (!wide() && panel.dataset.snap === 'peek') setSnap('half');
 }
-document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => switchTab(b.dataset.p));
+document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => {
+  // tapping the open tab again on a phone toggles the panel between half and full
+  if (!wide() && b.classList.contains('on')) return setSnap(panel.dataset.snap === 'full' ? 'half' : panel.dataset.snap === 'half' ? 'full' : 'half');
+  switchTab(b.dataset.p);
+});
+
+/* ---------------- phone panel: peek / half / full, dragged by the handle ---------------- */
+const panel = $('panel');
+const panelHeight = () => wide() ? 0 : panel.getBoundingClientRect().height;
+function setSnap(s){ panel.dataset.snap = s; panel.style.removeProperty('--ph'); }
+// keep the map's credit line just above the phone panel
+if (window.ResizeObserver) new ResizeObserver(() => document.documentElement.style.setProperty('--ph-now', (wide() ? 0 : panel.offsetHeight) + 'px')).observe(panel);
+function dragSheet(handle, el, onEnd){
+  let y0 = 0, h0 = 0, moved = false;
+  handle.addEventListener('pointerdown', e => {
+    if (wide()) return; y0 = e.clientY; h0 = el.getBoundingClientRect().height; moved = false;
+    el.classList.add('dragging'); handle.setPointerCapture(e.pointerId);
+  });
+  handle.addEventListener('pointermove', e => {
+    if (!el.classList.contains('dragging')) return; const dy = e.clientY - y0; if (Math.abs(dy) > 4) moved = true;
+    onEnd.move(dy, h0);
+  });
+  const end = e => { if (!el.classList.contains('dragging')) return; el.classList.remove('dragging'); onEnd.end(e.clientY - y0, h0, moved); };
+  handle.addEventListener('pointerup', end); handle.addEventListener('pointercancel', end);
+}
+dragSheet($('grab'), panel, {
+  move: (dy, h0) => panel.style.setProperty('--ph', Math.max(110, h0 - dy) + 'px'),
+  end: (dy, h0, moved) => {
+    if (!moved) return setSnap(panel.dataset.snap === 'peek' ? 'half' : panel.dataset.snap === 'half' ? 'full' : 'peek');
+    const h = h0 - dy, vh = innerHeight;
+    setSnap(h < vh * 0.3 ? 'peek' : h < vh * 0.68 ? 'half' : 'full');
+  }
+});
+dragSheet($('sheetGrab'), sheet, {
+  move: dy => { sheet.style.transform = `translateY(${Math.max(0, dy)}px)`; },
+  end: (dy, h0, moved) => { sheet.style.transform = ''; if (!moved || dy > 90) closeSheet(); }
+});
 function applyLang(){
   document.documentElement.lang = LANG;
   document.querySelectorAll('[data-i]').forEach(el => { el.textContent = t(el.dataset.i); });
@@ -545,19 +675,19 @@ document.querySelectorAll('#langSeg button').forEach(b => b.onclick = () => { LA
 $('themeBtn').onclick = () => {
   const r = document.documentElement;
   const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  r.dataset.theme = dark ? 'light' : 'dark'; store.set('bs_theme', r.dataset.theme);
+  r.dataset.theme = dark ? 'light' : 'dark'; store.set('bs_theme', r.dataset.theme); applyBase();
 };
 
 /* ---------------- start ---------------- */
 (async function init(){
   LANG = store.get('bs_lang', 'en') === 'hi' ? 'hi' : 'en';
   const th = store.get('bs_theme', null); if (th === 'dark' || th === 'light') document.documentElement.dataset.theme = th;
-  applyLang(); drawMine();
+  paintIcons(); applyBase(); applyLang(); drawMine();
   try { S.districts = await getJSON('data/districts.json'); }
   catch(e){ $('findBody').innerHTML = `<div class="empty">${t('loadFail')}</div>`; return; }
   S.districts.features.forEach(f => { S.byLgd[f.properties.lgd] = Object.assign({ f }, f.properties); });
   drawDistricts(); renderFind();
-  map.invalidateSize(); map.fitBounds(districtLayer.getBounds(), { padding: [10, 10] });
+  map.invalidateSize(); map.fitBounds(districtLayer.getBounds(), listPad());
   const h = new URLSearchParams(location.hash.slice(1));
   const d = +h.get('d'), v = +h.get('v');
   if (d && S.byLgd[d]){ await selectDistrict(d, { zoom: !v }); if (v) selectVillage(v); }

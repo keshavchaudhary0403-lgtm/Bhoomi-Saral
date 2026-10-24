@@ -271,8 +271,14 @@ function renderVillage(f){
     </div>
     ${gis ? `<form class="bnbox" id="bnForm">
       <div class="offh"><b>${ic('map')}${t('bnT')}</b></div>
-      <button class="btn bnvil" type="button" id="bnVillage">${ic('map')}${tf('bnVil', { v: esc(vName(p)) })}${ic('external')}</button>
-      <p class="hint">${tf('bnVilHow', { d: esc(S.dist.en), t: esc(p.t), c: esc(p.lgd) })}</p>
+      <a class="btn bnvil" id="bnVillage" href="https://upbhunaksha.gov.in/" target="_blank" rel="noopener">${ic('map')}${tf('bnVil', { v: esc(vName(p)) })}${ic('external')}</a>
+      <p class="hint">${t('bnVilHow')}</p>
+      <ol class="bnsteps">
+        <li><span>${t('district')}</span><b>${gis.slice(0, -11)}</b>${esc(S.dist.en)}</li>
+        <li><span>${t('tehsil')}</span><b>${gis.slice(-11, -6)}</b>${esc(p.t)}</li>
+        <li><span>${t('village')}</span><b>${gis.slice(-6)}</b>${esc(vName(p))}</li>
+      </ol>
+      <p class="hint">${tf('bnVilType', { c: gis.slice(-6) })}</p>
       <p class="hint bnplot">${t('bnB')}</p>
       <div class="bnrow"><input type="text" id="bnPlot" inputmode="numeric" autocomplete="off" enterkeyhint="go" placeholder="${t('bnPh')}" aria-label="${t('plot')}"><button class="btn" type="submit">${t('bnGo')}${ic('external')}</button></div>
       <p class="hint">${t('bnNext')}</p>
@@ -302,12 +308,8 @@ function renderVillage(f){
   $('sheetBd').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => toast(t('copied'))).catch(() => {}); });
   $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
   $('addHere').onclick = () => { setExVillage(vctx(f)); switchTab('explain'); };
-  if (gis) $('roughGo').onclick = () => $('bnVillage').click();
-  // Bhu-Naksha has no link to a village map, so copy the village code to paste into its village search
-  if (gis) $('bnVillage').onclick = () => {
-    navigator.clipboard?.writeText(String(p.lgd)).then(() => toast(tf('bnVilCopied', { c: p.lgd }))).catch(() => {});
-    window.open('https://upbhunaksha.gov.in/', '_blank', 'noopener');
-  };
+  // Bhu-Naksha has no link to a village map, so the card lists the codes to pick there
+  if (gis) $('roughGo').onclick = () => $('bnForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
   // a plain link to the government page: the lookup happens on Bhu-Naksha, not here
   if (gis) $('bnForm').onsubmit = e => {
     e.preventDefault();

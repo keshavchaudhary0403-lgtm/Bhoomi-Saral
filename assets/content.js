@@ -72,6 +72,8 @@ Object.assign(T, {
   bnNext:{en:'Then come back and tap "Explain" to understand what the record says.',hi:'फिर वापस आकर "समझें" पर टैप करें और जानें कि रिकॉर्ड का क्या मतलब है।'},
   tehsilNote:{en:'Tehsil names follow Census 2011. Some tehsils were created later — if the name differs on Bhulekh, pick the current tehsil.',hi:'तहसील के नाम जनगणना 2011 के अनुसार हैं। कुछ तहसीलें बाद में बनीं — भूलेख पर नाम अलग हो तो वर्तमान तहसील चुनें।'},
   addPlot:{en:'Add my plot in this village',hi:'इस गाँव में मेरा खेत जोड़ें'},copy:{en:'Copy',hi:'कॉपी'},copied:{en:'Copied',hi:'कॉपी हो गया'},
+  roughV:{en:'This outline is a rough sketch from Census 2011 maps, so its shape will differ from the official village map.',hi:'यह सीमा जनगणना 2011 के नक्शों से बना मोटा खाका है, इसलिए इसका आकार आधिकारिक ग्राम नक्शे से अलग होगा।'},
+  roughGo:{en:'See the exact shape on Bhu-Naksha',hi:'सही आकार भू-नक्शा पर देखें'},
   approx:{en:'Village outline is approximate (Census 2011 / LGD) — not a legal boundary.',hi:'गाँव की सीमा अनुमानित है (जनगणना 2011 / LGD) — क़ानूनी सीमा नहीं।'},
   myHere:{en:'My plots in this village',hi:'इस गाँव में मेरे खेत'},
   drawHelp:{en:'Tap each corner of your field on the map — or stand at each corner and press <b>Add my GPS position</b>.',hi:'नक्शे पर अपने खेत के हर कोने पर टैप करें — या हर कोने पर खड़े होकर <b>मेरी GPS स्थिति जोड़ें</b> दबाएँ।'},

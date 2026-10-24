@@ -262,6 +262,7 @@ function renderVillage(f){
       <div class="stat"><div class="v">${fmt(ha * 2.47105, 0)}</div><div class="k">${t('acre')}</div></div>
       <div class="stat"><div class="v">${fmt(ha / 100, 2)}</div><div class="k">km²</div></div>
     </div>
+    <div class="rough">${ic('info')}<span>${t('roughV')}${gis ? ` <button class="lnk" type="button" id="roughGo">${t('roughGo')}</button>` : ''}</span></div>
     <div class="offbox">
       <div class="offh"><b>${t('offT')}</b><span>${t('offB')}</span></div>
       ${offRow(t('district'), S.dist.en, 0, `<span class="hi muted">${esc(S.dist.hi)}</span>`)}
@@ -301,6 +302,7 @@ function renderVillage(f){
   $('sheetBd').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => toast(t('copied'))).catch(() => {}); });
   $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
   $('addHere').onclick = () => { setExVillage(vctx(f)); switchTab('explain'); };
+  if (gis) $('roughGo').onclick = () => $('bnVillage').click();
   // Bhu-Naksha has no link to a village map, so copy the village code to paste into its village search
   if (gis) $('bnVillage').onclick = () => {
     navigator.clipboard?.writeText(String(p.lgd)).then(() => toast(tf('bnVilCopied', { c: p.lgd }))).catch(() => {});

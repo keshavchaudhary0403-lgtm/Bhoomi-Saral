@@ -90,7 +90,7 @@ function drawDistrictContents(){
       (villageById[f.properties.lgd] ||= []).push(l);
       l.on('mouseover', () => { if (!selectedVillageLayer || !selectedVillageLayer.includes(l)) l.setStyle(ST.vilHover); });
       l.on('mouseout', () => { if (!selectedVillageLayer || !selectedVillageLayer.includes(l)) l.setStyle(ST.vil); });
-      l.on('click', () => { if (!S.draw) selectVillage(f.properties.lgd, { zoom: false }); }); // while drawing, the map click adds the corner
+      l.on('click', () => { if (!S.draw) selectVillage(f.properties.lgd); }); // while drawing, the map click adds the corner
     } }).addTo(villageLayer);
   updateLabels();
 }

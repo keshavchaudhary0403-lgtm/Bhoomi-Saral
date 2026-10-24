@@ -269,7 +269,10 @@ function renderVillage(f){
       ${offRow(t('village'), p.en, p.lgd)}
     </div>
     ${gis ? `<form class="bnbox" id="bnForm">
-      <div class="offh"><b>${ic('map')}${t('bnT')}</b><span>${t('bnB')}</span></div>
+      <div class="offh"><b>${ic('map')}${t('bnT')}</b></div>
+      <button class="btn bnvil" type="button" id="bnVillage">${ic('map')}${tf('bnVil', { v: esc(vName(p)) })}${ic('external')}</button>
+      <p class="hint">${tf('bnVilHow', { d: esc(S.dist.en), t: esc(p.t), c: esc(p.lgd) })}</p>
+      <p class="hint bnplot">${t('bnB')}</p>
       <div class="bnrow"><input type="text" id="bnPlot" inputmode="numeric" autocomplete="off" enterkeyhint="go" placeholder="${t('bnPh')}" aria-label="${t('plot')}"><button class="btn" type="submit">${t('bnGo')}${ic('external')}</button></div>
       <p class="hint">${t('bnNext')}</p>
     </form>` : ''}
@@ -298,6 +301,11 @@ function renderVillage(f){
   $('sheetBd').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard?.writeText(b.dataset.copy).then(() => toast(t('copied'))).catch(() => {}); });
   $('sheetBd').querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlot(b.dataset.open));
   $('addHere').onclick = () => { setExVillage(vctx(f)); switchTab('explain'); };
+  // Bhu-Naksha has no link to a village map, so copy the village code to paste into its village search
+  if (gis) $('bnVillage').onclick = () => {
+    navigator.clipboard?.writeText(String(p.lgd)).then(() => toast(tf('bnVilCopied', { c: p.lgd }))).catch(() => {});
+    window.open('https://upbhunaksha.gov.in/', '_blank', 'noopener');
+  };
   // a plain link to the government page: the lookup happens on Bhu-Naksha, not here
   if (gis) $('bnForm').onsubmit = e => {
     e.preventDefault();
